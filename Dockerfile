@@ -1,5 +1,7 @@
 FROM python:3.11.0-slim-buster
 
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /daesd_group
 
 COPY requirements.txt requirements.txt

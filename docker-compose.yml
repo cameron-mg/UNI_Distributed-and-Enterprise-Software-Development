@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  django:
+    build: .
+    container_name: uweflix_django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+     - .:/daesd_group
+    ports:
+    - "8000:8000"
+    depends_on:
+    - db
+  db:
+    image: postgres
+    container_name: uweflix_postgres
+    environment:
+    - POSTGRES_DB=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres

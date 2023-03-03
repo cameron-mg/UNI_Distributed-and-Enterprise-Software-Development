@@ -19,7 +19,8 @@ class Contact(models.Model):
     surName = models.CharField(max_length=50)
 
 class Payment(models.Model):
-    cardNumber = models.CharField(primary_key=True, unique=True, max_length=16)
+    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    cardNumber = models.CharField(unique=True, max_length=16)
     expiryDate = models.CharField(max_length=4)
 
 
@@ -28,18 +29,18 @@ class Payment(models.Model):
 class Film(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
     title = models.CharField(max_length=50)
-    ageRating = models.IntegerField(max_length=2)
-    duration = models.IntegerField(max_length=3)
+    ageRating = models.IntegerField()
+    duration = models.IntegerField()
     desc = models.CharField(max_length=150)
 
 class Screen(models.Model):
-    id = models.CharField(max_length=2)
-    capacity = models.IntegerField(max_length=4)
+    id = models.CharField(primary_key=True, max_length=2)
+    capacity = models.IntegerField()
 
 class Showing(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
-    film = models.ForeignKey(Film)
-    screen = models.ForeignKey(Screen)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
     date = models.DateField() # ***CHECK***
     time = models.TimeField() # ***CHECK***
 
@@ -57,8 +58,8 @@ class Employee(models.Model):
 class Booking(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
     tickettype = models.CharField(max_length=10)
-    payment = models.ForeignKey(Payment)
-    cost = models.IntegerField(max_length=3)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
 
 
@@ -67,27 +68,27 @@ class Booking(models.Model):
 class Club(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
     name = models.CharField(max_length=30)
-    address = models.ForeignKey(Address)
-    contact = models.ForeignKey(Contact)
-    payment = models.ForeignKey(Payment)
-    discount = models.IntegerField(max_length=2)
-    balance = models.IntegerField(max_length=4)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    discount = models.IntegerField()
+    balance = models.IntegerField()
 
 class ClubRep(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=8)
-    club = models.ForeignKey(Club)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
     password = models.CharField(unique=True, max_length=8)
-    contact = models.ForeignKey(Contact)
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
 class Transaction(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=6)
-    account = models.ForeignKey(Club)
-    amount = models.IntegerField(max_length=4)
+    account = models.ForeignKey(Club, on_delete=models.CASCADE)
+    amount = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
 
 class BlockBooking(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
-    quantity = models.IntegerField(max_length=2)
-    payment = models.ForeignKey(Payment)
-    cost = models.IntegerField(max_length=3)
+    quantity = models.IntegerField()
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***

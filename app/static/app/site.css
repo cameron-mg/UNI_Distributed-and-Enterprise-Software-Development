@@ -84,3 +84,13 @@
 .content {
     margin: 0;
 }
+
+h1{
+    display: flex;
+    justify-content: center;
+}
+
+form{
+    font-family: 'Poppins', 'sans-serif';
+    padding: 10px;
+}

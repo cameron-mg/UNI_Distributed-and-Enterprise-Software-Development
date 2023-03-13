@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/site.css' %}" />
+</head>
+<body>
+    <div class="header">
+        <div class="topNav">
+            <ul>
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">ABOUT US</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+            <button>Login</button>
+            <button>Sign-Up</button>
+        </div>
+        <div class="sideNav">
+            <img src="{% static 'app/images/logo2.png' %}" alt="Logo" class="logo">
+            {% block sideNav %}
+            {% endblock %}
+            <a href="#">UWEFlix</a>
+        </div>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <footer>
+            <p>&copy; 2023</p>
+        </footer>
+    </div>
+</body>
+</html>

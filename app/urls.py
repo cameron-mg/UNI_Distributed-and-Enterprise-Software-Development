@@ -3,4 +3,5 @@ from app import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("registerClub/", views.registerClub, name="registerClub")
 ]

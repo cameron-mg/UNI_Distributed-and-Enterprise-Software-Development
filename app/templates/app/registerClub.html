@@ -1,0 +1,14 @@
+{% extends "app/template.html" %}
+{% block title %}
+Register Club
+{% endblock %}
+{% block sideNav %}
+{% endblock %}
+{% block content %}
+<h1>Register A Club</h1>
+<br>
+<form method="POST" class="log-form">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <button type="submit" class="save btn btn-default">Submit</button>
+{% endblock %}

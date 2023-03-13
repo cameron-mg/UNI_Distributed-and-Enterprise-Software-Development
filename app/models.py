@@ -20,8 +20,8 @@ class Contact(models.Model):
 
 class Payment(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
-    cardNumber = models.CharField(unique=True, max_length=16)
-    expiryDate = models.CharField(max_length=4)
+    cardNumber = models.CharField(unique=True, max_length=19)
+    expiryDate = models.DateField()
 
 
 
@@ -77,7 +77,6 @@ class Club(models.Model):
 class ClubRep(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=8)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    password = models.CharField(unique=True, max_length=8)
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
 class Transaction(models.Model):
@@ -92,3 +91,10 @@ class BlockBooking(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
+
+
+class User(models.Model):
+    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    username = models.CharField(max_length=20)
+    password = models.CharField(max_length=20)
+    type = models.CharField(max_length=2)

@@ -3,12 +3,16 @@ from app import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("login/", views.login_request, name="login"),
+    path("register/", views.register, name="register"),
+    
     # CMG URLS
-    path("clubrephome/", views.clubrephome, name="clubrephome"),
+
     # TW URLS
-    path("registerClub/", views.registerClub, name="registerClub")
+    path("registerClub/", views.registerClub, name="registerClub"),
     # CR URLS
 
     # JD URLS
+    
     
 ]

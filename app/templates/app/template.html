@@ -16,8 +16,8 @@
                 <li><a href="#">ABOUT US</a></li>
                 <li><a href="#">FAQ</a></li>
             </ul>
-            <button>Login</button>
-            <button>Sign-Up</button>
+            <button><a href="{% url 'login' %}">Login</a></button>
+            <button><a href="{% url 'register' %}">Register</a></button>
         </div>
         <div class="sideNav">
             <img src="{% static 'app/images/logo2.png' %}" alt="Logo" class="logo">
@@ -26,6 +26,9 @@
             <a href="#">UWEFlix</a>
         </div>
         <div class="content">
+            {% if logged %}
+            <p>Hello {{username}} you are logged in as {{role}}</p>
+            {% endif %}
             {% block content %}
             {% endblock %}
         </div>

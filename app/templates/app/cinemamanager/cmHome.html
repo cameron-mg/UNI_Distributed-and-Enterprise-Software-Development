@@ -1,0 +1,34 @@
+{% extends "app/template.html" %}
+{% block title %}
+Cinema Manager Home
+{% endblock %}
+<h1>The All New UWE Film Scene</h1>
+{% block sideNav %}
+<div class="CM-nav">
+    <ul>
+        <li>Create A Film</li>
+        <li>Add Showing</li>
+        <li>Add Screen</li>
+        <li><a href="{% url 'registerClub' %}">Register Club</a></li>
+        <li>Register Club Representitive</li>
+    </ul>
+</div>
+
+{% endblock %}
+{% block content %}
+{% if showing_list %}
+    <table class="showing_list">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Age Rating</th>
+                <th>Duration (Mintues)</th>
+                <th>Trailer Description</th>
+            </tr>
+        </thead>
+    </table>
+
+{% else %}
+    <p>There are no showings</p>
+{% endif %}
+{% endblock %}

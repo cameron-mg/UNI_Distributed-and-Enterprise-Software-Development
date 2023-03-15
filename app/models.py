@@ -1,6 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, UserManager, PermissionsMixin
 
 # Create your models here.
+
+class User(AbstractUser):
+    class Role(models.TextChoices):
+        ADMIN = "ADMIN", "Admin"
+        CUSTOMER = "CUSTOMER", "Customer"
+        CLUBREP = "CLUBREP", "Club Representative"
+        ACCOUNTMAN = "ACCOUNTMAN", "Account Manager"
+        CINEMAMAN = "CINEMAMAN", "Cinema Manager"
+
+    base_role = Role.ADMIN
+
+    role = models.CharField(max_length=50, choices=Role.choices)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.role = self.base_role
+            return super().save(*args, **kwargs)
+
 
 # Multiple Role Access
 class Address(models.Model):
@@ -24,7 +43,6 @@ class Payment(models.Model):
     expiryDate = models.DateField()
 
 
-
 # Cinema Manager
 class Film(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
@@ -45,13 +63,11 @@ class Showing(models.Model):
     time = models.TimeField() # ***CHECK***
 
 
-
 # Account Manager
 class Employee(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
     initial = models.CharField(max_length=1)
     surname = models.CharField(max_length=50)
-
 
 
 # Customer
@@ -61,7 +77,6 @@ class Booking(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
-
 
 
 # Club Representative
@@ -91,10 +106,3 @@ class BlockBooking(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
-
-
-class User(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-    type = models.CharField(max_length=2)

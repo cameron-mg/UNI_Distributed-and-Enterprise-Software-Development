@@ -50,6 +50,9 @@ def register(request):
 
 # CMG VIEWS
 
+def clubAccount(request):
+    return render(request, "app/clubrep/clubAccount.html")
+
 # TW VIEWS
 
 def registerClub(request):

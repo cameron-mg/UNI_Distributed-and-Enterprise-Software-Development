@@ -11,17 +11,15 @@ class User(AbstractUser):
         ACCOUNTMAN = "ACCOUNTMAN", "Account Manager"
         CINEMAMAN = "CINEMAMAN", "Cinema Manager"
 
-    # base_role = Role.CUSTOMER
-
     role = models.CharField(max_length=50, choices=Role.choices)
-
-    # def save(self, *args, **kwargs):
-    #     self.role = self.role
-    #     return super().save(*args, **kwargs)
         
     def get_role(self):
         return self.role
     
+    # def save(self, *args, **kwargs):
+    #     self.role = self.role
+    #     return super().save(*args, **kwargs)
+
     REQUIRED_FIELDS = ["role"]
 
 

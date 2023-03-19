@@ -45,8 +45,21 @@ def login_request(request):
     return render(request=request, template_name="registration/login.html", context={"form":form})
 
 
-def register(request):
-    pass
+def register_request(request):
+    if request.POST == "POST":
+
+        form = UserRegistrationForm(request.POST)
+
+        if form.is_valid():
+            user = forms.save(commit=False)
+            user.role = "CUSTOMER"
+            user.save()
+            messages.success(request, "Account created successfully!")
+            return redirect("home")
+
+    else:
+        form = UserRegistrationForm()
+        return render(request=request, template_name="registration/register.html", context={"form":form})
 
 # CMG VIEWS
 

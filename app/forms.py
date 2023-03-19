@@ -1,9 +1,15 @@
 from django import forms
-from app import models
+from app.models import User, Club
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+
+class UserRegistrationForm(UserCreationForm):
+    
+    class Meta:
+        model = User
+        fields = ("username",)
+
 
 class registerClub(forms.ModelForm):
     class Meta:
-        model = models.Club
+        model = Club
         fields = ("id", "name", "address", "contact", "payment", "discount", "balance",)

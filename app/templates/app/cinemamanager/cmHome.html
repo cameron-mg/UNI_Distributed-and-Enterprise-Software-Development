@@ -2,33 +2,65 @@
 {% block title %}
 Cinema Manager Home
 {% endblock %}
-<h1>The All New UWE Film Scene</h1>
 {% block sideNav %}
-<div>
-    <ul>
-        <li>Create A Film</li>
-        <li>Add Showing</li>
-        <li>Add Screen</li>
-        <li><a href="{% url 'registerClub' %}">Register Club</a></li>
-        <li>Register Club Representitive</li>
-    </ul>
-</div>
-
+<a class="nav-link" href="#">Home</a>
+<a class="nav-link" href="{% url 'cmAddFilm' %}">Add a Film</a>
+<a class="nav-link" href="#">Add Screen</a>
+<a class="nav-link" href="{% url 'registerClub' %}">Register Club</a>
+<a class="nav-link" href="#">Register Club Representative</a>
 {% endblock %}
 {% block content %}
-{% if showing_list %}
-    <table class="showing_list">
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0">Films</h6>
+  <div class="d-flex text-muted pt-3">
+    <p class="pb-3 mb-0 small lh-sm border-bottom">
+      {% if message_list %}
+    <table class="message_list">
         <thead>
-            <tr>
-                <th>Title</th>
-                <th>Age Rating</th>
-                <th>Duration (Mintues)</th>
-                <th>Trailer Description</th>
-            </tr>
+        <tr>
+            <th>Title</th>
+            <th>Age Rating</th>
+            <th>Duration (Minutes)</th>
+            <th>Trailer Description</th>
+        </tr>
         </thead>
-    </table>
+        <tbody>
+        {% for message in message_list %}
+            <tr>
+                <td>{{ message.title }}</td>
+                <td>{{ message.ageRating }}</td>
+                <td>{{ message.duration }}</td>
+                <td>{{ message.trailerDesc }}</td>
+                <td>
+                    {{ message.message }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
 
 {% else %}
-    <p>There are no showings</p>
+    <p>No Films Available</p>
 {% endif %}
+    </p>
+  </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0">Screenings</h6>
+  <div class="d-flex text-muted pt-3">
+    <p class="pb-3 mb-0 small lh-sm border-bottom">
+      No Screenings Available
+    </p>
+  </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0">Clubs</h6>
+  <div class="d-flex text-muted pt-3">
+    <p class="pb-3 mb-0 small lh-sm border-bottom">
+      No Clubs Available
+    </p>
+  </div>
+</div>
+
 {% endblock %}

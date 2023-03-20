@@ -9,6 +9,7 @@ urlpatterns = [
     path("clubAccount/", views.clubAccount, name="clubAccount"),
     # TW URLS
     path("registerClub/", views.registerClub, name="registerClub"),
+    path("cmAddFilm/", views.addFilm, name="cmAddFilm"),
     # CR URLS
 
     # JD URLS

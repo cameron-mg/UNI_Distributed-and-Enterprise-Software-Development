@@ -49,7 +49,8 @@ class Payment(models.Model):
 class Film(models.Model):
     id = models.CharField(primary_key=True, unique=True, max_length=3)
     title = models.CharField(max_length=50)
-    ageRating = models.IntegerField()
+    ageRatings = (('U','U'),('PG','PG'),('12A','12A'),('12','12'),('15','15'),('18','18'))
+    ageRating = models.CharField(choices=ageRatings, max_length=3)
     duration = models.IntegerField()
     desc = models.CharField(max_length=150)
 

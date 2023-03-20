@@ -1,12 +1,10 @@
 from django import forms
 from app.models import User, Club
-from django.contrib.auth.forms import UserCreationForm
 
-class UserRegistrationForm(UserCreationForm):
-    
-    class Meta:
-        model = User
-        fields = ("username",)
+class UserRegistrationForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
 
 
 class registerClub(forms.ModelForm):

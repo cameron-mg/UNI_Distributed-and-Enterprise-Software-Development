@@ -46,16 +46,24 @@ def login_request(request):
 
 
 def register_request(request):
-    if request.POST == "POST":
+    form = UserRegistrationForm(request.POST or None)
 
-        form = UserRegistrationForm(request.POST)
-
+    if request.method == "POST":
         if form.is_valid():
-            user = forms.save(commit=False)
-            user.role = "CUSTOMER"
-            user.save()
-            messages.success(request, "Account created successfully!")
-            return redirect("home")
+            
+            password1 = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+
+            if password1 != password2:
+                return render(request, "registration/register.html", {"error":"Passwords do not match!", "form":form})
+
+            if User.objects.filter(username=form.cleaned_data["username"]).exists():
+                return render(request, "registration/register.html", {"error": "Username already in use!", "form":form})
+
+            User.objects.create_user(username=form.cleaned_data["username"], password=password1, role=User.Role.CUSTOMER)
+            return redirect("login")
+        else:
+            return render(request, "registration/register.html", {"form":form})
 
     else:
         form = UserRegistrationForm()

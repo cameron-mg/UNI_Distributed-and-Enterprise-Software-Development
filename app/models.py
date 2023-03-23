@@ -16,9 +16,8 @@ class User(AbstractUser):
     def get_role(self):
         return self.role
     
-    # def save(self, *args, **kwargs):
-    #     self.role = self.role
-    #     return super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
     REQUIRED_FIELDS = ["role"]
 

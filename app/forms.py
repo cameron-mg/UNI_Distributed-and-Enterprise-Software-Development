@@ -1,15 +1,10 @@
 from django import forms
-from app.models import *
-from django.contrib.auth.forms import UserCreationForm
+from app.models import User, Club
 
-class UserRegistrationForm(UserCreationForm):
-    
-    class Meta:
-        model = User
-        fields = ("username",)
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'})
-        }
+class UserRegistrationForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
 
 
 class registerClubForm(forms.ModelForm):

@@ -8,7 +8,6 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
-
 def home(request):
     return render(request, 'app/home.html')
 
@@ -77,7 +76,7 @@ def clubAccount(request):
 # TW VIEWS
 
 def registerClub(request):
-    form = registerClub(request.POST or None)
+    form = registerClubForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             message = form.save(commit=False)
@@ -85,9 +84,23 @@ def registerClub(request):
 
             return redirect("home")
         else:
-            return render(request, "app/registerClub.html", {"form": form})
+            return render(request, "app/cinemamanager/registerClub.html", {"form": form})
     else:
-        return render(request, "app/registerClub.html", {"form": form})
+        return render(request, "app/cinemamanager/registerClub.html", {"form": form})
+
+def addFilm(request):
+    form = addFilmForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.save()
+
+            return redirect("home")
+        else:
+            return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+    else:
+        return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+
     
 # CR VIEWS
 

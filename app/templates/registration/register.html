@@ -1,10 +1,15 @@
 {% extends "app/template.html" %}
 {% block content %}
-<h2>Register</h2>
-<p style="color:brown;">{{error}}</p>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
+<div class="d-flex">
+  <div class="col-6">
+    <h1>Register</h1>
+    <br>
+    <p style="color:brown;">{{error}}</p>
+    <form method="post" class="form-group">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary mb-2">Register</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

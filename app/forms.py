@@ -1,10 +1,10 @@
 from django import forms
-from app.models import User, Club
+from app.models import User, Club, Film
 
 class UserRegistrationForm(forms.Form):
-    username = forms.CharField(max_length=100)
-    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Confirm Password")
 
 
 class registerClubForm(forms.ModelForm):

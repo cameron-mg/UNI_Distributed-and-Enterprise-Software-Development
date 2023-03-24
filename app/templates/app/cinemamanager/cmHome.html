@@ -3,7 +3,7 @@
 Cinema Manager Home
 {% endblock %}
 {% block sideNav %}
-<a class="nav-link" href="#">Home</a>
+<a class="nav-link" href="{% url 'cmHome' %}">Home</a>
 <a class="nav-link" href="{% url 'cmAddFilm' %}">Add a Film</a>
 <a class="nav-link" href="#">Add Screen</a>
 <a class="nav-link" href="{% url 'registerClub' %}">Register Club</a>
@@ -14,33 +14,32 @@ Cinema Manager Home
   <h6 class="border-bottom pb-2 mb-0">Films</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-      {% if message_list %}
-    <table class="message_list">
-        <thead>
+    <table class="table">
+      <thead>
         <tr>
-            <th>Title</th>
-            <th>Age Rating</th>
-            <th>Duration (Minutes)</th>
-            <th>Trailer Description</th>
+          <th>Title</th>
+          <th>Age Rating</th>
+          <th>Duration (Minutes)</th>
+          <th>Trailer Description</th>
         </tr>
-        </thead>
-        <tbody>
-        {% for message in message_list %}
-            <tr>
-                <td>{{ message.title }}</td>
-                <td>{{ message.ageRating }}</td>
-                <td>{{ message.duration }}</td>
-                <td>{{ message.trailerDesc }}</td>
-                <td>
-                    {{ message.message }}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-
-{% else %}
-    <p>No Films Available</p>
-{% endif %}
+      </thead>
+      <tbody>
+      {% for film in films %}
+          <tr>
+              <td>{{ film.title }}</td>
+              <td>{{ film.ageRating }}</td>
+              <td>{{ film.duration }}</td>
+              <td>{{ film.desc }}</td>
+              <td>
+                <button type="button" class="btn btn-primary">Update</button>
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
     </p>
   </div>
 </div>
@@ -62,5 +61,4 @@ Cinema Manager Home
     </p>
   </div>
 </div>
-
 {% endblock %}

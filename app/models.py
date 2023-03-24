@@ -24,14 +24,14 @@ class User(AbstractUser):
 
 # Multiple Role Access
 class Address(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     number = models.CharField(max_length=4)
     street = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     postCode = models.CharField(max_length=8)
 
 class Contact(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     landline = models.CharField(max_length=11)
     mobile = models.CharField(max_length=11)
     email = models.CharField(max_length=50)
@@ -39,26 +39,33 @@ class Contact(models.Model):
     surName = models.CharField(max_length=50)
 
 class Payment(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     cardNumber = models.CharField(unique=True, max_length=19)
     expiryDate = models.DateField()
 
 
 # Cinema Manager
 class Film(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    class ageRating(models.TextChoices):
+        U= "U","U"
+        PG= "PG", "PG"
+        T= "12","12"
+        TA= "12A", "12A"
+        FT= "15", "15"
+        ET = "18", "18" 
+    id = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=50)
-    ageRatings = (('U','U'),('PG','PG'),('12A','12A'),('12','12'),('15','15'),('18','18'))
-    ageRating = models.CharField(choices=ageRatings, max_length=3)
+    ageRatings = models.CharField(max_length=3, choices=ageRating.choices, default='12')
     duration = models.IntegerField()
     desc = models.CharField(max_length=150)
 
 class Screen(models.Model):
-    id = models.CharField(primary_key=True, max_length=2)
+    id = models.AutoField(primary_key=True, unique=True)
+    screenNo = models.IntegerField()
     capacity = models.IntegerField()
 
 class Showing(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
     date = models.DateField() # ***CHECK***
@@ -67,44 +74,44 @@ class Showing(models.Model):
 
 # Account Manager
 class Employee(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     initial = models.CharField(max_length=1)
     surname = models.CharField(max_length=50)
 
 
 # Customer
 class Booking(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     tickettype = models.CharField(max_length=10)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
 
 
 # Club Representative
 class Club(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=30)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
+    contact = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     discount = models.IntegerField()
     balance = models.IntegerField()
 
 class ClubRep(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=8)
+    id = models.AutoField(primary_key=True, unique=True)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    contact = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True)
 
 class Transaction(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=6)
+    id = models.AutoField(primary_key=True, unique=True)
     account = models.ForeignKey(Club, on_delete=models.CASCADE)
     amount = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***
 
 class BlockBooking(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=3)
+    id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
     datetime = models.DateTimeField() # ***CHECK***

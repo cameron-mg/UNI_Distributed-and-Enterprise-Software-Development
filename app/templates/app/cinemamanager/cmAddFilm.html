@@ -1,13 +1,6 @@
-{% extends "app/template.html" %}
+{% extends "app/cinemamanager/cmHome.html" %}
 {% block title %}
 AddFilm
-{% endblock %}
-{% block sideNav %}
-<a class="nav-link" href="#">Home</a>
-<a class="nav-link" href="{% url 'cmAddFilm' %}">Add a Film</a>
-<a class="nav-link" href="#">Add Screen</a>
-<a class="nav-link" href="{% url 'registerClub' %}">Register Club</a>
-<a class="nav-link" href="#">Register Club Representative</a>
 {% endblock %}
 {% block content %}
 <h1>Add A Film</h1>

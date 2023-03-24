@@ -12,6 +12,7 @@ def home(request):
     return render(request, 'app/home.html')
 
 def login_request(request):
+    films = Film.objects.all()
     if request.method == "POST":
 
         form = AuthenticationForm(request=request, data=request.POST)
@@ -31,7 +32,7 @@ def login_request(request):
                 elif role == "CLUBREP":
                     return render(request, "app/clubrep/crHome.html", {"username":username, "role":role, "logged":logged})
                 elif role == "CINEMAMAN":
-                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged})
+                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films})
                 elif role == "ACCOUNTMAN":
                     return render(request, "app/accountmanager/amHome.html", {"username":username, "role":role, "logged":logged})
                 else:
@@ -75,6 +76,11 @@ def clubAccount(request):
 
 # TW VIEWS
 
+
+def cmHome(request):
+    films = Film.objects.all()
+    return render(request, "app/cinemamanager/cmHome.html", {"films":films})
+
 def registerClub(request):
     form = registerClubForm(request.POST or None)
     if request.method == "POST":
@@ -92,11 +98,11 @@ def addFilm(request):
     form = addFilmForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            message = form.save(commit=False)
-            message.save()
-
-            return redirect("home")
+            Film.objects.create(title=form.cleaned_data["title"], ageRatings=form.cleaned_data["ageRatings"],duration=form.cleaned_data['duration'], desc=form.cleaned_data['desc'])
+            print(Film)
+            return redirect("cmHome")
         else:
+            print(form.errors)
             return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
     else:
         return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})

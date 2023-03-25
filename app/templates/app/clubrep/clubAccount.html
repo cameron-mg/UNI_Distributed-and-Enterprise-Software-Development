@@ -3,5 +3,20 @@
 Club Representative Home
 {% endblock %}
 {% block content %}
-Club Account Page
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Club Account Page</h6>
+    {% if c_logged %}
+    <h6>Logged {{ name }}</h6>
+    {% else %}
+    <div>
+        <p style="color:brown;">{{error}}</p>
+        <form method="post" class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mb-2">Enter</button>
+        </form>
+    </div>
+    {% endif %}
+    
+</div>
 {% endblock %}

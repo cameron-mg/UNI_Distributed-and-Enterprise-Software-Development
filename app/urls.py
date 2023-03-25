@@ -6,6 +6,7 @@ urlpatterns = [
     path("login/", views.login_request, name="login"),
     path("register/", views.register_request, name="register"),
     # CMG URLS
+    path("crHome/", views.crHome, name="crHome"),
     path("clubAccount/", views.clubAccount, name="clubAccount"),
     # TW URLS
     path("registerClub/", views.registerClub, name="registerClub"),
@@ -14,6 +15,5 @@ urlpatterns = [
     # CR URLS
 
     # JD URLS
-    
     
 ]

@@ -4,35 +4,11 @@ Cinema Manager Home
 {% endblock %}
 {% block sideNav %}
 <a class="nav-link" href="{% url 'clubAccount' %}">Club Account</a>
-<a class="nav-link" href="#">Representative Account/a>
+<a class="nav-link" href="#">Representative Account</a>
 <a class="nav-link" href="#">Create Block Booking</a>
 {% endblock %}
 {% block content %}
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">Films</h6>
-  <div class="d-flex text-muted pt-3">
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      CR Home
-    </p>
-  </div>
+  <h6 class="border-bottom pb-2 mb-0">Club Rep Home</h6>
 </div>
-
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">Screenings</h6>
-  <div class="d-flex text-muted pt-3">
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      No Screenings Available
-    </p>
-  </div>
-</div>
-
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">Clubs</h6>
-  <div class="d-flex text-muted pt-3">
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      No Clubs Available
-    </p>
-  </div>
-</div>
-
 {% endblock %}

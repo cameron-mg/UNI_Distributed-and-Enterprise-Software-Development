@@ -1,12 +1,12 @@
-from django.shortcuts import render
+from app.models import *
+from app.forms import *
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
-from app.models import *
-from django.shortcuts import redirect
-from app import forms, models
-from .forms import *
-from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def home(request):
     return render(request, 'app/home.html')
@@ -30,7 +30,7 @@ def login_request(request):
                 if role == "CUSTOMER":
                     return render(request, "app/customer/cHome.html", {"username":username, "role":role, "logged":logged})
                 elif role == "CLUBREP":
-                    return render(request, "app/clubrep/crHome.html", {"username":username, "role":role, "logged":logged})
+                    return redirect("crHome")
                 elif role == "CINEMAMAN":
                     return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films})
                 elif role == "ACCOUNTMAN":
@@ -43,6 +43,7 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="registration/login.html", context={"form":form})
+
 
 
 def register_request(request):
@@ -69,13 +70,38 @@ def register_request(request):
         form = UserRegistrationForm()
         return render(request=request, template_name="registration/register.html", context={"form":form})
 
+
 # CMG VIEWS
 
+def crHome(request):
+    return render(request, "app/clubrep/crHome.html")
+
 def clubAccount(request):
-    return render(request, "app/clubrep/clubAccount.html")
+    form = ClubAccountForm(request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+
+            clubid = form.cleaned_data["clubid"]
+            try:
+                print(clubid)
+                club = Club.objects.filter(clubid=clubid).get()
+                c_logged = True
+                error = ""
+                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error, "name":club.name})
+            except:
+                c_logged = False
+                error = "Please enter a valid club identification number."
+                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error})
+        else:
+            c_logged = False
+            return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
+    else:
+        c_logged = False
+        return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
+
 
 # TW VIEWS
-
 
 def cmHome(request):
     films = Film.objects.all()

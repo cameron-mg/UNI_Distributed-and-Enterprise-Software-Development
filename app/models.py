@@ -66,10 +66,10 @@ class Screen(models.Model):
 
 class Showing(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    film = models.ForeignKey(Film, on_delete=models.CASCADE)
-    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
-    date = models.DateField() # ***CHECK***
-    time = models.TimeField() # ***CHECK***
+    film = models.ForeignKey(Film, on_delete=models.PROTECT)
+    screen = models.ForeignKey(Screen, on_delete=models.PROTECT)
+    date = models.DateField()
+    time = models.TimeField()
 
 
 # Account Manager
@@ -85,12 +85,12 @@ class Booking(models.Model):
     tickettype = models.CharField(max_length=10)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
-    datetime = models.DateTimeField() # ***CHECK***
-
+    datetime = models.DateTimeField()
 
 # Club Representative
 class Club(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
+    clubid = models.CharField(max_length=8, unique=True)
     name = models.CharField(max_length=30)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     contact = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True)
@@ -107,11 +107,11 @@ class Transaction(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     account = models.ForeignKey(Club, on_delete=models.CASCADE)
     amount = models.IntegerField()
-    datetime = models.DateTimeField() # ***CHECK***
+    datetime = models.DateTimeField()
 
 class BlockBooking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
-    datetime = models.DateTimeField() # ***CHECK***
+    datetime = models.DateTimeField()

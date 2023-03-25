@@ -6,6 +6,8 @@ class UserRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Confirm Password")
 
+class ClubAccountForm(forms.Form):
+    clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=20, label="Club Identification Number")
 
 class registerClubForm(forms.ModelForm):
     class Meta:

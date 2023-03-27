@@ -84,15 +84,15 @@ def clubAccount(request):
 
             clubid = form.cleaned_data["clubid"]
             try:
-                print(clubid)
                 club = Club.objects.filter(clubid=clubid).get()
                 c_logged = True
                 error = ""
-                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error, "name":club.name})
+                
+                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error, "club":club})
             except:
                 c_logged = False
                 error = "Please enter a valid club identification number."
-                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error})
+                return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged, "error":error})
         else:
             c_logged = False
             return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})

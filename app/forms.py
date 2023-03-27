@@ -30,3 +30,12 @@ class addFilmForm(forms.ModelForm):
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
             'desc': forms.Textarea(attrs={'class': 'form-control'})
         }
+
+class addScreeningForm(forms.ModelForm):
+    class Meta:
+        model = Screen
+        fields = ("screenNo", "capacity")
+        widgets = {
+            'screenNo' : forms.NumberInput(attrs={'class' : 'form-control'}),
+            'capacity' : forms.NumberInput(attrs={'class' : 'form-control'})
+        }

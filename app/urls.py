@@ -11,6 +11,8 @@ urlpatterns = [
     path("registerClub/", views.registerClub, name="registerClub"),
     path("cmAddFilm/", views.addFilm, name="cmAddFilm"),
     path("cmHome/", views.cmHome, name="cmHome"),
+    path("deleteFilm/<int:film_id>", views.deleteFilm, name="deleteFilm"),
+    path("cmAddScreen/", views.addScreen, name="cmAddScreen" ),
     # CR URLS
 
     # JD URLS

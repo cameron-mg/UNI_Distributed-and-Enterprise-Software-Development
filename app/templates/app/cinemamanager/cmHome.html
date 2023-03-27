@@ -5,7 +5,7 @@ Cinema Manager Home
 {% block sideNav %}
 <a class="nav-link" href="{% url 'cmHome' %}">Home</a>
 <a class="nav-link" href="{% url 'cmAddFilm' %}">Add a Film</a>
-<a class="nav-link" href="#">Add Screen</a>
+<a class="nav-link" href="{% url 'cmAddScreen' %}">Add Screen</a>
 <a class="nav-link" href="{% url 'registerClub' %}">Register Club</a>
 <a class="nav-link" href="#">Register Club Representative</a>
 {% endblock %}
@@ -14,42 +14,76 @@ Cinema Manager Home
   <h6 class="border-bottom pb-2 mb-0">Films</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Age Rating</th>
-          <th>Duration (Minutes)</th>
-          <th>Trailer Description</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for film in films %}
+    {% if films %}
+      <table class="table">
+        <thead>
           <tr>
-              <td>{{ film.title }}</td>
-              <td>{{ film.ageRating }}</td>
-              <td>{{ film.duration }}</td>
-              <td>{{ film.desc }}</td>
-              <td>
-                <button type="button" class="btn btn-primary">Update</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-danger">Delete</button>
-              </td>
+            <th>Title</th>
+            <th>Age Rating</th>
+            <th>Duration (Minutes)</th>
+            <th>Trailer Description</th>
           </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.title }}</td>
+                <td>{{ film.ageRating }}</td>
+                <td>{{ film.duration }}</td>
+                <td>{{ film.desc }}</td>
+                <td>
+                  <button type="button" class="btn btn-primary">Update</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No films available please add a film.</p>
     </p>
+    {% endif %}
   </div>
 </div>
+
 
 <div class="my-3 p-3 bg-body rounded shadow-sm">
   <h6 class="border-bottom pb-2 mb-0">Screenings</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-      No Screenings Available
+      {% if screens %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Screen Number</th>
+            <th>Screen Capacity</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        {% for screen in screens %}
+            <tr>
+                <td>{{ screen.screenNo }}</td>
+                <td>{{ screen.capacity }}</td>
+                <td>
+                  <button type="button" class="btn btn-primary">Update</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No Screens available please add a film.</p>
     </p>
+    </p>
+    {% endif %}
   </div>
 </div>
 
@@ -61,4 +95,5 @@ Cinema Manager Home
     </p>
   </div>
 </div>
+
 {% endblock %}

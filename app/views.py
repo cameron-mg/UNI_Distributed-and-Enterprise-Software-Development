@@ -79,7 +79,34 @@ def clubAccount(request):
 
 def cmHome(request):
     films = Film.objects.all()
-    return render(request, "app/cinemamanager/cmHome.html", {"films":films})
+    screens = Screen.objects.all()
+    return render(request, "app/cinemamanager/cmHome.html", {"films":films, "screens" : screens})
+
+def addFilm(request):
+    form = addFilmForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            filmTitle = form.cleaned_data["title"]
+            filmRating = form.cleaned_data["ageRatings"]
+            filmDuration = form.cleaned_data["duration"]
+            filmDescription = form.cleaned_data["desc"]
+
+            Film.objects.create(title=filmTitle, ageRatings=filmRating,duration=filmDuration, desc=filmDescription)
+            print(Film)
+            return redirect("cmHome")
+        else:
+            print(form.errors)
+            return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+    else:
+        return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+
+def deleteFilm(request, film_id):
+    try:
+        film = Film.objects.get(id=film_id)
+        film.delete()
+    except Film.DoesNotExist:
+        pass
+    return redirect('cmHome')
 
 def registerClub(request):
     form = registerClubForm(request.POST or None)
@@ -94,18 +121,24 @@ def registerClub(request):
     else:
         return render(request, "app/cinemamanager/registerClub.html", {"form": form})
 
-def addFilm(request):
-    form = addFilmForm(request.POST or None)
+def addScreen(request):
+    form = addScreeningForm(request.POST or None)
+    
+
     if request.method == "POST":
+        
         if form.is_valid():
-            Film.objects.create(title=form.cleaned_data["title"], ageRatings=form.cleaned_data["ageRatings"],duration=form.cleaned_data['duration'], desc=form.cleaned_data['desc'])
-            print(Film)
+            screenNumber = form.cleaned_data["screenNo"]
+            screenCapacity = form.cleaned_data["capacity"]
+            Screen.objects.create(screenNo=screenNumber, capacity=screenCapacity)
+            print(Screen)
+
             return redirect("cmHome")
         else:
-            print(form.errors)
-            return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+            return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
     else:
-        return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+        return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
+
 
     
 # CR VIEWS

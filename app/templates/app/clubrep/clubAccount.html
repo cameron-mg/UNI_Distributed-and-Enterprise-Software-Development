@@ -34,11 +34,33 @@ Club Representative Home
             <br>
             <h6>Discount Rate: {{ club.discount }}%</h6>
             <h6>Current Balance {{ club.balance }}</h6>
-            <button type="button" class="btn btn-primary">Settle Balance</button>
+            <a href="{% url 'clubAccount' %}" class="btn btn-secondary me-2" role="button" aria-pressed="true">Settle Balance</a> 
         </div>
 
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h5 class="border-bottom pb-2 mb-0">Transaction History</h5>
+            <p class="pb-3 mb-0 small lh-sm border-bottom">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Date Booked</th>
+                      <th>Created By</th>
+                      <th>Ticket Quantity</th>
+                      <th>Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for t in transactions %}
+                      <tr>
+                          <td>{{ t.datetime }}</td>
+                          <td>{{ t.madeby }}</td>
+                          <td>{{ t.quantity }}</td>
+                          <td>{{ t.cost }}</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </p>
         </div>
 
     {% else %}

@@ -83,9 +83,9 @@ class Employee(models.Model):
 class Booking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     tickettype = models.CharField(max_length=10)
+    showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
-    datetime = models.DateTimeField()
 
 # Club Representative
 class Club(models.Model):
@@ -106,7 +106,9 @@ class ClubRep(models.Model):
 class Transaction(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     account = models.ForeignKey(Club, on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    madeby = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField()
+    cost = models.IntegerField()
     datetime = models.DateTimeField()
 
 class BlockBooking(models.Model):

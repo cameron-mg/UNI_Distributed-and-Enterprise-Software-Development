@@ -70,7 +70,7 @@ class Showing(models.Model):
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
     date = models.DateField() # ***CHECK***
     time = models.TimeField() # ***CHECK***
-
+    remainingSeats = models.IntegerField()
 
 # Account Manager
 class Employee(models.Model):

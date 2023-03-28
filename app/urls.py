@@ -13,7 +13,8 @@ urlpatterns = [
     path("cmHome/", views.cmHome, name="cmHome"),
     path("deleteFilm/<int:pk>/", views.deleteFilm, name="deleteFilm"),
     path("cmAddScreen/", views.addScreen, name="cmAddScreen" ),
-    path("deleteScreen/<int:pk>", views.deleteScreen, name="deleteScreen")
+    path("deleteScreen/<int:pk>", views.deleteScreen, name="deleteScreen"),
+    path("cmAddShowing", views.addShowing, name="cmAddShowing"),
     # CR URLS
 
     # JD URLS

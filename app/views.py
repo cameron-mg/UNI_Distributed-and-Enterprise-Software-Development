@@ -80,7 +80,8 @@ def clubAccount(request):
 def cmHome(request):
     films = Film.objects.all()
     screens = Screen.objects.all()
-    return render(request, "app/cinemamanager/cmHome.html", {"films":films, "screens" : screens})
+    showings = Showing.objects.all()
+    return render(request, "app/cinemamanager/cmHome.html", {"films" : films, "screens" : screens, "showings" : showings})
 
 def addFilm(request):
     form = addFilmForm(request.POST or None)
@@ -130,9 +131,8 @@ def registerClub(request):
         return render(request, "app/cinemamanager/registerClub.html", {"form": form})
 
 def addScreen(request):
-    form = addScreeningForm(request.POST or None)
+    form = addScreenForm(request.POST or None)
     
-
     if request.method == "POST":
         
         if form.is_valid():
@@ -146,6 +146,24 @@ def addScreen(request):
             return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
+
+def addShowing(request):
+    form = addShowingForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            showing = Showing.objects.create(
+                film=form.cleaned_data['film'],
+                screen=form.cleaned_data['screen'],
+                date=form.cleaned_data['date'],
+                time=form.cleaned_data['time'],
+                remainingSeats=form.cleaned_data['remainingSeats']
+            )
+            
+            return redirect('cmAddShowing')
+        else:
+            return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
+    else:
+        return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
 
 
     

@@ -109,13 +109,6 @@ def deleteFilm(request, pk):
     else:
         return redirect('cmHome')
 
-def deleteScreen(request, pk):
-    if request.method == "POST":
-        screen = Screen.objects.get(pk=pk)
-        screen.delete()
-        return redirect('cmHome')
-    else:
-        return redirect('cmHome')
 
 def registerClub(request):
     form = registerClubForm(request.POST or None)
@@ -146,6 +139,14 @@ def addScreen(request):
             return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
+    
+def deleteScreen(request, pk):
+    if request.method == "POST":
+        screen = Screen.objects.get(pk=pk)
+        screen.delete()
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
 
 def addShowing(request):
     form = addShowingForm(request.POST or None)
@@ -159,11 +160,19 @@ def addShowing(request):
                 remainingSeats=form.cleaned_data['remainingSeats']
             )
             
-            return redirect('cmAddShowing')
+            return redirect('cmHome')
         else:
             return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
     else:
         return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
+    
+def deleteShowing(request, pk):
+    if request.method == "POST":
+        screen = Showing.objects.get(pk=pk)
+        screen.delete()
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
 
 
     

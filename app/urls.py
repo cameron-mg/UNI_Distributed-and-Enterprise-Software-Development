@@ -15,6 +15,7 @@ urlpatterns = [
     path("cmAddScreen/", views.addScreen, name="cmAddScreen" ),
     path("deleteScreen/<int:pk>", views.deleteScreen, name="deleteScreen"),
     path("cmAddShowing", views.addShowing, name="cmAddShowing"),
+    path("deleteShowing/<int:pk>", views.deleteShowing, name="deleteShowing")
     # CR URLS
 
     # JD URLS

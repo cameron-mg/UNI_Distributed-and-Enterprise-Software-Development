@@ -110,15 +110,18 @@ Cinema Manager Home
         <tbody>
         {% for showing in showings %}
             <tr>
-                <td>{{ showing.film }}</td>
-                <td>{{ showing.screen }}</td>
+                <td>{{ showing.film.title }}</td>
+                <td>{{ showing.screen.screenNo }}</td>
                 <td>{{ showing.date }}</td>
                 <td>{{ showing.time }}</td>
                 <td>
                   <button type="button" class="btn btn-primary">Update</button>
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <form method="POST" action="{% url 'deleteShowing' showing.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}

@@ -85,10 +85,10 @@ def clubAccount(request):
             clubid = form.cleaned_data["clubid"]
             try:
                 club = Club.objects.filter(clubid=clubid).get()
+                transactions = Transaction.objects.all().filter(account=club)
                 c_logged = True
                 error = ""
-                
-                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error, "club":club})
+                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error, "club":club, "transactions":transactions})
             except:
                 c_logged = False
                 error = "Please enter a valid club identification number."
@@ -108,13 +108,15 @@ def cmHome(request):
     return render(request, "app/cinemamanager/cmHome.html", {"films":films})
 
 def registerClub(request):
-    form = registerClubForm(request.POST or None)
+    form = RegisterClubForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            message = form.save(commit=False)
-            message.save()
+            address = Address.objects.create(number=form.cleaned_data["aNumber"], street=form.cleaned_data["aStreet"], city=form.cleaned_data["aCity"], postCode=form.cleaned_data["aPostCode"])
+            contact = Contact.objects.create(landline=form.cleaned_data["cLandline"], mobile=form.cleaned_data["cMobile"], email=form.cleaned_data["cEmail"], firstName=form.cleaned_data["cFirstName"], surName=form.cleaned_data["cSurName"])
+            payment = Payment.objects.create(cardNumber=form.cleaned_data["pCardNumber"], expiryDate=form.cleaned_data["pExpiryDate"])
+            Club.objects.create(clubid=form.cleaned_data["clubid"], name=form.cleaned_data["clubname"], address=address, contact=contact, payment=payment, discount=form.cleaned_data["discount"], balance=0)
 
-            return redirect("home")
+            return redirect("cmHome")
         else:
             return render(request, "app/cinemamanager/registerClub.html", {"form": form})
     else:
@@ -125,7 +127,6 @@ def addFilm(request):
     if request.method == "POST":
         if form.is_valid():
             Film.objects.create(title=form.cleaned_data["title"], ageRatings=form.cleaned_data["ageRatings"],duration=form.cleaned_data['duration'], desc=form.cleaned_data['desc'])
-            print(Film)
             return redirect("cmHome")
         else:
             print(form.errors)

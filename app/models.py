@@ -32,8 +32,8 @@ class Address(models.Model):
 
 class Contact(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    landline = models.CharField(max_length=11)
-    mobile = models.CharField(max_length=11)
+    landline = models.CharField(max_length=12)
+    mobile = models.CharField(max_length=12)
     email = models.CharField(max_length=50)
     firstName = models.CharField(max_length=20)
     surName = models.CharField(max_length=50)
@@ -41,7 +41,7 @@ class Contact(models.Model):
 class Payment(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     cardNumber = models.CharField(unique=True, max_length=19)
-    expiryDate = models.DateField()
+    expiryDate = models.CharField(max_length=5)
 
 
 # Cinema Manager
@@ -70,6 +70,7 @@ class Showing(models.Model):
     screen = models.ForeignKey(Screen, on_delete=models.PROTECT)
     date = models.DateField()
     time = models.TimeField()
+    remainingSeats = models.IntegerField()
 
 
 # Account Manager
@@ -83,9 +84,9 @@ class Employee(models.Model):
 class Booking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     tickettype = models.CharField(max_length=10)
+    showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
-    datetime = models.DateTimeField()
 
 # Club Representative
 class Club(models.Model):
@@ -106,7 +107,9 @@ class ClubRep(models.Model):
 class Transaction(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     account = models.ForeignKey(Club, on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    madeby = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField()
+    cost = models.IntegerField()
     datetime = models.DateTimeField()
 
 class BlockBooking(models.Model):

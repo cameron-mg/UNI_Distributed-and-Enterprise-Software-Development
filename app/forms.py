@@ -9,6 +9,58 @@ class UserRegistrationForm(forms.Form):
 class ClubAccountForm(forms.Form):
     clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=20, label="Club Identification Number")
 
+class RegisterClubForm(forms.Form):
+    clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=8, label="Club ID")
+    clubname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=30, label="Club Name")
+    discount = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Discount")
+
+    aNumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=4, label="Address Number")
+    aStreet = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="Street")
+    aCity = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="City")
+    aPostCode = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=8, label="Postcode")
+
+    cLandline = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=12, label="Landline")
+    cMobile = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=12, label="Mobile")
+    cEmail = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="Email")
+    cFirstName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=20, label="First Name")
+    cSurName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="Surname")
+
+    pCardNumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=19, label="Card Number")
+    pExpiryDate = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Expiry Date (MM/YY)")
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ("number", "street", "city", "postCode")
+        widgets = {
+            'number': forms.TextInput(attrs={'class': 'form-control'}),
+            'street': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'postCode': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ("landline", "mobile", "email", "firstName", "surName")
+        widgets = {
+            'landline': forms.TextInput(attrs={'class': 'form-control'}),
+            'mobile': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'firstName': forms.TextInput(attrs={'class': 'form-control'}),
+            'surName': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        fields = ("cardNumber", "expiryDate")
+        widgets = {
+            'cardNumber': forms.TextInput(attrs={'class': 'form-control'}),
+            'expiryDate': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
 class registerClubForm(forms.ModelForm):
     class Meta:
         model = Club

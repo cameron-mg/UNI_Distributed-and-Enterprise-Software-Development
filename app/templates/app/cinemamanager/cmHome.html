@@ -28,15 +28,17 @@ Cinema Manager Home
         {% for film in films %}
             <tr>
                 <td>{{ film.title }}</td>
-                <td>{{ film.ageRating }}</td>
+                <td>{{ film.ageRatings }}</td>
                 <td>{{ film.duration }}</td>
                 <td>{{ film.desc }}</td>
                 <td>
                   <button type="button" class="btn btn-primary">Update</button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                  </form>
+                    <form method="POST" action="{% url 'deleteFilm' film.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
@@ -72,7 +74,9 @@ Cinema Manager Home
                   <button type="button" class="btn btn-primary">Update</button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                  <form method="POST" action="{% url 'deleteScreen' screen.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
                   </form>
                 </td>
             </tr>

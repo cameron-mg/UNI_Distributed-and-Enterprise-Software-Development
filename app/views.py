@@ -100,13 +100,21 @@ def addFilm(request):
     else:
         return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
 
-def deleteFilm(request, film_id):
-    try:
-        film = Film.objects.get(id=film_id)
+def deleteFilm(request, pk):
+    if request.method == "POST":
+        film = Film.objects.get(pk=pk)
         film.delete()
-    except Film.DoesNotExist:
-        pass
-    return redirect('cmHome')
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
+
+def deleteScreen(request, pk):
+    if request.method == "POST":
+        screen = Screen.objects.get(pk=pk)
+        screen.delete()
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
 
 def registerClub(request):
     form = registerClubForm(request.POST or None)

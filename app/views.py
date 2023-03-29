@@ -13,6 +13,8 @@ def home(request):
 
 def login_request(request):
     films = Film.objects.all()
+    showings = Showing.objects.all()
+    screens = Screen.objects.all()
     if request.method == "POST":
 
         form = AuthenticationForm(request=request, data=request.POST)
@@ -32,7 +34,7 @@ def login_request(request):
                 elif role == "CLUBREP":
                     return render(request, "app/clubrep/crHome.html", {"username":username, "role":role, "logged":logged})
                 elif role == "CINEMAMAN":
-                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films})
+                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films, "screens" : screens, "showings": showings})
                 elif role == "ACCOUNTMAN":
                     return render(request, "app/accountmanager/amHome.html", {"username":username, "role":role, "logged":logged})
                 else:
@@ -109,6 +111,18 @@ def deleteFilm(request, pk):
     else:
         return redirect('cmHome')
 
+
+def updateFilm(request, pk):
+    film = Film.objects.get(pk=pk)
+    form = addFilmForm(request.POST or None, instance=film)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateFilm.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateFilm.html", {"form" : form})
 
 def registerClub(request):
     form = registerClubForm(request.POST or None)

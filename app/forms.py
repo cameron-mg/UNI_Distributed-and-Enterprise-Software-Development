@@ -55,5 +55,7 @@ class addShowingForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['film'].queryset = Film.objects.all()
         self.fields['screen'].queryset = Screen.objects.all()
+        self.fields['film'].label_from_instance = lambda obj: obj.title
+        self.fields['screen'].label_from_instance = lambda obj: obj.screenNo
 
     

@@ -33,7 +33,7 @@ Cinema Manager Home
                 <td>{{ film.duration }}</td>
                 <td>{{ film.desc }}</td>
                 <td>
-                  <button type="button" class="btn btn-primary">Update</button>
+                  <a href="{% url 'updateFilm' film.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
                 </td>
                 <td>
                     <form method="POST" action="{% url 'deleteFilm' film.pk %}">

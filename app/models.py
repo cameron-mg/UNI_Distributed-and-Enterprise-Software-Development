@@ -101,6 +101,7 @@ class Club(models.Model):
 
 class ClubRep(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     contact = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True)
 

@@ -5,24 +5,19 @@ Cinema Manager Home
 {% block sideNav %}
 <a class="nav-link" href="{% url 'crHome' %}">Home</a>
 <a class="nav-link" href="{% url 'clubAccount' %}">Club Account</a>
-<a class="nav-link" href="{% url 'repAccount' %}">Representative Account</a>
 <a class="nav-link" href="{% url 'clubBooking' %}">Create Block Booking</a>
 {% endblock %}
 {% block content %}
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">Club Rep Home</h6>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-          <h6 class="border-bottom pb-2 mb-0">User Details</h6>
-          <h6>Username: {{ clubrep.user.username }}</h6>  
-          <h6>Registered to represent: {{ clubrep.club.name }}</h6>                     
-        
-      </div>
-      <div class="my-3 p-3 bg-body rounded shadow-sm">
-          <h6 class="border-bottom pb-2 mb-0">Contact Details</h6>  
-          <h6>Landline: {{ clubrep.contact.landline }}</h6>  
-          <h6>Mobile: {{ clubrep.contact.mobile }}</h6>  
-          <h6>Email: {{ clubrep.contact.email }}</h6>   
-          <h6>Name: {{ clubrep.contact.firstName }} {{ clubrep.contact.surName }}</h6>  
-      </div>
+  <p style="color:brown;">{{error}}</p>
+  <h4 class="border-bottom pb-2 mb-2">Club Rep Home</h4>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h5>Username: {{ clubrep.user.username }}</h5>                   
+      <h5 class="border-bottom pb-2 mb-2">Contact Details</h5>  
+      <h6>Landline: {{ clubrep.contact.landline }}</h6>  
+      <h6>Mobile: {{ clubrep.contact.mobile }}</h6>  
+      <h6>Email: {{ clubrep.contact.email }}</h6>   
+      <h6>Name: {{ clubrep.contact.firstName }} {{ clubrep.contact.surName }}</h6>  
+    </div>
 </div>
 {% endblock %}

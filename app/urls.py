@@ -8,6 +8,7 @@ urlpatterns = [
     # CMG URLS
     path("crHome/", views.crHome, name="crHome"),
     path("clubAccount/", views.clubAccount, name="clubAccount"),
+    path("clubBooking/", views.blockBooking, name="clubBooking"),
     # TW URLS
     path("registerClub/", views.registerClub, name="registerClub"),
     path("cmAddFilm/", views.addFilm, name="cmAddFilm"),

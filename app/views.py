@@ -44,8 +44,6 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="registration/login.html", context={"form":form})
 
-
-
 def register_request(request):
     form = UserRegistrationForm(request.POST or None)
 
@@ -74,7 +72,13 @@ def register_request(request):
 # CMG VIEWS
 
 def crHome(request):
-    return render(request, "app/clubrep/crHome.html")
+    try:
+        clubrep = ClubRep.objects.filter(user=request.user).get()
+        error = ""
+        return render(request, "app/clubrep/crHome.html", {"clubrep":clubrep, "error":error})
+    except:
+        error = "ClubRep profile not found!"
+        return render(request, "app/clubrep/crHome.html", {"error":error})
 
 def clubAccount(request):
     form = ClubAccountForm(request.POST or None)
@@ -99,6 +103,9 @@ def clubAccount(request):
     else:
         c_logged = False
         return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
+
+def blockBooking(request):
+    return render(request, "app/clubrep/blockBooking.html")
 
 
 # TW VIEWS

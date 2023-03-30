@@ -10,6 +10,7 @@ urlpatterns = [
     path("clubAccount/", views.clubAccount, name="clubAccount"),
     path("clubBooking/", views.clubBooking, name="clubBooking"),
     path("clubBooking/confirmation/<int:pk>", views.confirmBooking, name="confirmBooking"),
+    path("clubBooking/confirmation/<int:pk>/<int:q>", views.saveClubBooking, name="saveClubBooking"),
     # TW URLS
     path("cmHome/", views.cmHome, name="cmHome"),
     path("registerClub/", views.registerClub, name="registerClub"),

@@ -7,7 +7,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-
 def home(request):
     return render(request, 'app/home.html')
 
@@ -108,6 +107,7 @@ def clubAccount(request):
 
 def clubBooking(request):
     form = BookingDateForm(request.POST or None)
+    dated = False
 
     if request.method == "POST":
         if form.is_valid():
@@ -118,21 +118,29 @@ def clubBooking(request):
                 dated = True
                 return render(request, "app/clubrep/blockBooking.html", {"dated":dated, "showings":showings})
             except:
-                showings = False
-                dated = False
                 return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
         else:
-            dated = False
             return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
     else:
-        dated = False
         return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
 
 def confirmBooking(request, pk):
+    form = BlockBookingQuantity(request.POST or None)
     showing = Showing.objects.get(pk=pk)
-    return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing})
+    qPicked = False
 
-def createBooking(request, pk):
+    if request.method == "POST":
+        if form.is_valid():
+            qPicked = True
+            q = form.cleaned_data["quantity"]
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked})
+        else:
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
+    else:
+        return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
+
+def saveClubBooking(request, pk, q):
+    print(pk, q)
     return redirect('crHome')
 # TW VIEWS
 

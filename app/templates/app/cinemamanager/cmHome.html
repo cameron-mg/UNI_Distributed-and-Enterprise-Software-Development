@@ -140,8 +140,44 @@ Cinema Manager Home
   <h6 class="border-bottom pb-2 mb-0">Clubs</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-      No Clubs Available
+      {% if clubs %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ClubID</th>
+            <th>Club Name</th>
+            <th>Discount</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for club in clubs %}
+            <tr>
+                <td>{{ club.clubid }}</td>
+                <td>{{ club.name }}</td>
+                <td>{{ club.discount}}</td>
+                <td>{{ club.balance }}</td>
+                <td>
+                  <a href="#" class="btn btn-success me-2" role="button" aria-pressed="true">View Club</a>
+                </td>
+                <td>
+                  <a href="{% url 'updateClub' club.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
+                </td> 
+                <td>
+                  <form method="POST" action="{% url 'deleteClub' club.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No clubs available please add a showing.</p>
+    </p>     
     </p>
+    {% endif %}
   </div>
 </div>
 

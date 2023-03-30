@@ -116,7 +116,8 @@ def cmHome(request):
     films = Film.objects.all()
     screens = Screen.objects.all()
     showings = Showing.objects.all()
-    return render(request, "app/cinemamanager/cmHome.html", {"films" : films, "screens" : screens, "showings" : showings})
+    clubs = Club.objects.all()
+    return render(request, "app/cinemamanager/cmHome.html", {"films" : films, "screens" : screens, "showings" : showings, "clubs" : clubs})
 
 def addFilm(request):
     form = addFilmForm(request.POST or None)
@@ -175,6 +176,32 @@ def registerClub(request):
             return render(request, "app/cinemamanager/registerClub.html", {"form": form})
     else:
         return render(request, "app/cinemamanager/registerClub.html", {"form": form})
+    
+
+def deleteClub(request, pk):
+    if request.method == "POST":
+        club = Club.objects.get(pk=pk)
+        club.delete()   
+        club.address.delete()
+        club.contact.delete()
+        club.payment.delete()
+    
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
+
+def updateClub(request, pk):
+    club = Club.objects.get(pk=pk)
+    form = registerClubForm(request.POST or None, instance=club)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form": form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form":form})
+    
 
 def addScreen(request):
     form = addScreenForm(request.POST or None)

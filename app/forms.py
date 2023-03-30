@@ -84,3 +84,31 @@ class addFilmForm(forms.ModelForm):
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
             'desc': forms.Textarea(attrs={'class': 'form-control'})
         }
+
+class addScreenForm(forms.ModelForm):
+    class Meta:
+        model = Screen
+        fields = ("screenNo", "capacity")
+        widgets = {
+            'screenNo' : forms.NumberInput(attrs={'class' : 'form-control'}),
+            'capacity' : forms.NumberInput(attrs={'class' : 'form-control'})
+        }
+
+class addShowingForm(forms.ModelForm):
+    film = forms.ModelChoiceField(queryset=Film.objects.all(), widget=forms.Select(attrs={'class' : 'form-control'}))
+    screen = forms.ModelChoiceField(queryset=Screen.objects.all(), widget=forms.Select(attrs={'class' : 'form-control'}))
+    date = forms.DateField(widget=forms.DateInput(attrs={'class' : 'form-control', 'type' : 'date'}), input_formats=['%Y-%m-%d'])
+    time = forms.TimeField(widget=forms.TimeInput(attrs={'class' : 'form-control', 'type' : 'time'}), input_formats=['%H:%M'])
+
+    class Meta:
+        model = Showing
+        fields = ('film', 'screen', 'date', 'time')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['film'].queryset = Film.objects.all()
+        self.fields['screen'].queryset = Screen.objects.all()
+        self.fields['film'].label_from_instance = lambda obj: obj.title
+        self.fields['screen'].label_from_instance = lambda obj: obj.screenNo
+
+    

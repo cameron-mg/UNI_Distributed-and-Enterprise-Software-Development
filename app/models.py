@@ -66,12 +66,11 @@ class Screen(models.Model):
 
 class Showing(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    film = models.ForeignKey(Film, on_delete=models.PROTECT)
-    screen = models.ForeignKey(Screen, on_delete=models.PROTECT)
-    date = models.DateField()
-    time = models.TimeField()
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
+    date = models.DateField() # ***CHECK***
+    time = models.TimeField() # ***CHECK***
     remainingSeats = models.IntegerField()
-
 
 # Account Manager
 class Employee(models.Model):

@@ -12,7 +12,16 @@ urlpatterns = [
     # TW URLS
     path("registerClub/", views.registerClub, name="registerClub"),
     path("cmAddFilm/", views.addFilm, name="cmAddFilm"),
+    path("updateFilm/<int:pk>", views.updateFilm, name="updateFilm"),
     path("cmHome/", views.cmHome, name="cmHome"),
+    path("deleteFilm/<int:pk>/", views.deleteFilm, name="deleteFilm"),
+    path("cmAddScreen/", views.addScreen, name="cmAddScreen" ),
+    path("updateScreen/<int:pk>,", views.updateScreen, name="updateScreen"),
+    path("deleteScreen/<int:pk>", views.deleteScreen, name="deleteScreen"),
+    path("cmAddShowing", views.addShowing, name="cmAddShowing"),
+    path("deleteShowing/<int:pk>/", views.deleteShowing, name="deleteShowing"),
+    path("updateShowing/<int:pk>/", views.updateShowing, name="updateShowing"),
+    
     # CR URLS
 
     # JD URLS

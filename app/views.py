@@ -13,6 +13,8 @@ def home(request):
 
 def login_request(request):
     films = Film.objects.all()
+    showings = Showing.objects.all()
+    screens = Screen.objects.all()
     if request.method == "POST":
 
         form = AuthenticationForm(request=request, data=request.POST)
@@ -32,7 +34,7 @@ def login_request(request):
                 elif role == "CLUBREP":
                     return redirect("crHome")
                 elif role == "CINEMAMAN":
-                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films})
+                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films, "screens" : screens, "showings": showings})
                 elif role == "ACCOUNTMAN":
                     return render(request, "app/accountmanager/amHome.html", {"username":username, "role":role, "logged":logged})
                 else:
@@ -112,7 +114,52 @@ def blockBooking(request):
 
 def cmHome(request):
     films = Film.objects.all()
-    return render(request, "app/cinemamanager/cmHome.html", {"films":films})
+    screens = Screen.objects.all()
+    showings = Showing.objects.all()
+    return render(request, "app/cinemamanager/cmHome.html", {"films" : films, "screens" : screens, "showings" : showings})
+
+def addFilm(request):
+    form = addFilmForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            filmTitle = form.cleaned_data["title"]
+            filmRating = form.cleaned_data["ageRatings"]
+            filmDuration = form.cleaned_data["duration"]
+            filmDescription = form.cleaned_data["desc"]
+
+            Film.objects.create(title=filmTitle, ageRatings=filmRating,duration=filmDuration, desc=filmDescription)
+            print(Film)
+            return redirect("cmHome")
+        else:
+            print(form.errors)
+            return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+    else:
+        return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+
+def deleteFilm(request, pk):
+    if request.method == "POST":
+        film = Film.objects.get(pk=pk)
+        try:
+            showing = Showing.objects.filter(film=film).get()
+            return redirect('cmHome')
+        except:
+            film.delete()
+            return redirect('cmHome')
+    else:
+        return redirect('cmHome')
+
+
+def updateFilm(request, pk):
+    film = Film.objects.get(pk=pk)
+    form = addFilmForm(request.POST or None, instance=film)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
 def registerClub(request):
     form = RegisterClubForm(request.POST or None)
@@ -129,17 +176,81 @@ def registerClub(request):
     else:
         return render(request, "app/cinemamanager/registerClub.html", {"form": form})
 
-def addFilm(request):
-    form = addFilmForm(request.POST or None)
+def addScreen(request):
+    form = addScreenForm(request.POST or None)
+    
     if request.method == "POST":
+        
         if form.is_valid():
-            Film.objects.create(title=form.cleaned_data["title"], ageRatings=form.cleaned_data["ageRatings"],duration=form.cleaned_data['duration'], desc=form.cleaned_data['desc'])
+            screenNumber = form.cleaned_data["screenNo"]
+            screenCapacity = form.cleaned_data["capacity"]
+            Screen.objects.create(screenNo=screenNumber, capacity=screenCapacity)
+            print(Screen)
+
             return redirect("cmHome")
         else:
-            print(form.errors)
-            return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+            return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
     else:
-        return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
+        return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
+    
+def deleteScreen(request, pk):
+    if request.method == "POST":
+        screen = Screen.objects.get(pk=pk)
+        screen.delete()
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
+    
+def updateScreen(request, pk):
+    screen = Screen.objects.get(pk=pk)
+    form = addScreenForm(request.POST or None, instance=screen)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+
+def addShowing(request):
+    form = addShowingForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            showing = Showing.objects.create(
+                film=form.cleaned_data['film'],
+                screen=form.cleaned_data['screen'],
+                date=form.cleaned_data['date'],
+                time=form.cleaned_data['time'],
+                remainingSeats=form.cleaned_data['screen'].capacity
+            )
+            
+            return redirect('cmHome')
+        else:
+            return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
+    else:
+        return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
+    
+def deleteShowing(request, pk):
+    if request.method == "POST":
+        screen = Showing.objects.get(pk=pk)
+        screen.delete()
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')
+
+def updateShowing(request, pk):
+    showing = Showing.objects.get(pk=pk)
+    form = addShowingForm(request.POST or None, instance=showing)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+
 
     
 # CR VIEWS

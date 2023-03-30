@@ -106,7 +106,7 @@ def clubAccount(request):
         c_logged = False
         return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
 
-def blockBooking(request):
+def clubBooking(request):
     form = BookingDateForm(request.POST or None)
 
     if request.method == "POST":
@@ -128,7 +128,12 @@ def blockBooking(request):
         dated = False
         return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
 
+def confirmBooking(request, pk):
+    showing = Showing.objects.get(pk=pk)
+    return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing})
 
+def createBooking(request, pk):
+    return redirect('crHome')
 # TW VIEWS
 
 def cmHome(request):

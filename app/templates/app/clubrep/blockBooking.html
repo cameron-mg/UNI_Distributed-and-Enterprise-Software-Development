@@ -26,7 +26,7 @@ Club Booking
                   <td>{{ showing.time }}</td>
                   <td>{{ showing.remainingSeats}}</td>
                   <td>
-                    <a href="#" class="btn btn-success me-2" role="button" aria-pressed="true">Book</a>
+                    <a href="{% url 'confirmBooking' showing.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Book</a>
                   </td>
               </tr>
           {% endfor %}

@@ -45,11 +45,10 @@ class addShowingForm(forms.ModelForm):
     screen = forms.ModelChoiceField(queryset=Screen.objects.all(), widget=forms.Select(attrs={'class' : 'form-control'}))
     date = forms.DateField(widget=forms.DateInput(attrs={'class' : 'form-control', 'type' : 'date'}), input_formats=['%Y-%m-%d'])
     time = forms.TimeField(widget=forms.TimeInput(attrs={'class' : 'form-control', 'type' : 'time'}), input_formats=['%H:%M'])
-    remainingSeats = forms.IntegerField(widget=forms.NumberInput(attrs={'class' : 'form-control'}))
 
     class Meta:
         model = Showing
-        fields = ('film', 'screen', 'date', 'time', 'remainingSeats')
+        fields = ('film', 'screen', 'date', 'time')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

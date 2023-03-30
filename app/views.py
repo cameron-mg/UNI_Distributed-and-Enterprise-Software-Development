@@ -106,8 +106,12 @@ def addFilm(request):
 def deleteFilm(request, pk):
     if request.method == "POST":
         film = Film.objects.get(pk=pk)
-        film.delete()
-        return redirect('cmHome')
+        try:
+            showing = Showing.objects.filter(film=film).get()
+            return redirect('cmHome')
+        except:
+            film.delete()
+            return redirect('cmHome')
     else:
         return redirect('cmHome')
 
@@ -120,9 +124,9 @@ def updateFilm(request, pk):
             form.save()
             return redirect("cmHome")
         else:
-            return render(request, "app/cinemamanager/cmUpdateFilm.html", {"form" : form})
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
     else:
-        return render(request, "app/cinemamanager/cmUpdateFilm.html", {"form" : form})
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
 def registerClub(request):
     form = registerClubForm(request.POST or None)
@@ -161,6 +165,18 @@ def deleteScreen(request, pk):
         return redirect('cmHome')
     else:
         return redirect('cmHome')
+    
+def updateScreen(request, pk):
+    screen = Screen.objects.get(pk=pk)
+    form = addScreenForm(request.POST or None, instance=screen)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
 def addShowing(request):
     form = addShowingForm(request.POST or None)
@@ -171,7 +187,7 @@ def addShowing(request):
                 screen=form.cleaned_data['screen'],
                 date=form.cleaned_data['date'],
                 time=form.cleaned_data['time'],
-                remainingSeats=form.cleaned_data['remainingSeats']
+                remainingSeats=form.cleaned_data['screen'].capacity
             )
             
             return redirect('cmHome')
@@ -187,6 +203,18 @@ def deleteShowing(request, pk):
         return redirect('cmHome')
     else:
         return redirect('cmHome')
+
+def updateShowing(request, pk):
+    showing = Showing.objects.get(pk=pk)
+    form = addShowingForm(request.POST or None, instance=showing)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("cmHome")
+        else:
+            return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
 
     

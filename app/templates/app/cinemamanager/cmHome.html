@@ -72,7 +72,7 @@ Cinema Manager Home
                 <td>{{ screen.screenNo }}</td>
                 <td>{{ screen.capacity }}</td>
                 <td>
-                  <button type="button" class="btn btn-primary">Update</button>
+                  <a href="{% url 'updateScreen' screen.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
                 </td>
                 <td>
                   <form method="POST" action="{% url 'deleteScreen' screen.pk %}">
@@ -104,7 +104,7 @@ Cinema Manager Home
             <th>Screen Number</th>
             <th>Date</th>
             <th>Time</th>
-
+            <th>Remaining Capacity</th>
           </tr>
         </thead>
         <tbody>
@@ -114,8 +114,9 @@ Cinema Manager Home
                 <td>{{ showing.screen.screenNo }}</td>
                 <td>{{ showing.date }}</td>
                 <td>{{ showing.time }}</td>
+                <td>{{ showing.remainingSeats}}</td>
                 <td>
-                  <button type="button" class="btn btn-primary">Update</button>
+                  <a href="{% url 'updateShowing' showing.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
                 </td>
                 <td>
                     <form method="POST" action="{% url 'deleteShowing' showing.pk %}">

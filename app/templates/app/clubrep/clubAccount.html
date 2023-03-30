@@ -3,5 +3,78 @@
 Club Representative Home
 {% endblock %}
 {% block content %}
-Club Account Page
+    {% if c_logged %}
+    <br>
+    <h3 class=""border-bottom pb-3 mb-0> {{ club.name }}</h3>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h5 class="border-bottom pb-2 mb-0">Club Details</h5>
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <h6 class="border-bottom pb-2 mb-0">Address Details</h6>
+                <h6>Number: {{ club.address.number }}</h6>  
+                <h6>Street: {{ club.address.street }}</h6>  
+                <h6>City: {{ club.address.city }}</h6>   
+                <h6>Postcode: {{ club.address.postCode }}</h6>                
+            </div>
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <h6 class="border-bottom pb-2 mb-0">Contact Details</h6>  
+                <h6>Landline: {{ club.contact.landline }}</h6>  
+                <h6>Mobile: {{ club.contact.mobile }}</h6>  
+                <h6>Email: {{ club.contact.email }}</h6>   
+                <h6>Name: {{ club.contact.firstName }} {{ club.contact.surName }}</h6>  
+            </div>  
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <h6 class="border-bottom pb-2 mb-0">Payment Details</h6>
+                <h6>Card Number: {{ club.payment.cardNumber }}</h6>
+                <h6>Expiry Date: {{ club.payment.expiryDate }}</h6>
+            </div> 
+        </div>
+
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h5 class="border-bottom pb-2 mb-0">Payment Information</h5>
+            <br>
+            <h6>Discount Rate: {{ club.discount }}%</h6>
+            <h6>Current Balance {{ club.balance }}</h6>
+            <a href="{% url 'clubAccount' %}" class="btn btn-secondary me-2" role="button" aria-pressed="true">Settle Balance</a> 
+        </div>
+
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h5 class="border-bottom pb-2 mb-0">Transaction History</h5>
+            <p class="pb-3 mb-0 small lh-sm border-bottom">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Date Booked</th>
+                      <th>Created By</th>
+                      <th>Ticket Quantity</th>
+                      <th>Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for t in transactions %}
+                      <tr>
+                          <td>{{ t.datetime }}</td>
+                          <td>{{ t.madeby }}</td>
+                          <td>{{ t.quantity }}</td>
+                          <td>{{ t.cost }}</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </p>
+        </div>
+
+    {% else %}
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h5 class="border-bottom pb-2 mb-0">Please enter identification number.</h5>
+        <div>
+            <p style="color:brown;">{{error}}</p>
+            <form method="post" class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary mb-2">Enter</button>
+            </form>
+        </div>
+    </div>
+
+    {% endif %}
 {% endblock %}

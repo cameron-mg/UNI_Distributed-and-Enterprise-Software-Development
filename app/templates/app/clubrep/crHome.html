@@ -1,16 +1,23 @@
 {% extends "app/template.html" %}
 {% block title %}
-Club Representative Home
+Cinema Manager Home
 {% endblock %}
 {% block sideNav %}
-<div>
-    <ul>
-        <li><a href="{% url 'clubAccount' %}">Club Account</a></li>
-        <li>Representative Account</li>
-        <li>Make Block Booking</li>
-    </ul>
-</div>
+<a class="nav-link" href="{% url 'crHome' %}">Home</a>
+<a class="nav-link" href="{% url 'clubAccount' %}">Club Account</a>
+<a class="nav-link" href="{% url 'clubBooking' %}">Create Block Booking</a>
 {% endblock %}
 {% block content %}
-CR Content
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <p style="color:brown;">{{error}}</p>
+  <h4 class="border-bottom pb-2 mb-2">Club Rep Home</h4>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h5>Username: {{ clubrep.user.username }}</h5>                   
+      <h5 class="border-bottom pb-2 mb-2">Contact Details</h5>  
+      <h6>Landline: {{ clubrep.contact.landline }}</h6>  
+      <h6>Mobile: {{ clubrep.contact.mobile }}</h6>  
+      <h6>Email: {{ clubrep.contact.email }}</h6>   
+      <h6>Name: {{ clubrep.contact.firstName }} {{ clubrep.contact.surName }}</h6>  
+    </div>
+</div>
 {% endblock %}

@@ -1,12 +1,12 @@
-from django.shortcuts import render
+from app.models import *
+from app.forms import *
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
-from app.models import *
-from django.shortcuts import redirect
-from app import forms, models
-from .forms import *
-from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def home(request):
     return render(request, 'app/home.html')
@@ -32,7 +32,7 @@ def login_request(request):
                 if role == "CUSTOMER":
                     return render(request, "app/customer/cHome.html", {"username":username, "role":role, "logged":logged})
                 elif role == "CLUBREP":
-                    return render(request, "app/clubrep/crHome.html", {"username":username, "role":role, "logged":logged})
+                    return redirect("crHome")
                 elif role == "CINEMAMAN":
                     return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films, "screens" : screens, "showings": showings})
                 elif role == "ACCOUNTMAN":
@@ -45,7 +45,6 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="registration/login.html", context={"form":form})
-
 
 def register_request(request):
     form = UserRegistrationForm(request.POST or None)
@@ -71,13 +70,47 @@ def register_request(request):
         form = UserRegistrationForm()
         return render(request=request, template_name="registration/register.html", context={"form":form})
 
+
 # CMG VIEWS
 
+def crHome(request):
+    try:
+        clubrep = ClubRep.objects.filter(user=request.user).get()
+        error = ""
+        return render(request, "app/clubrep/crHome.html", {"clubrep":clubrep, "error":error})
+    except:
+        error = "ClubRep profile not found!"
+        return render(request, "app/clubrep/crHome.html", {"error":error})
+
 def clubAccount(request):
-    return render(request, "app/clubrep/clubAccount.html")
+    form = ClubAccountForm(request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+
+            clubid = form.cleaned_data["clubid"]
+            try:
+                club = Club.objects.filter(clubid=clubid).get()
+                transactions = Transaction.objects.all().filter(account=club)
+                c_logged = True
+                error = ""
+                return render(request, "app/clubrep/clubAccount.html", {"c_logged":c_logged, "error":error, "club":club, "transactions":transactions})
+            except:
+                c_logged = False
+                error = "Please enter a valid club identification number."
+                return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged, "error":error})
+        else:
+            c_logged = False
+            return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
+    else:
+        c_logged = False
+        return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
+
+def blockBooking(request):
+    return render(request, "app/clubrep/blockBooking.html")
+
 
 # TW VIEWS
-
 
 def cmHome(request):
     films = Film.objects.all()
@@ -129,13 +162,15 @@ def updateFilm(request, pk):
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
 def registerClub(request):
-    form = registerClubForm(request.POST or None)
+    form = RegisterClubForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            message = form.save(commit=False)
-            message.save()
+            address = Address.objects.create(number=form.cleaned_data["aNumber"], street=form.cleaned_data["aStreet"], city=form.cleaned_data["aCity"], postCode=form.cleaned_data["aPostCode"])
+            contact = Contact.objects.create(landline=form.cleaned_data["cLandline"], mobile=form.cleaned_data["cMobile"], email=form.cleaned_data["cEmail"], firstName=form.cleaned_data["cFirstName"], surName=form.cleaned_data["cSurName"])
+            payment = Payment.objects.create(cardNumber=form.cleaned_data["pCardNumber"], expiryDate=form.cleaned_data["pExpiryDate"])
+            Club.objects.create(clubid=form.cleaned_data["clubid"], name=form.cleaned_data["clubname"], address=address, contact=contact, payment=payment, discount=form.cleaned_data["discount"], balance=0)
 
-            return redirect("home")
+            return redirect("cmHome")
         else:
             return render(request, "app/cinemamanager/registerClub.html", {"form": form})
     else:

@@ -9,6 +9,9 @@ class UserRegistrationForm(forms.Form):
 class ClubAccountForm(forms.Form):
     clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=20, label="Club Identification Number")
 
+class BookingDateForm(forms.Form):
+    bookingDate = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type' : 'date'}), input_formats=['%Y-%m-%d'], label="Booking Date")
+
 class RegisterClubForm(forms.Form):
     clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=8, label="Club ID")
     clubname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=30, label="Club Name")
@@ -27,7 +30,6 @@ class RegisterClubForm(forms.Form):
 
     pCardNumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=19, label="Card Number")
     pExpiryDate = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Expiry Date (MM/YY)")
-
 
 class AddressForm(forms.ModelForm):
     class Meta:

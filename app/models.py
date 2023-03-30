@@ -68,9 +68,11 @@ class Showing(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
-    date = models.DateField() # ***CHECK***
-    time = models.TimeField() # ***CHECK***
+    date = models.DateField()
+    time = models.TimeField()
     remainingSeats = models.IntegerField()
+    price = models.IntegerField()
+
 
 # Account Manager
 class Employee(models.Model):
@@ -86,6 +88,7 @@ class Booking(models.Model):
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.IntegerField()
+
 
 # Club Representative
 class Club(models.Model):

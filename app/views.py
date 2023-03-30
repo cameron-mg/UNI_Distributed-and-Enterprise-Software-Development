@@ -107,7 +107,26 @@ def clubAccount(request):
         return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
 
 def blockBooking(request):
-    return render(request, "app/clubrep/blockBooking.html")
+    form = BookingDateForm(request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+
+            bookingDate = form.cleaned_data["bookingDate"]
+            try:
+                showings = Showing.objects.filter(date=bookingDate)
+                dated = True
+                return render(request, "app/clubrep/blockBooking.html", {"dated":dated, "showings":showings})
+            except:
+                showings = False
+                dated = False
+                return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
+        else:
+            dated = False
+            return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
+    else:
+        dated = False
+        return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
 
 
 # TW VIEWS

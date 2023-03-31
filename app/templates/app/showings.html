@@ -1,0 +1,16 @@
+{% extends "app/template.html" %}
+{% block title %}
+Showing page
+{% endblock %}
+{% block content %}
+<h1>Now Showing</h1>
+<div class="container-fluid">
+    {% for showing in showings %}
+        <tr>
+            <p>
+                <a href="{% url 'showDetails' showing.id %}" class="text-decoration-none"> {{ showing.film.title }} </a>
+            </p>
+        </tr>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -7,10 +7,34 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-
+#General views
 def home(request):
     return render(request, 'app/home.html')
 
+def films(request):
+    film = Film.objects.all()
+    return render(request, 'app/films.html', {"film":film})
+
+#Showing views
+def showings(request):
+    showings = Showing.objects.all()
+    return render(request, 'app/showings.html', {"showings":showings})
+
+def showDetails(request,showing_id):
+    showings = Showing.objects.get(pk=showing_id)
+    return render(request, 'app/showDetails.html', {"showings":showings})
+
+#Booking views
+
+
+#AboutUs & ContactUs views
+def aboutUs(request):
+    return render(request, 'app/aboutUs.html')
+
+def contactUs(request):
+    return render(request, 'app/contactUs.html')
+
+#Login/Register views
 def login_request(request):
     films = Film.objects.all()
     if request.method == "POST":
@@ -143,5 +167,6 @@ def addFilm(request):
 
     
 # CR VIEWS
+
 
 # JD VIEWS

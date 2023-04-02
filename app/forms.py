@@ -74,6 +74,7 @@ class registerClubForm(forms.ModelForm):
             'balance': forms.TextInput(attrs={'class': 'form-control'})
         }
 
+
 class registerClubRepForm(forms.ModelForm):
     class Meta:
         model = ClubRep

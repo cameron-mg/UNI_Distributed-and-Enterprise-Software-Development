@@ -118,6 +118,6 @@ class Transaction(models.Model):
 class BlockBooking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()
-    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
     cost = models.IntegerField()
     datetime = models.DateTimeField()

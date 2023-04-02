@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import datetime
 
 def home(request):
     return render(request, 'app/home.html')
@@ -140,8 +141,51 @@ def confirmBooking(request, pk):
         return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
 
 def saveClubBooking(request, pk, q):
-    print(pk, q)
-    return redirect('crHome')
+    showing = Showing.objects.get(pk=pk)
+    postConf = True
+    if showing.remainingSeats > q:
+        try:
+            user = request.user
+            rep = ClubRep.objects.filter(user=user).get()
+            club = rep.club
+            overallCost = showing.price*q
+            
+            newBlockBooking = BlockBooking.objects.create(
+                quantity = q,
+                club = club, 
+                cost = overallCost,
+                datetime = datetime.datetime.now()
+            )
+
+            newTransaction = Transaction.objects.create(
+                account = club,
+                madeby = user,
+                quantity = q,
+                cost = overallCost,
+                datetime = datetime.datetime.now()
+            )
+            
+            showing.remainingSeats = showing.remainingSeats - q
+            club.balance = club.balance + overallCost
+
+            newBlockBooking.save()
+            newTransaction.save()
+            showing.save()
+            club.save()
+
+            processed = True
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed})
+        
+        except:
+            processed = False
+            error = "Error: You are not registered to a club."
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
+    
+    else:
+        processed = False
+        error = "Insufficient seats to accomodate booking."
+        return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
+
 # TW VIEWS
 
 def cmHome(request):

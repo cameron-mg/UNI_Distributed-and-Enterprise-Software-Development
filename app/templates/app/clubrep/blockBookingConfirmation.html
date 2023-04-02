@@ -3,6 +3,17 @@
 Club Booking Confirmation
 {% endblock %}
 {% block content %}
+{% if postConf %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h4 class="border-bottom pb-2 mb-2">Booking</h4>
+{% if processed %}
+    <h6>The booking has been confirmed.</h6>
+    <a href="{% url 'crHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Return Home</a>
+{% else %}
+    <p style="color:brown;">{{error}}</p>
+    <a href="{% url 'clubBooking' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Select New</a>
+{% endif %}
+{% else %}
 <div class="my-3 p-3 bg-body rounded shadow-sm">
   <h4 class="border-bottom pb-2 mb-2">Confirm Booking</h4>
     <div class="my-3 p-3 bg-body rounded shadow-sm">                 
@@ -37,4 +48,5 @@ Club Booking Confirmation
         {% endif %}  
     </div>
 </div>
+{% endif %}
 {% endblock %}

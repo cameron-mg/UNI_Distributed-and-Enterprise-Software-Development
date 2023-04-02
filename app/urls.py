@@ -11,6 +11,7 @@ urlpatterns = [
     path("clubBooking/", views.blockBooking, name="clubBooking"),
     # TW URLS
     path("registerClub/", views.registerClub, name="registerClub"),
+    path("registerClubRep", views.registerClubRep, name="registerClubRep"),
     path("deleteClub/<int:pk>", views.deleteClub, name="deleteClub"),
     path("updateClub/<int:pk>", views.updateClub, name="updateClub"),
     path("cmAddFilm/", views.addFilm, name="cmAddFilm"),

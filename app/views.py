@@ -173,9 +173,28 @@ def registerClub(request):
 
             return redirect("cmHome")
         else:
-            return render(request, "app/cinemamanager/registerClub.html", {"form": form})
+            return render(request, "app/cinemamanager/cmRegisterClub.html", {"form": form})
     else:
-        return render(request, "app/cinemamanager/registerClub.html", {"form": form})
+        return render(request, "app/cinemamanager/cmRegisterClub.html", {"form": form})
+    
+
+def registerClubRep(request):
+    club = Club.objects.all()
+    user = User.objects.all()
+    form = registerClubRepForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            userName = form.cleaned_data['user']
+            RepsClub = form.cleaned_data['club']
+            ClubRep.objects.create(user=userName, club=RepsClub)
+            print(ClubRep)
+            return redirect('cmHome')
+        else:
+            return render(request, "app/cinemamanager/cmRegisterClubRep.html", {"form" : form})
+    else:
+        return render(request, "app/cinemamanager/cmRegisterClubRep.html", {"form" : form})
+
+            
     
 
 def deleteClub(request, pk):

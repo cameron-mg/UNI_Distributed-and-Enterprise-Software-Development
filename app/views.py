@@ -122,7 +122,7 @@ def clubBooking(request):
 
             bookingDate = form.cleaned_data["bookingDate"]
             try:
-                showings = Showing.objects.filter(date=bookingDate)
+                showings = Showing.objects.filter(date=bookingDate).order_by("time")
                 dated = True
                 return render(request, "app/clubrep/blockBooking.html", {"dated":dated, "showings":showings})
             except:

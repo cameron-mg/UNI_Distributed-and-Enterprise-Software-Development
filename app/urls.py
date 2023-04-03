@@ -15,6 +15,10 @@ urlpatterns = [
     path("cmHome/", views.cmHome, name="cmHome"),
     path("registerClub/", views.registerClub, name="registerClub"),
 
+    path("registerClubRep", views.registerClubRep, name="registerClubRep"),
+    path("updateClub/<int:pk>", views.updateClub, name="updateClub"),
+    path("deleteClub/<int:pk>", views.deleteClub, name="deleteClub"),
+
     path("cmAddFilm/", views.addFilm, name="cmAddFilm"),
     path("updateFilm/<int:pk>", views.updateFilm, name="updateFilm"),
     path("deleteFilm/<int:pk>/", views.deleteFilm, name="deleteFilm"),

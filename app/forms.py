@@ -66,20 +66,6 @@ class PaymentForm(forms.ModelForm):
             'expiryDate': forms.TextInput(attrs={'class': 'form-control'})
         }
 
-class registerClubForm(forms.ModelForm):
-    class Meta:
-        model = Club
-        fields = ("name", "address", "contact", "payment", "discount", "balance",)
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control'}),
-            'contact': forms.TextInput(attrs={'class': 'form-control'}),
-            'payment': forms.TextInput(attrs={'class': 'form-control'}),
-            'discount': forms.TextInput(attrs={'class': 'form-control'}),
-            'balance': forms.TextInput(attrs={'class': 'form-control'})
-        }
-
-
 class registerClubRepForm(forms.ModelForm):
     class Meta:
         model = ClubRep

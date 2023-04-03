@@ -1,0 +1,368 @@
+[
+  {
+    "model": "app.Film",
+    "pk": 1,
+    "fields": {
+      "title": "Black Adam",
+      "ageRatings": "PG",      
+      "duration": "135",
+      "desc": "Action Fantasy Science Fiction"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 2,
+    "fields": {
+      "title": "The Scorpion King",
+      "ageRatings": "12A",
+      "duration": "130",
+      "desc": "Action Drama History"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 3,
+    "fields": {
+      "title": "Shazam",
+      "ageRatings": "PG",
+      "duration": "120",
+      "desc": "Action Superhero DC"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 4,
+    "fields": {
+      "title": "The Pope's Exorcist",
+      "ageRatings": "18",
+      "duration": "133",
+      "desc": "Horror Thriller"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 5,
+    "fields": {
+      "title": "Dungeons and Dragons",
+      "ageRatings": "12A",
+      "duration": "111",
+      "desc": "Action Fantasy"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 6,
+    "fields": {
+      "title": "Avatar",
+      "ageRatings": "12A",
+      "duration": "132",
+      "desc": "Action Adventure Fantasy Science Fiction"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 7,
+    "fields": {
+      "title": "The Super Mario Bros. Movie",
+      "ageRatings": "PG",
+      "duration": "98",
+      "desc": "Action Animated"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 8,
+    "fields": {
+      "title": "Fall",
+      "ageRatings": "15",
+      "duration": "154",
+      "desc": "Thriller"
+    }
+  },
+  {
+    "model": "app.Film",
+    "pk": 9,
+    "fields": {
+      "title": "Guardians of the Galaxy Vol.3",
+      "ageRatings": "12",
+      "duration": "130",
+      "desc": "Marvel Action Sci-Fi"
+    }
+  },
+  {
+    "model": "app.Screen",
+    "pk": 1,
+    "fields": {
+      "screenNo":"1",
+      "capacity":"120"
+    }
+  },
+  {
+    "model": "app.Screen",
+    "pk": 2,
+    "fields": {
+      "screenNo":"2",
+      "capacity":"80"
+    }
+  },
+  {
+    "model": "app.Screen",
+    "pk": 3,
+    "fields": {
+      "screenNo":"3",
+      "capacity":"45"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 1,
+    "fields": {
+      "film": 1,
+      "screen": 1,
+      "date": "2023-04-24",
+      "time": "18:00:00",
+      "remainingSeats": "120",
+      "price": "8"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 2,
+    "fields": {
+      "film": 1,
+      "screen": 1,
+      "date": "2023-04-25",
+      "time": "19:00:00",
+      "remainingSeats": "120",
+      "price": "8"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 3,
+    "fields": {
+      "film": 1,
+      "screen": 1,
+      "date": "2023-04-26",
+      "time": "20:00:00",
+      "remainingSeats": "120",
+      "price": "8"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 4,
+    "fields": {
+      "film": 2,
+      "screen": 1,
+      "date": "2023-04-24",
+      "time": "14:00:00",
+      "remainingSeats": "120",
+      "price": "6.5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 5,
+    "fields": {
+      "film": 2,
+      "screen": 1,
+      "date": "2023-04-25",
+      "time": "16:00:00",
+      "remainingSeats": "120",
+      "price": "6.5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 6,
+    "fields": {
+      "film": 3,
+      "screen": 3,
+      "date": "2023-04-24",
+      "time": "14:00:00",
+      "remainingSeats": "80",
+      "price": "5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 7,
+    "fields": {
+      "film": 3,
+      "screen": 2,
+      "date": "2023-04-25",
+      "time": "14:00:00",
+      "remainingSeats": "80",
+      "price": "5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 8,
+    "fields": {
+      "film": 3,
+      "screen": 2,
+      "date": "2023-04-26",
+      "time": "14:00:00",
+      "remainingSeats": "80",
+      "price": "5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 9,
+    "fields": {
+      "film": 3,
+      "screen": 2,
+      "date": "2023-04-26",
+      "time": "21:00:00",
+      "remainingSeats": "80",
+      "price": "5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 10,
+    "fields": {
+      "film": 3,
+      "screen": 2,
+      "date": "2023-04-27",
+      "time": "14:00:00",
+      "remainingSeats": "80",
+      "price": "5"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 11,
+    "fields": {
+      "film": 4,
+      "screen": 2,
+      "date": "2023-04-24",
+      "time": "18:00:00",
+      "remainingSeats": "80",
+      "price": "7"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 12,
+    "fields": {
+      "film": 4,
+      "screen": 2,
+      "date": "2023-04-25",
+      "time": "18:00:00",
+      "remainingSeats": "80",
+      "price": "7"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 13,
+    "fields": {
+      "film": 4,
+      "screen": 2,
+      "date": "2023-04-26",
+      "time": "18:00:00",
+      "remainingSeats": "80",
+      "price": "7"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 14,
+    "fields": {
+      "film": 4,
+      "screen": 2,
+      "date": "2023-04-27",
+      "time": "18:00:00",
+      "remainingSeats": "80",
+      "price": "7"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 15,
+    "fields": {
+      "film": 5,
+      "screen": 3,
+      "date": "2023-04-24",
+      "time": "20:00:00",
+      "remainingSeats": "45",
+      "price": "10"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 16,
+    "fields": {
+      "film": 5,
+      "screen": 3,
+      "date": "2023-04-25",
+      "time": "20:00:00",
+      "remainingSeats": "45",
+      "price": "10"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 17,
+    "fields": {
+      "film": 5,
+      "screen": 3,
+      "date": "2023-04-26",
+      "time": "20:00:00",
+      "remainingSeats": "45",
+      "price": "10"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 18,
+    "fields": {
+      "film": 6,
+      "screen": 2,
+      "date": "2023-04-24",
+      "time": "14:00:00",
+      "remainingSeats": "45",
+      "price": "11"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 19,
+    "fields": {
+      "film": 7,
+      "screen": 3,
+      "date": "2023-04-24",
+      "time": "22:30:00",
+      "remainingSeats": "45",
+      "price": "12"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 20,
+    "fields": {
+      "film": 8,
+      "screen": 3,
+      "date": "2023-04-25",
+      "time": "22:30:00",
+      "remainingSeats": "45",
+      "price": "13"
+    }
+  },
+  {
+    "model": "app.Showing",
+    "pk": 21,
+    "fields": {
+      "film": 9,
+      "screen": 3,
+      "date": "2023-04-26",
+      "time": "22:30:00",
+      "remainingSeats": "45",
+      "price": "14"
+    }
+  }
+]

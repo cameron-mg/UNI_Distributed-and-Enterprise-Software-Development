@@ -71,7 +71,7 @@ class Showing(models.Model):
     date = models.DateField()
     time = models.TimeField()
     remainingSeats = models.IntegerField()
-    price = models.IntegerField()
+    price = models.FloatField()
 
 
 # Account Manager
@@ -87,7 +87,7 @@ class Booking(models.Model):
     tickettype = models.CharField(max_length=10)
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
-    cost = models.IntegerField()
+    cost = models.FloatField()
 
 
 # Club Representative
@@ -99,7 +99,7 @@ class Club(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     discount = models.IntegerField()
-    balance = models.IntegerField()
+    balance = models.FloatField()
 
 class ClubRep(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -112,12 +112,12 @@ class Transaction(models.Model):
     account = models.ForeignKey(Club, on_delete=models.CASCADE)
     madeby = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField()
-    cost = models.IntegerField()
+    cost = models.FloatField()
     datetime = models.DateTimeField()
 
 class BlockBooking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    cost = models.IntegerField()
+    cost = models.FloatField()
     datetime = models.DateTimeField()

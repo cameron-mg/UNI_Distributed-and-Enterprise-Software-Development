@@ -148,7 +148,8 @@ def saveClubBooking(request, pk, q):
             user = request.user
             rep = ClubRep.objects.filter(user=user).get()
             club = rep.club
-            overallCost = showing.price*q
+            afterDiscount = 100-club.discount
+            overallCost = ((showing.price*q)/100)*afterDiscount
             
             newBlockBooking = BlockBooking.objects.create(
                 quantity = q,

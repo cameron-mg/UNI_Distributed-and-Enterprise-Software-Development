@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+import datetime
 
 def home(request):
     return render(request, 'app/home.html')
@@ -107,9 +107,86 @@ def clubAccount(request):
         c_logged = False
         return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
 
-def blockBooking(request):
-    return render(request, "app/clubrep/blockBooking.html")
+def clubBooking(request):
+    form = BookingDateForm(request.POST or None)
+    dated = False
 
+    if request.method == "POST":
+        if form.is_valid():
+
+            bookingDate = form.cleaned_data["bookingDate"]
+            try:
+                showings = Showing.objects.filter(date=bookingDate)
+                dated = True
+                return render(request, "app/clubrep/blockBooking.html", {"dated":dated, "showings":showings})
+            except:
+                return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
+        else:
+            return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
+    else:
+        return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
+
+def confirmBooking(request, pk):
+    form = BlockBookingQuantity(request.POST or None)
+    showing = Showing.objects.get(pk=pk)
+    qPicked = False
+
+    if request.method == "POST":
+        if form.is_valid():
+            qPicked = True
+            q = form.cleaned_data["quantity"]
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked})
+        else:
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
+    else:
+        return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
+
+def saveClubBooking(request, pk, q):
+    showing = Showing.objects.get(pk=pk)
+    postConf = True
+    if showing.remainingSeats > q:
+        try:
+            user = request.user
+            rep = ClubRep.objects.filter(user=user).get()
+            club = rep.club
+            afterDiscount = 100-club.discount
+            overallCost = ((showing.price*q)/100)*afterDiscount
+            
+            newBlockBooking = BlockBooking.objects.create(
+                quantity = q,
+                club = club, 
+                cost = overallCost,
+                datetime = datetime.datetime.now()
+            )
+
+            newTransaction = Transaction.objects.create(
+                account = club,
+                madeby = user,
+                quantity = q,
+                cost = overallCost,
+                datetime = datetime.datetime.now()
+            )
+            
+            showing.remainingSeats = showing.remainingSeats - q
+            club.balance = club.balance + overallCost
+
+            newBlockBooking.save()
+            newTransaction.save()
+            showing.save()
+            club.save()
+
+            processed = True
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed})
+        
+        except:
+            processed = False
+            error = "Error: You are not registered to a club."
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
+    
+    else:
+        processed = False
+        error = "Insufficient seats to accomodate booking."
+        return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
 
 # TW VIEWS
 

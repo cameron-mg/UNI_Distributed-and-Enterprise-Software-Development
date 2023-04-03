@@ -1,0 +1,52 @@
+{% extends "app/clubrep/crHome.html" %}
+{% block title %}
+Club Booking Confirmation
+{% endblock %}
+{% block content %}
+{% if postConf %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h4 class="border-bottom pb-2 mb-2">Booking</h4>
+{% if processed %}
+    <h6>The booking has been confirmed.</h6>
+    <a href="{% url 'crHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Return Home</a>
+{% else %}
+    <p style="color:brown;">{{error}}</p>
+    <a href="{% url 'clubBooking' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Select New</a>
+{% endif %}
+{% else %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h4 class="border-bottom pb-2 mb-2">Confirm Booking</h4>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">                 
+      <h5 class="border-bottom pb-2 mb-2">Film Details</h5>  
+      <h6>Title: {{ showing.film.title }}</h6>  
+      <h6>Age Rating: {{ showing.film.ageRatings }}</h6>  
+      <h6>Duration: {{ showing.film.duration }}</h6>   
+      <h6>Description: {{ showing.film.desc }} {{ clubrep.contact.surName }}</h6>  
+    </div>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">                 
+        <h5 class="border-bottom pb-2 mb-2">Showing Details</h5>  
+        <h6>Date: {{ showing.date }}</h6>  
+        <h6>Time: {{ showing.time }}</h6>  
+        <h6>Screen: {{ showing.screen.screenNo }}</h6>   
+        <h6>Price per ticket: {{ showing.price }} {{ clubrep.contact.surName }}</h6>  
+    </div>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">                 
+        <h5 class="border-bottom pb-2 mb-2">Tickets</h5>
+        {% if qPicked %}
+        <p>Quantity Confirmed</p>
+        <a href="{% url 'clubBooking' %}" class="btn btn-danger me-2" role="button" aria-pressed="true">Decline</a>
+        <a href="{% url 'saveClubBooking' showing.pk q  %}" class="btn btn-success me-2" role="button" aria-pressed="true">Accept</a>
+        {% else %}
+        <div>
+          <p style="color:brown;">{{error}}</p>
+          <form method="post" class="form-group">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="btn btn-primary mb-2">Enter</button>
+          </form>
+        </div>
+        {% endif %}  
+    </div>
+</div>
+{% endif %}
+{% endblock %}

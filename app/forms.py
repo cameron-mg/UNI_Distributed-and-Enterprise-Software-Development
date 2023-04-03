@@ -54,7 +54,7 @@ class ContactForm(forms.ModelForm):
             'mobile': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'firstName': forms.TextInput(attrs={'class': 'form-control'}),
-            'surName': forms.TextInput(attrs={'class': 'form-control'})
+            'surName': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class PaymentForm(forms.ModelForm):
@@ -78,6 +78,25 @@ class registerClubForm(forms.ModelForm):
             'discount': forms.TextInput(attrs={'class': 'form-control'}),
             'balance': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+
+class registerClubRepForm(forms.ModelForm):
+    class Meta:
+        model = ClubRep
+        fields = ('user', 'club')
+        widgets ={
+            'user' : forms.Select(attrs={'class' : 'form-control'}),
+            'club' : forms.Select(attrs={'class' : 'form-control'})
+        }
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['club'].queryset= Club.objects.all()
+        self.fields['user'].querysdet= User.objects.all()
+        self.fields['club'].label_from_instance = lambda obj : obj.name
+        self.fields['user'].label_from_instance = lambda obj : obj.username
+    
 
 class addFilmForm(forms.ModelForm):
     class Meta:

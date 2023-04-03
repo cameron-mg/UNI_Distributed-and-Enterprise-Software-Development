@@ -28,12 +28,12 @@ Club Booking Confirmation
         <h6>Date: {{ showing.date }}</h6>  
         <h6>Time: {{ showing.time }}</h6>  
         <h6>Screen: {{ showing.screen.screenNo }}</h6>   
-        <h6>Price per ticket: {{ showing.price }} {{ clubrep.contact.surName }}</h6>  
+        <h6>Price per ticket: £{{ showing.price }} {{ clubrep.contact.surName }}</h6>  
     </div>
     <div class="my-3 p-3 bg-body rounded shadow-sm">                 
         <h5 class="border-bottom pb-2 mb-2">Tickets</h5>
         {% if qPicked %}
-        <p>Quantity Confirmed</p>
+        <p>Quantity confirmed at price of {{ cost }} for {{ q }} tickets.</p>
         <a href="{% url 'clubBooking' %}" class="btn btn-danger me-2" role="button" aria-pressed="true">Decline</a>
         <a href="{% url 'saveClubBooking' showing.pk q  %}" class="btn btn-success me-2" role="button" aria-pressed="true">Accept</a>
         {% else %}

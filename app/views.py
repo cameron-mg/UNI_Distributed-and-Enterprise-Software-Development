@@ -2,7 +2,7 @@ from app.models import *
 from app.forms import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -41,9 +41,12 @@ def login_request(request):
                 else:
                     return render(request, "app/home.html", {"username":username, "role":role, "logged":logged})
             else:
-                messages.error(request, "Invalid username or password.")
+                return render(request=request, template_name="registration/login.html", context={"form":form})
+
         else:
-            messages.error(request, "Invalid username or password.")
+            form = AuthenticationForm()
+            return render(request=request, template_name="registration/login.html", context={"form":form})
+
     form = AuthenticationForm()
     return render(request=request, template_name="registration/login.html", context={"form":form})
 
@@ -71,6 +74,9 @@ def register_request(request):
         form = UserRegistrationForm()
         return render(request=request, template_name="registration/register.html", context={"form":form})
 
+def logout_request(request):
+    logout(request)
+    return redirect("home")
 
 # CMG VIEWS
 
@@ -135,9 +141,29 @@ def confirmBooking(request, pk):
         if form.is_valid():
             qPicked = True
             q = form.cleaned_data["quantity"]
-            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked})
+            if q >= 10:    
+                if showing.remainingSeats > q:
+                    try:
+                        user = request.user
+                        rep = ClubRep.objects.filter(user=user).get()
+                        club = rep.club
+                        afterDiscount = 100-club.discount
+                        overallCost = ((showing.price*q)/100)*afterDiscount
+                        return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked, "cost":overallCost})
+                    except:
+                        postConf = True
+                        processed = False
+                        error = "Error: Club account not found."
+                        return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error}) 
+                else:
+                    error = "Insufficient seats to accomodate booking."
+                    return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
+            else:
+                error = "A minimum of 10 tickets must be selected."
+                return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
         else:
-            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
+            error = "Quantity selection invalid."
+            return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
     else:
         return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
 
@@ -227,7 +253,6 @@ def deleteFilm(request, pk):
     else:
         return redirect('cmHome')
 
-
 def updateFilm(request, pk):
     film = Film.objects.get(pk=pk)
     form = addFilmForm(request.POST or None, instance=film)
@@ -239,6 +264,7 @@ def updateFilm(request, pk):
             return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+
 
 def registerClub(request):
     form = RegisterClubForm(request.POST or None)
@@ -255,7 +281,6 @@ def registerClub(request):
     else:
         return render(request, "app/cinemamanager/cmRegisterClub.html", {"form": form})
     
-
 def registerClubRep(request):
     club = Club.objects.all()
     user = User.objects.all()
@@ -271,9 +296,6 @@ def registerClubRep(request):
             return render(request, "app/cinemamanager/cmRegisterClubRep.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmRegisterClubRep.html", {"form" : form})
-
-            
-    
 
 def deleteClub(request, pk):
     if request.method == "POST":
@@ -330,9 +352,6 @@ def updateClub(request,pk):
     return render(request, "app/cinemamanager/cmUpdateDetails.html", {'form':form})
 
 
-
-
-
 def addScreen(request):
     form = addScreenForm(request.POST or None)
     
@@ -373,6 +392,7 @@ def updateScreen(request, pk):
             return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
+
 
 def addShowing(request):
     form = addShowingForm(request.POST or None)

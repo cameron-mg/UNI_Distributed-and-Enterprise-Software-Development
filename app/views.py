@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import datetime
 
+# Home and Main VIEWS
+
 def home(request):
     return render(request, 'app/home.html')
 
@@ -15,26 +17,15 @@ def films(request):
     film = Film.objects.all()
     return render(request, 'app/films.html', {"film":film})
 
-#Showing views
-def showings(request):
-    showings = Showing.objects.all()
-    return render(request, 'app/showings.html', {"showings":showings})
-
-def showDetails(request,showing_id):
-    showings = Showing.objects.get(pk=showing_id)
-    return render(request, 'app/showDetails.html', {"showings":showings})
-
-#Booking views
-
-
-#AboutUs & ContactUs views
 def aboutUs(request):
     return render(request, 'app/aboutUs.html')
 
 def contactUs(request):
     return render(request, 'app/contactUs.html')
 
+
 #Login/Register views
+
 def login_request(request):
     films = Film.objects.all()
     showings = Showing.objects.all()
@@ -102,7 +93,21 @@ def logout_request(request):
     logout(request)
     return redirect("home")
 
-# CMG VIEWS
+
+# Customer VIEWS
+def cHome(request):
+    return render(request, "app/customer/cHome.html")
+
+def showings(request):
+    showings = Showing.objects.all()
+    return render(request, 'app/customer/showings.html', {"showings":showings})
+
+def showDetails(request,showing_id):
+    showings = Showing.objects.get(pk=showing_id)
+    return render(request, 'app/customer/showDetails.html', {"showings":showings})
+
+
+# Club Rep VIEWS
 
 def crHome(request):
     try:
@@ -238,7 +243,8 @@ def saveClubBooking(request, pk, q):
         error = "Insufficient seats to accomodate booking."
         return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
 
-# TW VIEWS
+
+# Cinema Manager VIEWS
 
 def cmHome(request):
     films = Film.objects.all()
@@ -455,10 +461,6 @@ def updateShowing(request, pk):
             return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
-
-
-    
-# CR VIEWS
 
 
 # JD VIEWS

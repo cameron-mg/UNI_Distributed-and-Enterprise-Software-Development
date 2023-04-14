@@ -1,0 +1,22 @@
+{% extends "app/template.html" %}
+{% block title %}
+Films page 
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid mt-5">
+    <div class="row gy-5">
+        {% for film in film %}
+            <div class="col">
+                <div class="card img-fluid" style="width: 250px;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-footer">
+                        <h5><td> {{ film.title }} </td></h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

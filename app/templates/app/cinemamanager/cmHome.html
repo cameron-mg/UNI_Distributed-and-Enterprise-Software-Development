@@ -5,51 +5,134 @@ Cinema Manager Home
 {% block sideNav %}
 <a class="nav-link" href="{% url 'cmHome' %}">Home</a>
 <a class="nav-link" href="{% url 'cmAddFilm' %}">Add a Film</a>
-<a class="nav-link" href="#">Add Screen</a>
+<a class="nav-link" href="{% url 'cmAddScreen' %}">Add Screen</a>
+<a class="nav-link" href="{% url 'cmAddShowing' %}">Add Showing</a>
 <a class="nav-link" href="{% url 'registerClub' %}">Register Club</a>
-<a class="nav-link" href="#">Register Club Representative</a>
+<a class="nav-link" href="{% url 'registerClubRep' %}">Register Club Representative</a>
 {% endblock %}
 {% block content %}
 <div class="my-3 p-3 bg-body rounded shadow-sm">
   <h6 class="border-bottom pb-2 mb-0">Films</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Age Rating</th>
-          <th>Duration (Minutes)</th>
-          <th>Trailer Description</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for film in films %}
+    {% if films %}
+      <table class="table">
+        <thead>
           <tr>
-              <td>{{ film.title }}</td>
-              <td>{{ film.ageRatings }}</td>
-              <td>{{ film.duration }}</td>
-              <td>{{ film.desc }}</td>
-              <td>
-                <button type="button" class="btn btn-primary">Update</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-danger">Delete</button>
-              </td>
+            <th>Title</th>
+            <th>Age Rating</th>
+            <th>Duration (Minutes)</th>
+            <th>Trailer Description</th>
           </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.title }}</td>
+                <td>{{ film.ageRatings }}</td>
+                <td>{{ film.duration }}</td>
+                <td>{{ film.desc }}</td>
+                <td>
+                  <a href="{% url 'updateFilm' film.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'deleteFilm' film.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No films available please add a film.</p>
     </p>
+    {% endif %}
+  </div>
+</div>
+
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0">Screens</h6>
+  <div class="d-flex text-muted pt-3">
+    <p class="pb-3 mb-0 small lh-sm border-bottom">
+      {% if screens %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Screen Number</th>
+            <th>Screen Capacity</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        {% for screen in screens %}
+            <tr>
+                <td>{{ screen.screenNo }}</td>
+                <td>{{ screen.capacity }}</td>
+                <td>
+                  <a href="{% url 'updateScreen' screen.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
+                </td>
+                <td>
+                  <form method="POST" action="{% url 'deleteScreen' screen.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No Screens available please add a screen.</p>
+    </p>
+    </p>
+    {% endif %}
   </div>
 </div>
 
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">Screenings</h6>
+  <h6 class="border-bottom pb-2 mb-0">Showings</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-      No Screenings Available
+      {% if showings %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Film</th>
+            <th>Screen Number</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Remaining Capacity</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for showing in showings %}
+            <tr>
+                <td>{{ showing.film.title }}</td>
+                <td>{{ showing.screen.screenNo }}</td>
+                <td>{{ showing.date }}</td>
+                <td>{{ showing.time }}</td>
+                <td>{{ showing.remainingSeats}}</td>
+                <td>
+                  <a href="{% url 'updateShowing' showing.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'deleteShowing' showing.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No showings available please add a showing.</p>
     </p>
+    </p>
+    {% endif %}
   </div>
 </div>
 
@@ -57,8 +140,45 @@ Cinema Manager Home
   <h6 class="border-bottom pb-2 mb-0">Clubs</h6>
   <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
-      No Clubs Available
+      {% if clubs %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ClubID</th>
+            <th>Club Name</th>
+            <th>Discount</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for club in clubs %}
+            <tr>
+                <td>{{ club.clubid }}</td>
+                <td>{{ club.name }}</td>
+                <td>{{ club.discount}}</td>
+                <td>{{ club.balance }}</td>
+                <td>
+                  <a href="#" class="btn btn-success me-2" role="button" aria-pressed="true">View Club</a>
+                </td>
+                <td>
+                  <a href="{% url 'updateClub' club.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Update</a>
+                </td> 
+                <td>
+                  <form method="POST" action="{% url 'deleteClub' club.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No clubs available please add a showing.</p>
+    </p>     
     </p>
+    {% endif %}
   </div>
 </div>
+
 {% endblock %}

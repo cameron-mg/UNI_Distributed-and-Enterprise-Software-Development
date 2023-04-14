@@ -9,6 +9,12 @@ class UserRegistrationForm(forms.Form):
 class ClubAccountForm(forms.Form):
     clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=20, label="Club Identification Number")
 
+class BookingDateForm(forms.Form):
+    bookingDate = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type' : 'date'}), input_formats=['%Y-%m-%d'], label="Booking Date")
+
+class BlockBookingQuantity(forms.Form):
+    quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Quantity")
+
 class RegisterClubForm(forms.Form):
     clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=8, label="Club ID")
     clubname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=30, label="Club Name")
@@ -27,7 +33,6 @@ class RegisterClubForm(forms.Form):
 
     pCardNumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=19, label="Card Number")
     pExpiryDate = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Expiry Date (MM/YY)")
-
 
 class AddressForm(forms.ModelForm):
     class Meta:
@@ -49,7 +54,7 @@ class ContactForm(forms.ModelForm):
             'mobile': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'firstName': forms.TextInput(attrs={'class': 'form-control'}),
-            'surName': forms.TextInput(attrs={'class': 'form-control'})
+            'surName': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class PaymentForm(forms.ModelForm):
@@ -61,18 +66,23 @@ class PaymentForm(forms.ModelForm):
             'expiryDate': forms.TextInput(attrs={'class': 'form-control'})
         }
 
-class registerClubForm(forms.ModelForm):
+class registerClubRepForm(forms.ModelForm):
     class Meta:
-        model = Club
-        fields = ("name", "address", "contact", "payment", "discount", "balance",)
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control'}),
-            'contact': forms.TextInput(attrs={'class': 'form-control'}),
-            'payment': forms.TextInput(attrs={'class': 'form-control'}),
-            'discount': forms.TextInput(attrs={'class': 'form-control'}),
-            'balance': forms.TextInput(attrs={'class': 'form-control'})
+        model = ClubRep
+        fields = ('user', 'club')
+        widgets ={
+            'user' : forms.Select(attrs={'class' : 'form-control'}),
+            'club' : forms.Select(attrs={'class' : 'form-control'})
         }
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['club'].queryset= Club.objects.all()
+        self.fields['user'].querysdet= User.objects.all()
+        self.fields['club'].label_from_instance = lambda obj : obj.name
+        self.fields['user'].label_from_instance = lambda obj : obj.username
+    
 
 class addFilmForm(forms.ModelForm):
     class Meta:
@@ -84,3 +94,31 @@ class addFilmForm(forms.ModelForm):
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
             'desc': forms.Textarea(attrs={'class': 'form-control'})
         }
+
+class addScreenForm(forms.ModelForm):
+    class Meta:
+        model = Screen
+        fields = ("screenNo", "capacity")
+        widgets = {
+            'screenNo' : forms.NumberInput(attrs={'class' : 'form-control'}),
+            'capacity' : forms.NumberInput(attrs={'class' : 'form-control'})
+        }
+
+class addShowingForm(forms.ModelForm):
+    film = forms.ModelChoiceField(queryset=Film.objects.all(), widget=forms.Select(attrs={'class' : 'form-control'}))
+    screen = forms.ModelChoiceField(queryset=Screen.objects.all(), widget=forms.Select(attrs={'class' : 'form-control'}))
+    date = forms.DateField(widget=forms.DateInput(attrs={'class' : 'form-control', 'type' : 'date'}), input_formats=['%Y-%m-%d'])
+    time = forms.TimeField(widget=forms.TimeInput(attrs={'class' : 'form-control', 'type' : 'time'}), input_formats=['%H:%M'])
+
+    class Meta:
+        model = Showing
+        fields = ('film', 'screen', 'date', 'time')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['film'].queryset = Film.objects.all()
+        self.fields['screen'].queryset = Screen.objects.all()
+        self.fields['film'].label_from_instance = lambda obj: obj.title
+        self.fields['screen'].label_from_instance = lambda obj: obj.screenNo
+
+    

@@ -106,6 +106,78 @@ def showDetails(request,showing_id):
     showings = Showing.objects.get(pk=showing_id)
     return render(request, 'app/customer/showDetails.html', {"showings":showings})
 
+def customerBooking(request):
+    form = CustomerBookingForm(request.POST or None)
+    dated = False
+
+    if request.method == "POST":
+        if form.is_valid():
+            
+            customerBookingDate = form.cleaned_data["customerBookingDate"]
+            try:
+                showings = Showing.objects.filter(date=customerBookingDate).order_by("time")
+                dated = True
+                return render(request, "app/customer/customerBooking.html", {"dated":dated, "showings":showings})
+            except:
+                return render(request, "app/customer/customerBooking.html", {"form": form, "dated":dated})
+        else:
+            return render(request, "app/customer/customerBooking.html", {"form": form, "dated":dated})
+    else:
+        return render(request, "app/customer/customerBooking.html", {"form": form, "dated":dated}) 
+
+def customerConfirmBooking(request, pk):
+    form = CustomerBookingQuantity(request.POST or None)
+    showing = Showing.objects.get(pk=pk)
+    qPicked = False
+
+    if request.method == "POST":
+        if form.is_valid():
+            qPicked = True
+            q = form.cleaned_data["quantity"]
+            if q >= 1:
+                if showing.remainingSeats > q:
+                    try:
+                        user = request.user
+                        overallCost = (showing.price*q)
+                        return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked, "cost":overallCost})
+                    except:
+                        postConf = True
+                        processed = False
+                        error = ""
+                        return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed, "error":error})
+                else:
+                    error = "Insufficient seats to accomodate booking."
+                    return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
+            else:
+                error = "A minimum of 1 ticket must be selected."
+                return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
+        else:
+            error = "Quantity selction invalid."
+            return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
+    else:
+        return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form})
+
+def customerSaveBooking(request, pk, q):
+    showing = Showing.objects.get(pk=pk)
+    postConf = True
+    if showing.remainingSeats > q:
+        try:
+            user = request.user
+            overallCost = (showing.price*q)
+
+            showing.remainingSeats = showing.remainingSeats - q
+
+            processed = True
+            return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed})
+        
+        except:
+            pass
+
+    else:
+        processed = False
+        error = "Insufficient seats to accomodate booking."
+        return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed, "error":error})
+
 
 # Club Rep VIEWS
 

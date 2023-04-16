@@ -88,6 +88,8 @@ class Booking(models.Model):
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.FloatField()
+    quantity = models.IntegerField()
+    datetime = models.DateTimeField()
 
 
 # Club Representative

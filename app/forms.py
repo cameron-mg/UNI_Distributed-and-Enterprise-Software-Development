@@ -125,7 +125,7 @@ class CustomerBookingDateForm(forms.Form):
     customerBookingDate = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), input_formats=['%Y-%m-%d'], label="Booking Date")
 
 class CustomerBookingQuantity(forms.Form):
-    pass
+    customerQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Quantity")
 
 class customerTicketTypeForm(forms.Form):
     tickettype = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=10, label="Tycket Type")

@@ -107,7 +107,7 @@ def showDetails(request,showing_id):
     return render(request, 'app/customer/showDetails.html', {"showings":showings})
 
 def customerBooking(request):
-    form = CustomerBookingForm(request.POST or None)
+    form = CustomerBookingDateForm(request.POST or None)
     dated = False
 
     if request.method == "POST":

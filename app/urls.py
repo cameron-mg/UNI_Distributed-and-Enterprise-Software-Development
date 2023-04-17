@@ -21,7 +21,8 @@ urlpatterns = [
     
     
     # Student URLS
-    path("sHome/", views.sHome, name="sHome"),
+    path("s/", views.sHome, name="sHome"),
+    path("s/joinRequest/<int:pk>", views.joinRequest, name="joinRequest"),
 
 
     # Club Rep URLS

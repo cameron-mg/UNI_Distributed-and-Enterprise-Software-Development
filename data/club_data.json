@@ -1,0 +1,129 @@
+[
+    {
+      "model": "app.Address",
+      "pk": 1,
+      "fields": {
+        "number": "1",
+        "street": "Church Road",      
+        "city": "Bristol",
+        "postCode": "BS16"
+      }
+    },
+    {
+      "model": "app.Contact",
+      "pk": 1,
+      "fields": {
+        "landline": "01234 567890",
+        "mobile": "07777 111222",      
+        "email": "johnsmith@uwe.ac.uk",
+        "firstName": "John",
+        "surName": "Smith"
+      }
+    },
+    {
+      "model": "app.Payment",
+      "pk": 1,
+      "fields": {
+        "cardNumber": "1212 2323 3434 4444",
+        "expiryDate": "02/26"
+      }
+    },
+    {
+      "model": "app.Club",
+      "pk": 1,
+      "fields": {
+        "clubid": "1111",
+        "name": "Chess Club",
+        "address": 1,
+        "contact": 1,
+        "payment": 1,
+        "discount": "10",
+        "balance": "0.0"
+      }
+    },
+    {
+      "model": "app.Address",
+      "pk": 2,
+      "fields": {
+        "number": "42",
+        "street": "Station Road",      
+        "city": "Bristol",
+        "postCode": "BS15"
+      }
+    },
+    {
+      "model": "app.Contact",
+      "pk": 2,
+      "fields": {
+        "landline": "01234 567890",
+        "mobile": "07777 111222",      
+        "email": "johnsmith@uwe.ac.uk",
+        "firstName": "John",
+        "surName": "Smith"
+      }
+    },
+    {
+      "model": "app.Payment",
+      "pk": 2,
+      "fields": {
+        "cardNumber": "2222 3333 4444 5454",
+        "expiryDate": "02/28"
+      }
+    },
+    {
+      "model": "app.Club",
+      "pk": 2,
+      "fields": {
+        "clubid": "2222",
+        "name": "Coding Club",
+        "address": 2,
+        "contact": 2,
+        "payment": 2,
+        "discount": "15",
+        "balance": "0.0"
+      }
+    },
+    {
+      "model": "app.Address",
+      "pk": 3,
+      "fields": {
+        "number": "10",
+        "street": "Coldharbour Lane",      
+        "city": "Bristol",
+        "postCode": "BS16"
+      }
+    },
+    {
+      "model": "app.Contact",
+      "pk": 3,
+      "fields": {
+        "landline": "01234 567890",
+        "mobile": "07777 111222",      
+        "email": "johnsmith@uwe.ac.uk",
+        "firstName": "John",
+        "surName": "Smith"
+      }
+    },
+    {
+      "model": "app.Payment",
+      "pk": 3,
+      "fields": {
+        "cardNumber": "6312 8383 2345 1234",
+        "expiryDate": "02/26"
+      }
+    },
+    {
+      "model": "app.Club",
+      "pk": 3,
+      "fields": {
+        "clubid": "3333",
+        "name": "Art Club",
+        "address": 3,
+        "contact": 3,
+        "payment": 3,
+        "discount": "15",
+        "balance": "0.0"
+      }
+    }
+  ]
+  

@@ -133,6 +133,9 @@ def sHome(request):
         clubs = Club.objects.all()
         return render(request, "app/student/sHome.html", {"clubs":clubs})
 
+def joinRequest(request, pk):
+    return render(request, "app/student/joinRequest.html", {"pk":pk})
+
 
 # Club Rep VIEWS
 @login_required

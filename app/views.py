@@ -133,7 +133,7 @@ def customerConfirmBooking(request, pk):
     if request.method == "POST":
         if form.is_valid():
             qPicked = True
-            q = form.cleaned_data["quantity"]
+            q = form.cleaned_data["customerQuantity"]
             if q >= 1:
                 if showing.remainingSeats > q:
                     try:

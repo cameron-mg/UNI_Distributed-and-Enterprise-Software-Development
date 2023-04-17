@@ -7,41 +7,56 @@ urlpatterns = [
     path("films/", views.films, name="films"),
     path("aboutUs/", views.aboutUs, name="aboutUs"),
     path("contactus/", views.contactUs, name="contactUs"),
-
+    path("roleHomeLink/", views.roleHomeLink, name="roleHomeLink"),
     # Login/Register URLS
     path("login/", views.login_request, name="login"),
     path("logout/", views.logout_request, name="logout"),
     path("register/", views.register_request, name="register"),
 
+
     # Customer URLS
     path("cHome/", views.cHome, name="cHome"),
     path("showings/", views.showings, name="showings"),
-    path("showDetails/<showing_id>", views.showDetails, name="showDetails"),
+    path("showDetails/<showing_id>/", views.showDetails, name="showDetails"),
+    
+    
+    # Student URLS
+    path("sHome/", views.sHome, name="sHome"),
+
 
     # Club Rep URLS
-    path("crHome/", views.crHome, name="crHome"),
-    path("clubAccount/", views.clubAccount, name="clubAccount"),
-    path("clubBooking/", views.clubBooking, name="clubBooking"),
-    path("clubBooking/confirmation/<int:pk>", views.confirmBooking, name="confirmBooking"),
-    path("clubBooking/confirmation/<int:pk>/<int:q>", views.saveClubBooking, name="saveClubBooking"),
+    path("cr/home/", views.crHome, name="crHome"),
+    path("cr/clubAccount/", views.clubAccount, name="clubAccount"),
+    path("cr/clubBooking/", views.clubBooking, name="clubBooking"),
+    path("cr/clubBooking/confirmation/<int:pk>/", views.confirmBooking, name="confirmBooking"),
+    path("cr/clubBooking/confirmation/<int:pk>/<int:q>", views.saveClubBooking, name="saveClubBooking"),
+    path("cr/pending/", views.crPending, name="crPending"),
+
 
     # Cinema Manager URLS
-    path("cmHome/", views.cmHome, name="cmHome"),
-    path("registerClub/", views.registerClub, name="registerClub"),
+    path("cm/home/", views.cmHome, name="cmHome"),
+    path("cm/registerClub/", views.registerClub, name="registerClub"),
 
-    path("registerClubRep", views.registerClubRep, name="registerClubRep"),
-    path("updateClub/<int:pk>", views.updateClub, name="updateClub"),
-    path("deleteClub/<int:pk>", views.deleteClub, name="deleteClub"),
+    path("cm/registerClubRep", views.registerClubRep, name="registerClubRep"),
+    path("cm/updateClub/<int:pk>/", views.updateClub, name="updateClub"),
+    path("cm/deleteClub/<int:pk>/", views.deleteClub, name="deleteClub"),
 
-    path("cmAddFilm/", views.addFilm, name="cmAddFilm"),
-    path("updateFilm/<int:pk>", views.updateFilm, name="updateFilm"),
-    path("deleteFilm/<int:pk>/", views.deleteFilm, name="deleteFilm"),
+    path("cm/AddFilm/", views.addFilm, name="cmAddFilm"),
+    path("cm/updateFilm/<int:pk>/", views.updateFilm, name="updateFilm"),
+    path("cm/deleteFilm/<int:pk>/", views.deleteFilm, name="deleteFilm"),
 
-    path("cmAddScreen/", views.addScreen, name="cmAddScreen" ),
-    path("updateScreen/<int:pk>,", views.updateScreen, name="updateScreen"),
-    path("deleteScreen/<int:pk>", views.deleteScreen, name="deleteScreen"),
+    path("cm/AddScreen/", views.addScreen, name="cmAddScreen" ),
+    path("cm/updateScreen/<int:pk>/,", views.updateScreen, name="updateScreen"),
+    path("cm/deleteScreen/<int:pk>/", views.deleteScreen, name="deleteScreen"),
 
-    path("cmAddShowing", views.addShowing, name="cmAddShowing"),
-    path("updateShowing/<int:pk>/", views.updateShowing, name="updateShowing"),
-    path("deleteShowing/<int:pk>/", views.deleteShowing, name="deleteShowing"),
+    path("cm/AddShowing", views.addShowing, name="cmAddShowing"),
+    path("cm/updateShowing/<int:pk>/", views.updateShowing, name="updateShowing"),
+    path("cm/deleteShowing/<int:pk>/", views.deleteShowing, name="deleteShowing"),
+
+    path("cm/pending/", views.cmPending, name="cmPending"),
+
+
+
+    # Account Manager URLS
+    path("am/", views.amHome, name="amHome")
 ]

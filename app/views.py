@@ -4,9 +4,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 import datetime
+
+# Role check
+def user_role_check(user):
+    pass
 
 # Home and Main VIEWS
 
@@ -23,7 +27,15 @@ def aboutUs(request):
 def contactUs(request):
     return render(request, 'app/contactUs.html')
 
-
+def roleHomeLink(request):
+    role = request.user.role
+    if role == "CLUBREP":
+        return redirect("crHome")
+    elif role == "CINEMAMAN":
+        return redirect("cmHome")
+    elif role == "ACCOUNTMAN":
+        return redirect("amHome")
+    
 #Login/Register views
 
 def login_request(request):
@@ -45,16 +57,17 @@ def login_request(request):
                 role = user.get_role()
                 logged = True
                 login(request, user)
-                if role == "CUSTOMER":
-                    return render(request, "app/customer/cHome.html", {"username":username, "role":role, "logged":logged})
+                if role == "STUDENT":
+                    return redirect("home")
                 elif role == "CLUBREP":
                     return redirect("crHome")
                 elif role == "CINEMAMAN":
-                    return render(request, "app/cinemamanager/cmHome.html", {"username":username, "role":role, "logged":logged, "films":films, "screens" : screens, "showings": showings, "clubs" : clubs})
+                    return redirect("cmHome")
                 elif role == "ACCOUNTMAN":
-                    return render(request, "app/accountmanager/amHome.html", {"username":username, "role":role, "logged":logged})
+                    return redirect("amHome")
                 else:
-                    return render(request, "app/home.html", {"username":username, "role":role, "logged":logged})
+                    error = "Error no role allocated!"
+                    return render(request, "app/login.html", context={"form":form, "error":error})
             else:
                 return render(request=request, template_name="registration/login.html", context={"form":form})
 
@@ -80,7 +93,7 @@ def register_request(request):
             if User.objects.filter(username=form.cleaned_data["username"]).exists():
                 return render(request, "registration/register.html", {"error": "Username already in use!", "form":form})
 
-            User.objects.create_user(username=form.cleaned_data["username"], password=password1, role=User.Role.CUSTOMER)
+            User.objects.create_user(username=form.cleaned_data["username"], password=password1, role=User.Role.STUDENT)
             return redirect("login")
         else:
             return render(request, "registration/register.html", {"form":form})
@@ -89,12 +102,14 @@ def register_request(request):
         form = UserRegistrationForm()
         return render(request=request, template_name="registration/register.html", context={"form":form})
 
+@login_required
 def logout_request(request):
     logout(request)
     return redirect("home")
 
 
 # Customer VIEWS
+@login_required
 def cHome(request):
     return render(request, "app/customer/cHome.html")
 
@@ -107,8 +122,20 @@ def showDetails(request,showing_id):
     return render(request, 'app/customer/showDetails.html', {"showings":showings})
 
 
-# Club Rep VIEWS
+# Student VIEWS
+@login_required
+def sHome(request):
+    try:
+        student = Student.objects.filter(user=request.user).get()
+        print(student)
+        return render(request, "app/student/sHome.html", {"student":student})
+    except:
+        clubs = Club.objects.all()
+        return render(request, "app/student/sHome.html", {"clubs":clubs})
 
+
+# Club Rep VIEWS
+@login_required
 def crHome(request):
     try:
         clubrep = ClubRep.objects.filter(user=request.user).get()
@@ -243,9 +270,11 @@ def saveClubBooking(request, pk, q):
         error = "Insufficient seats to accomodate booking."
         return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
 
+def crPending(request):
+    pass
 
 # Cinema Manager VIEWS
-
+@login_required
 def cmHome(request):
     films = Film.objects.all()
     screens = Screen.objects.all()
@@ -462,5 +491,11 @@ def updateShowing(request, pk):
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
+def cmPending(request):
+    pass
 
-# JD VIEWS
+
+# Account Manager VIEWS
+@login_required
+def amHome(request):
+    pass

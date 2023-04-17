@@ -127,6 +127,7 @@ def customerBooking(request):
 
 def customerConfirmBooking(request, pk):
     form = CustomerBookingQuantity(request.POST or None)
+    form = CustomerTicketType(request.POST or None )
     showing = Showing.objects.get(pk=pk)
     qPicked = False
 
@@ -163,15 +164,27 @@ def customerSaveBooking(request, pk, q):
     if showing.remainingSeats > q:
         try:
             user = request.user
+
             overallCost = (showing.price*q)
 
+            newCustomerBooking = Booking.objects.create(
+                quantity = q,
+                cost = overallCost,
+                datetime = datetime.datetime.now()
+            )
+
             showing.remainingSeats = showing.remainingSeats - q
+
+            newCustomerBooking.save()
+            showing.save()
 
             processed = True
             return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed})
         
         except:
-            pass
+            processed = False
+            error = ""
+            return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed, "error":error})
 
     else:
         processed = False

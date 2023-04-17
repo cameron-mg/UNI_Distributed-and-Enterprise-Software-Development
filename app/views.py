@@ -127,7 +127,6 @@ def customerBooking(request):
 
 def customerConfirmBooking(request, pk):
     form = CustomerBookingQuantity(request.POST or None)
-    form = CustomerTicketType(request.POST or None )
     showing = Showing.objects.get(pk=pk)
     qPicked = False
 
@@ -139,6 +138,8 @@ def customerConfirmBooking(request, pk):
                 if showing.remainingSeats > q:
                     try:
                         user = request.user
+                        role = User.objects.filter(user=user).get()
+
                         overallCost = (showing.price*q)
                         return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked, "cost":overallCost})
                     except:
@@ -157,6 +158,7 @@ def customerConfirmBooking(request, pk):
             return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form, "error":error})
     else:
         return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form})
+
 
 def customerSaveBooking(request, pk, q):
     showing = Showing.objects.get(pk=pk)

@@ -1,5 +1,7 @@
 from django import forms
 from app.models import *
+from PIL import Image
+from django.utils.html import format_html
 
 class UserRegistrationForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
@@ -85,15 +87,21 @@ class registerClubRepForm(forms.ModelForm):
     
 
 class addFilmForm(forms.ModelForm):
+
+
+    filmImage = forms.ImageField(required=False, widget=forms.FileInput)
+
     class Meta:
         model = Film
-        fields = ("title", "ageRatings", "duration", "desc")
+        fields = ("title", "ageRatings", "duration", "desc","filmImage")
         widgets ={
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'ageRatings': forms.Select(attrs={'class': 'form-control'}),
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
             'desc': forms.Textarea(attrs={'class': 'form-control'})
         }
+
+
 
 class addScreenForm(forms.ModelForm):
     class Meta:

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from PIL import Image
 
 # Create your models here.
 
@@ -58,6 +59,7 @@ class Film(models.Model):
     ageRatings = models.CharField(max_length=3, choices=ageRating.choices, default='12')
     duration = models.IntegerField()
     desc = models.CharField(max_length=150)
+    filmImage = models.ImageField(upload_to='app/static/filmImages/', default='')
 
 class Screen(models.Model):
     id = models.AutoField(primary_key=True, unique=True)

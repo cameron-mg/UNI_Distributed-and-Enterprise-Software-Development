@@ -224,15 +224,16 @@ def cmHome(request):
     return render(request, "app/cinemamanager/cmHome.html", {"films" : films, "screens" : screens, "showings" : showings, "clubs" : clubs})
 
 def addFilm(request):
-    form = addFilmForm(request.POST or None)
+    form = addFilmForm(request.POST, request.FILES or None)
     if request.method == "POST":
         if form.is_valid():
             filmTitle = form.cleaned_data["title"]
             filmRating = form.cleaned_data["ageRatings"]
             filmDuration = form.cleaned_data["duration"]
             filmDescription = form.cleaned_data["desc"]
+            filmImagePoster = form.cleaned_data["filmImage"]
 
-            Film.objects.create(title=filmTitle, ageRatings=filmRating,duration=filmDuration, desc=filmDescription)
+            Film.objects.create(title=filmTitle, ageRatings=filmRating,duration=filmDuration, desc=filmDescription, filmImage=filmImagePoster)
             print(Film)
             return redirect("cmHome")
         else:

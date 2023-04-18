@@ -83,8 +83,11 @@ class Employee(models.Model):
 
 # Customer
 class Booking(models.Model):
+    class tickettype(models.TextChoices):
+        ADULT= "Adult","Adult"
+        CHILD= "Child", "Child"
     id = models.AutoField(primary_key=True, unique=True)
-    tickettype = models.CharField(max_length=10)
+    tickettypes = models.CharField(max_length=10, choices=tickettype.choices, default='Adult')
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     cost = models.FloatField()

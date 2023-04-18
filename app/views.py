@@ -138,14 +138,14 @@ def customerConfirmBooking(request, pk):
                 if showing.remainingSeats > q:
                     try:
                         user = request.user
-                        role = User.objects.filter(user=user).get()
+                        user = User.objects.filter(user=user).get()
 
                         overallCost = (showing.price*q)
                         return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked, "cost":overallCost})
                     except:
                         postConf = True
                         processed = False
-                        error = ""
+                        error = "Not a valid user"
                         return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed, "error":error})
                 else:
                     error = "Insufficient seats to accomodate booking."
@@ -166,7 +166,7 @@ def customerSaveBooking(request, pk, q):
     if showing.remainingSeats > q:
         try:
             user = request.user
-
+            user = User.objects.filter(user=user).get()
             overallCost = (showing.price*q)
 
             newCustomerBooking = Booking.objects.create(
@@ -179,6 +179,7 @@ def customerSaveBooking(request, pk, q):
 
             newCustomerBooking.save()
             showing.save()
+            user.save()
 
             processed = True
             return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed})

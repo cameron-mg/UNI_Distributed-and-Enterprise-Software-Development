@@ -3,14 +3,17 @@
 Showings
 {% endblock %}
 {% block content %}
-<h1>Now Showing</h1>
-<div class="container-fluid">
-    {% for showing in showings %}
-        <tr>
-            <p>
-                <a href="{% url 'showDetails' showing.id %}" class="text-decoration-none"> {{ showing.film.title }} </a>
-            </p>
-        </tr>
-    {% endfor %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <p style="color:brown;">{{error}}</p>
+    <h4 class="border-bottom pb-2 mb-2">Now showing</h4>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            {% for showing in showings %}
+                <tr>
+                    <p>
+                        <a href="{% url 'showDetails' showing.id %}" class="text-decoration-none"> {{ showing.film.title }} </a>
+                    </p>
+                </tr>
+            {% endfor %}
+        </div>
 </div>
 {% endblock %}

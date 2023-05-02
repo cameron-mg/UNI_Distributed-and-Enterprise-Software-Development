@@ -1,0 +1,39 @@
+{% extends "app/clubrep/crHome.html" %}
+{% block title %}
+Pending Requests
+{% endblock %}
+{% block content %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Pending Join Requests</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if clubrequests %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for cr in clubrequests %}
+              <tr>
+                  <td>{{ cr.user.username }}</td>
+                  <td>{{ cr.message }}</td>
+                  <td>
+                    <a href="{% url 'acceptClubRequest' cr.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Accept</a>
+                  </td>
+                  <td>
+                    <a href="{% url 'declineClubRequest' cr.pk %}" class="btn btn-danger me-2" role="button" aria-pressed="true">Decline</a>
+                  </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>There are currently no pending join requests.</p>
+      </p>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}

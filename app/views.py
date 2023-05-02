@@ -40,6 +40,8 @@ def roleHomeLink(request):
         return redirect("cmHome")
     elif role == "ACCOUNTMAN":
         return redirect("amHome")
+    elif role == "STUDENT":
+        return redirect("sHome")
     
 #Login/Register views
 def login_request(request):
@@ -140,7 +142,25 @@ def sHome(request):
 @login_required
 @user_passes_test(RoleCheck("STUDENT"))
 def joinRequest(request, pk):
-    return render(request, "app/student/joinRequest.html", {"pk":pk})
+    form = ClubRequestForm(request.POST or None)
+    club = Club.objects.all().filter(id=pk).get()
+
+    if request.method == "POST":
+        if form.is_valid():
+
+            msg = form.cleaned_data["message"]
+            newClubRequest = clubRequest(
+                user = request.user,
+                club = club,
+                message = msg
+            )
+            newClubRequest.save()
+            
+            return render(request, "app/student/confRequest.html")
+        else:
+            return render(request, "app/student/joinRequest.html", {"club":club, "form":form})
+    else:
+        return render(request, "app/student/joinRequest.html", {"club":club, "form":form})
 
 
 # Club Rep VIEWS
@@ -291,7 +311,36 @@ def saveClubBooking(request, pk, q):
 @login_required
 @user_passes_test(RoleCheck("CLUBREP"))
 def crPending(request):
-    pass
+    try:
+        rep = ClubRep.objects.all().filter(user=request.user).get()
+        myclub = rep.club
+        clubRequests = clubRequest.objects.all().filter(club=myclub)
+        return render(request, "app/clubrep/pendingRequests.html", {"clubrequests":clubRequests})
+    except:
+        return render(request, "app/clubrep/pendingRequests.html")
+
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
+def acceptClubRequest(request, pk):
+    clubreq = clubRequest.objects.all().filter(pk=pk).get()
+    user = clubreq.user
+    club = clubreq.club
+
+    newStudent = Student(
+        user = user,
+        club = club
+    )
+    newStudent.save()
+    clubreq.delete()
+    
+    return redirect("crPending")
+
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
+def declineClubRequest(request, pk):
+    clubreq = clubRequest.objects.all().filter(pk=pk).get()
+    clubreq.delete()
+    return redirect("crPending")
 
 # Cinema Manager VIEWS
 @login_required

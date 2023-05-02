@@ -8,22 +8,20 @@ urlpatterns = [
     path("aboutUs/", views.aboutUs, name="aboutUs"),
     path("contactus/", views.contactUs, name="contactUs"),
     path("roleHomeLink/", views.roleHomeLink, name="roleHomeLink"),
+
     # Login/Register URLS
     path("login/", views.login_request, name="login"),
     path("logout/", views.logout_request, name="logout"),
     path("register/", views.register_request, name="register"),
-
 
     # Customer URLS
     path("cHome/", views.cHome, name="cHome"),
     path("showings/", views.showings, name="showings"),
     path("showDetails/<showing_id>/", views.showDetails, name="showDetails"),
     
-    
     # Student URLS
     path("s/", views.sHome, name="sHome"),
     path("s/joinRequest/<int:pk>", views.joinRequest, name="joinRequest"),
-
 
     # Club Rep URLS
     path("cr/home/", views.crHome, name="crHome"),
@@ -32,7 +30,8 @@ urlpatterns = [
     path("cr/clubBooking/confirmation/<int:pk>/", views.confirmBooking, name="confirmBooking"),
     path("cr/clubBooking/confirmation/<int:pk>/<int:q>", views.saveClubBooking, name="saveClubBooking"),
     path("cr/pending/", views.crPending, name="crPending"),
-
+    path("cr/pending/accept/<int:pk>", views.acceptClubRequest, name="acceptClubRequest"),
+    path("cr/pending/decline/<int:pk>", views.declineClubRequest, name="declineClubRequest"),
 
     # Cinema Manager URLS
     path("cm/home/", views.cmHome, name="cmHome"),
@@ -55,8 +54,6 @@ urlpatterns = [
     path("cm/deleteShowing/<int:pk>/", views.deleteShowing, name="deleteShowing"),
 
     path("cm/pending/", views.cmPending, name="cmPending"),
-
-
 
     # Account Manager URLS
     path("am/", views.amHome, name="amHome")

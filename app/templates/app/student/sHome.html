@@ -8,7 +8,11 @@ Student Panel
   <h4 class="border-bottom pb-2 mb-2">Student Home</h4>
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         {% if student %}
-        <h5>Student Details</h5>
+        <h5 class="border-bottom pb-2 mb-2">Details</h5>
+        <h6>User: {{ student.user.username }}</h6>
+        <h6>Registered To: {{ student.club.name }}</h6>
+        <br>
+        <h5 class="border-bottom pb-2 mb-2">Upcoming Bookings</h5>
         {% else %}
         <h5>Available Clubs</h5>
         <table class="table">

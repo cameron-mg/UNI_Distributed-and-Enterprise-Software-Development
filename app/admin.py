@@ -14,5 +14,7 @@ admin.site.register(Club)
 admin.site.register(ClubRep)
 admin.site.register(Transaction)
 admin.site.register(BlockBooking)
+admin.site.register(clubRequest)
+admin.site.register(Student)
 
 admin.site.register(User)

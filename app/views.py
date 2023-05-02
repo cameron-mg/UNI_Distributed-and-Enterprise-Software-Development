@@ -26,6 +26,13 @@ def films(request):
     film = Film.objects.all()
     return render(request, 'app/films.html', {"films":film})
 
+def bookingPage(request, pk):
+    film = Film.objects.get(pk=pk)
+    showings = Showing.objects.all().filter(film=film)
+    print(film)
+    print(showings)
+    return render(request, 'app/bookingPage.html', {"film": film, "showings": showings})
+
 def aboutUs(request):
     return render(request, 'app/aboutUs.html')
 
@@ -355,15 +362,16 @@ def cmHome(request):
 @login_required
 @user_passes_test(RoleCheck("CINEMAMAN"))
 def addFilm(request):
-    form = addFilmForm(request.POST or None)
+    form = addFilmForm(request.POST, request.FILES or None)
     if request.method == "POST":
         if form.is_valid():
             filmTitle = form.cleaned_data["title"]
             filmRating = form.cleaned_data["ageRatings"]
             filmDuration = form.cleaned_data["duration"]
             filmDescription = form.cleaned_data["desc"]
+            filmImagePoster = form.cleaned_data["filmImage"]
 
-            Film.objects.create(title=filmTitle, ageRatings=filmRating,duration=filmDuration, desc=filmDescription)
+            Film.objects.create(title=filmTitle, ageRatings=filmRating,duration=filmDuration, desc=filmDescription, filmImage=filmImagePoster)
             print(Film)
             return redirect("cmHome")
         else:

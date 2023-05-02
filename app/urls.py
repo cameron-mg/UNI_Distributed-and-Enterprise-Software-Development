@@ -18,6 +18,7 @@ urlpatterns = [
     path("cHome/", views.cHome, name="cHome"),
     path("showings/", views.showings, name="showings"),
     path("showDetails/<showing_id>/", views.showDetails, name="showDetails"),
+    path("bookingPage/<int:pk>/", views.bookingPage, name="bookingPage"),
     
     # Student URLS
     path("s/", views.sHome, name="sHome"),

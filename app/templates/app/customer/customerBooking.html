@@ -1,0 +1,54 @@
+{% extends "app/customer/cHome.html" %}
+{% block title %}
+Customer Booking
+{% endblock %}
+{% block content %}
+{% if dated %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Showings on: {{ showing.date }}</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if showings %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Film</th>
+              <th>Screen Number</th>
+              <th>Time</th>
+              <th>Remaining Capacity</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for showing in showings %}
+              <tr>
+                  <td>{{ showing.film.title }}</td>
+                  <td>{{ showing.screen.screenNo }}</td>
+                  <td>{{ showing.time }}</td>
+                  <td>{{ showing.remainingSeats}}</td>
+                  <td>
+                    <a href="{% url 'customerConfirmBooking' showing.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Book</a>
+                  </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No showings available on this date!</p>
+      </p>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h5 class="border-bottom pb-2 mb-0">Select the date you would like to view showings for.</h5>
+        <div>
+            <form method="post" class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary mb-2">Select</button>
+            </form>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

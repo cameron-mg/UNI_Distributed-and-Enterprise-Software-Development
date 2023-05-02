@@ -17,6 +17,12 @@ urlpatterns = [
     # Customer URLS
     path("cHome/", views.cHome, name="cHome"),
     path("showings/", views.showings, name="showings"),
+
+    path("showDetails/<showing_id>", views.showDetails, name="showDetails"),
+    path("customerBooking/", views.customerBooking, name="customerBooking"),
+    path("customerBooking/customerConfirmation/<int:pk>", views.customerConfirmBooking, name="customerConfirmBooking"),
+    path("customerBooking/customerConfirmation/<int:pk>/<int:q>", views.customerSaveBooking, name="CustomerSaveBooking"),
+
     path("showDetails/<showing_id>/", views.showDetails, name="showDetails"),
     path("bookingPage/<int:pk>/", views.bookingPage, name="bookingPage"),
     

@@ -1,18 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from PIL import Image
 
 # Create your models here.
 
 class User(AbstractUser):
     class Role(models.TextChoices):
         ADMIN = "ADMIN", "Admin"
-        CUSTOMER = "CUSTOMER", "Customer"
+        STUDENT = "STUDENT", "Student"
         CLUBREP = "CLUBREP", "Club Representative"
         ACCOUNTMAN = "ACCOUNTMAN", "Account Manager"
         CINEMAMAN = "CINEMAMAN", "Cinema Manager"
 
     role = models.CharField(max_length=50, choices=Role.choices)
-        
+     
     def get_role(self):
         return self.role
     
@@ -58,6 +59,7 @@ class Film(models.Model):
     ageRatings = models.CharField(max_length=3, choices=ageRating.choices, default='12')
     duration = models.IntegerField()
     desc = models.CharField(max_length=150)
+    filmImage = models.ImageField(upload_to='app/static/filmImages/', default='')
 
 class Screen(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -72,6 +74,9 @@ class Showing(models.Model):
     time = models.TimeField()
     remainingSeats = models.IntegerField()
     price = models.FloatField()
+
+# class accountRequest(models.Model):
+#     pass
 
 
 # Account Manager
@@ -124,5 +129,19 @@ class BlockBooking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     cost = models.FloatField()
     datetime = models.DateTimeField()
+
+class clubRequest(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    message = models.CharField(max_length=200)
+
+
+# Student (only to be made if club registered)
+class Student(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)

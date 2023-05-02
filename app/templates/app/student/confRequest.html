@@ -1,0 +1,13 @@
+{% extends "app/template.html" %}
+{% block title %}
+Request Sent
+{% endblock %}
+{% block content %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <p style="color:brown;">{{error}}</p>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6>Your request has been sent.</h6>
+        <h6>Please allow time for the request to be processed.</h6>
+    </div>
+</div>
+{% endblock %}

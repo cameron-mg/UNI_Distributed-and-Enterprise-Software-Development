@@ -1,0 +1,33 @@
+{% extends "app/student/sHome.html" %}
+{% block title %}
+Join Request
+{% endblock %}
+{% block content %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h5 class="border-bottom pb-2 mb-0">{{ club.name }} Details</h5>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">Address Details</h6>
+        <h6>Number: {{ club.address.number }}</h6>  
+        <h6>Street: {{ club.address.street }}</h6>  
+        <h6>City: {{ club.address.city }}</h6>   
+        <h6>Postcode: {{ club.address.postCode }}</h6>                
+    </div>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">Contact Details</h6>  
+        <h6>Landline: {{ club.contact.landline }}</h6>  
+        <h6>Mobile: {{ club.contact.mobile }}</h6>  
+        <h6>Email: {{ club.contact.email }}</h6>   
+        <h6>Name: {{ club.contact.firstName }} {{ club.contact.surName }}</h6>  
+    </div>  
+</div>
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h5 class="border-bottom pb-2 mb-0">Please submit the request form below.</h5>
+    <div>
+        <form method="post" class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mb-2">Complete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

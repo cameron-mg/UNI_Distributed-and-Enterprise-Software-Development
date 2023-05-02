@@ -1,0 +1,37 @@
+{% extends "app/template.html" %}
+{% block title %}
+Student Panel
+{% endblock %}
+{% block content %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <p style="color:brown;">{{error}}</p>
+  <h4 class="border-bottom pb-2 mb-2">Student Home</h4>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        {% if student %}
+        <h5>Student Details</h5>
+        {% else %}
+        <h5>Available Clubs</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Club ID</th>
+              <th>Club Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for club in clubs %}
+              <tr>
+                <td>{{ club.clubid }}</td>
+                <td>{{ club.name }}</td>
+                <td>
+                  <a href="{% url 'joinRequest' club.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Request to Join</a>
+                </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

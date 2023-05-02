@@ -3,8 +3,15 @@
 Customer Home
 {% endblock %}
 {% block sideNav %}
-C Test Nav
+<a class="nav-link" href="{% url 'cHome' %}">Home</a>
+<a class="nav-link" href="{% url 'showings' %}">Showings</a>
 {% endblock %}
 {% block content %}
-C Content
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <p style="color:brown;">{{error}}</p>
+  <h4 class="border-bottom pb-2 mb-2">Customer Home</h4>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h5>Placeholder</h5> 
+    </div>
+</div>
 {% endblock %}

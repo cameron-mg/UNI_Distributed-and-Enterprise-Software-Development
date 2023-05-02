@@ -26,11 +26,25 @@
                 <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">About Us</a>
+                    <a class="nav-link" href="{% url 'films' %}">Films</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                    <a class="nav-link" href="{% url 'aboutUs' %}">About Us</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
+                </li>
+                {% if request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'roleHomeLink' %}"> {{ request.user.role }} Panel</a>
+                </li>
+                {% else %}
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sHome' %}">Student Panel</a>
+                </li>
+                {% endif %}
+                {% endif %}
             </ul>
             {% if request.user.is_authenticated %}
                 <a class="navbar-brand"> Account: {{ request.user.username }}</a>

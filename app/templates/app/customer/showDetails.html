@@ -1,0 +1,15 @@
+{% extends "app/template.html" %}
+{% block title %}
+Home
+{% endblock %}
+{% block content %}
+<div class="container-fluid pt-3 my-5 border">
+    <p> {{showings.film.title}} </p>
+    <p> Rated: {{showings.film.ageRatings}} </p>
+    <p> Duration: {{showings.film.duration}}mins </p>
+    <p> {{showings.film.desc}} </p>
+    <p> Date: {{showings.date}} </p>
+    <p> Time: {{showings.time}} </p>
+    <p> <a href="#" class="btn btn-primary">Book Ticket</a> </p>
+</div>
+{% endblock %}

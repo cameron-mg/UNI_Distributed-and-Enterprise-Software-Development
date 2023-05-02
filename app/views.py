@@ -1,3 +1,4 @@
+from typing import Any
 from app.models import *
 from app.forms import *
 from django.shortcuts import render, redirect
@@ -8,9 +9,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 import datetime
 
-# Role check
-def user_role_check(user):
-    pass
+# Class used to check user roles
+class RoleCheck:
+    def __init__(self, *args):
+        self.check = args
+    
+    def __call__(self, user):
+        return hasattr(user, 'role') and user.role in self.check
 
 # Home and Main VIEWS
 
@@ -42,14 +47,11 @@ def roleHomeLink(request):
         return redirect("cmHome")
     elif role == "ACCOUNTMAN":
         return redirect("amHome")
+    elif role == "STUDENT":
+        return redirect("sHome")
     
 #Login/Register views
-
 def login_request(request):
-    films = Film.objects.all()
-    showings = Showing.objects.all()
-    screens = Screen.objects.all()
-    clubs = Club.objects.all()
     if request.method == "POST":
 
         form = AuthenticationForm(request=request, data=request.POST)
@@ -62,7 +64,6 @@ def login_request(request):
 
             if user is not None:
                 role = user.get_role()
-                logged = True
                 login(request, user)
                 if role == "STUDENT":
                     return redirect("home")
@@ -116,7 +117,6 @@ def logout_request(request):
 
 
 # Customer VIEWS
-@login_required
 def cHome(request):
     return render(request, "app/customer/cHome.html")
 
@@ -131,21 +131,47 @@ def showDetails(request,showing_id):
 
 # Student VIEWS
 @login_required
+@user_passes_test(RoleCheck("STUDENT"))
 def sHome(request):
     try:
         student = Student.objects.filter(user=request.user).get()
-        print(student)
-        return render(request, "app/student/sHome.html", {"student":student})
+        club = student.club
+        bookings = BlockBooking.objects.all().filter(club=club)
+        curbookings = bookings
+        # Get current bookings 
+        # curbookings = bookings.filter(bookings.datetime>=datetime.datetime.now())
+        return render(request, "app/student/sHome.html", {"student":student, "bookings":curbookings})
     except:
         clubs = Club.objects.all()
         return render(request, "app/student/sHome.html", {"clubs":clubs})
 
+@login_required
+@user_passes_test(RoleCheck("STUDENT"))
 def joinRequest(request, pk):
-    return render(request, "app/student/joinRequest.html", {"pk":pk})
+    form = ClubRequestForm(request.POST or None)
+    club = Club.objects.all().filter(id=pk).get()
+
+    if request.method == "POST":
+        if form.is_valid():
+
+            msg = form.cleaned_data["message"]
+            newClubRequest = clubRequest(
+                user = request.user,
+                club = club,
+                message = msg
+            )
+            newClubRequest.save()
+            
+            return render(request, "app/student/confRequest.html")
+        else:
+            return render(request, "app/student/joinRequest.html", {"club":club, "form":form})
+    else:
+        return render(request, "app/student/joinRequest.html", {"club":club, "form":form})
 
 
 # Club Rep VIEWS
 @login_required
+@user_passes_test(RoleCheck("CLUBREP"))
 def crHome(request):
     try:
         clubrep = ClubRep.objects.filter(user=request.user).get()
@@ -155,6 +181,8 @@ def crHome(request):
         error = "ClubRep profile not found!"
         return render(request, "app/clubrep/crHome.html", {"error":error})
 
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
 def clubAccount(request):
     form = ClubAccountForm(request.POST or None)
 
@@ -179,6 +207,8 @@ def clubAccount(request):
         c_logged = False
         return render(request, "app/clubrep/clubAccount.html", {"form":form, "c_logged":c_logged})
 
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
 def clubBooking(request):
     form = BookingDateForm(request.POST or None)
     dated = False
@@ -198,6 +228,8 @@ def clubBooking(request):
     else:
         return render(request, "app/clubrep/blockBooking.html", {"form": form, "dated":dated})
 
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
 def confirmBooking(request, pk):
     form = BlockBookingQuantity(request.POST or None)
     showing = Showing.objects.get(pk=pk)
@@ -233,6 +265,8 @@ def confirmBooking(request, pk):
     else:
         return render(request, "app/clubrep/blockBookingConfirmation.html", {"showing":showing, "form":form})
 
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
 def saveClubBooking(request, pk, q):
     showing = Showing.objects.get(pk=pk)
     postConf = True
@@ -247,6 +281,7 @@ def saveClubBooking(request, pk, q):
             newBlockBooking = BlockBooking.objects.create(
                 quantity = q,
                 club = club, 
+                showing=showing,
                 cost = overallCost,
                 datetime = datetime.datetime.now()
             )
@@ -280,11 +315,43 @@ def saveClubBooking(request, pk, q):
         error = "Insufficient seats to accomodate booking."
         return render(request, "app/clubrep/blockBookingConfirmation.html", {"postConf": postConf, "processed":processed, "error":error})
 
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
 def crPending(request):
-    pass
+    try:
+        rep = ClubRep.objects.all().filter(user=request.user).get()
+        myclub = rep.club
+        clubRequests = clubRequest.objects.all().filter(club=myclub)
+        return render(request, "app/clubrep/pendingRequests.html", {"clubrequests":clubRequests})
+    except:
+        return render(request, "app/clubrep/pendingRequests.html")
+
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
+def acceptClubRequest(request, pk):
+    clubreq = clubRequest.objects.all().filter(pk=pk).get()
+    user = clubreq.user
+    club = clubreq.club
+
+    newStudent = Student(
+        user = user,
+        club = club
+    )
+    newStudent.save()
+    clubreq.delete()
+    
+    return redirect("crPending")
+
+@login_required
+@user_passes_test(RoleCheck("CLUBREP"))
+def declineClubRequest(request, pk):
+    clubreq = clubRequest.objects.all().filter(pk=pk).get()
+    clubreq.delete()
+    return redirect("crPending")
 
 # Cinema Manager VIEWS
 @login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def cmHome(request):
     films = Film.objects.all()
     screens = Screen.objects.all()
@@ -292,6 +359,8 @@ def cmHome(request):
     clubs = Club.objects.all()
     return render(request, "app/cinemamanager/cmHome.html", {"films" : films, "screens" : screens, "showings" : showings, "clubs" : clubs})
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def addFilm(request):
     form = addFilmForm(request.POST, request.FILES or None)
     if request.method == "POST":
@@ -311,6 +380,8 @@ def addFilm(request):
     else:
         return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def deleteFilm(request, pk):
     if request.method == "POST":
         film = Film.objects.get(pk=pk)
@@ -323,6 +394,8 @@ def deleteFilm(request, pk):
     else:
         return redirect('cmHome')
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def updateFilm(request, pk):
     film = Film.objects.get(pk=pk)
     form = addFilmForm(request.POST or None, instance=film)
@@ -335,7 +408,8 @@ def updateFilm(request, pk):
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
-
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def registerClub(request):
     form = RegisterClubForm(request.POST or None)
     if request.method == "POST":
@@ -350,7 +424,9 @@ def registerClub(request):
             return render(request, "app/cinemamanager/cmRegisterClub.html", {"form": form})
     else:
         return render(request, "app/cinemamanager/cmRegisterClub.html", {"form": form})
-    
+
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def registerClubRep(request):
     club = Club.objects.all()
     user = User.objects.all()
@@ -367,6 +443,8 @@ def registerClubRep(request):
     else:
         return render(request, "app/cinemamanager/cmRegisterClubRep.html", {"form" : form})
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def deleteClub(request, pk):
     if request.method == "POST":
         club = Club.objects.get(pk=pk)
@@ -379,6 +457,8 @@ def deleteClub(request, pk):
     else:
         return redirect('cmHome')
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def updateClub(request,pk):
     club = Club.objects.get(pk=pk)
     if request.method == "POST":
@@ -421,7 +501,8 @@ def updateClub(request,pk):
         form = RegisterClubForm(initial=dataPopulation)
     return render(request, "app/cinemamanager/cmUpdateDetails.html", {'form':form})
 
-
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def addScreen(request):
     form = addScreenForm(request.POST or None)
     
@@ -438,7 +519,9 @@ def addScreen(request):
             return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
     else:
         return render(request, "app/cinemamanager/cmAddScreen.html", {"form" : form})
-    
+
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def deleteScreen(request, pk):
     if request.method == "POST":
         screen = Screen.objects.get(pk=pk)
@@ -450,7 +533,9 @@ def deleteScreen(request, pk):
             return redirect('cmHome')
     else:
         return redirect('cmHome')
-    
+
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def updateScreen(request, pk):
     screen = Screen.objects.get(pk=pk)
     form = addScreenForm(request.POST or None, instance=screen)
@@ -463,7 +548,8 @@ def updateScreen(request, pk):
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
-
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def addShowing(request):
     form = addShowingForm(request.POST or None)
     if request.method == "POST":
@@ -481,7 +567,9 @@ def addShowing(request):
             return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
     else:
         return render(request, 'app/cinemamanager/cmAddShowing.html', {'form' : form})
-    
+
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN")) 
 def deleteShowing(request, pk):
     if request.method == "POST":
         screen = Showing.objects.get(pk=pk)
@@ -490,6 +578,8 @@ def deleteShowing(request, pk):
     else:
         return redirect('cmHome')
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def updateShowing(request, pk):
     showing = Showing.objects.get(pk=pk)
     form = addShowingForm(request.POST or None, instance=showing)
@@ -502,11 +592,14 @@ def updateShowing(request, pk):
     else:
         return render(request, "app/cinemamanager/cmUpdateDetails.html", {"form" : form})
 
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
 def cmPending(request):
     pass
 
 
 # Account Manager VIEWS
 @login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
 def amHome(request):
     pass

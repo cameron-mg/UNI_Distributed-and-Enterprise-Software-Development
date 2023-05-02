@@ -19,7 +19,7 @@ def home(request):
 
 def films(request):
     film = Film.objects.all()
-    return render(request, 'app/films.html', {"film":film})
+    return render(request, 'app/films.html', {"films":film})
 
 def aboutUs(request):
     return render(request, 'app/aboutUs.html')

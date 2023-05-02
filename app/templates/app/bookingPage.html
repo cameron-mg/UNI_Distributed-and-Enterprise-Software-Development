@@ -1,18 +1,38 @@
 {% extends "app/template.html" %}
 {% block title %}
-Booking page
+Customer - Showings
 {% endblock %}
 {% block content %}
 <div class="container-fluid mt-5">
     <div class="row gy-5">
         <h1>Booking {{ film.title }}</h1>
         <p>Please Select A Showing</p>
-        {% if Showings %}
-        <ul>
-            {% for showing in showings %}
-            <li>{{ showing.date }}</li>
+        {% if showings %}
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Screen</th>
+                <th>Price</th>
+                <th>Remaining Seats</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for s in showings %}
+                <tr>
+                  <td>{{ s.date }}</td>
+                  <td>{{ s.time }}</td>
+                  <td>{{ s.screen.screenNo }}</td>
+                  <td>£{{ s.price }}</td>
+                  <td>{{ s.remainingSeats }}</td>
+                  <td>
+                    <a href="#" class="btn btn-primary me-2" role="button" aria-pressed="true">Book Now</a>
+                  </td>
+                </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+          </table>
         {% else %}
         <p>Unfourtunately There Are No Showings Available For This Film</p>
         {% endif %}

@@ -1,6 +1,6 @@
 from django import forms
 from app.models import *
-from PIL import Image
+# from PIL import Image
 from django.utils.html import format_html
 
 class UserRegistrationForm(forms.Form):

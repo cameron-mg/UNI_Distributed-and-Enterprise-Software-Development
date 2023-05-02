@@ -45,10 +45,6 @@ def roleHomeLink(request):
     
 #Login/Register views
 def login_request(request):
-    films = Film.objects.all()
-    showings = Showing.objects.all()
-    screens = Screen.objects.all()
-    clubs = Club.objects.all()
     if request.method == "POST":
 
         form = AuthenticationForm(request=request, data=request.POST)
@@ -61,7 +57,6 @@ def login_request(request):
 
             if user is not None:
                 role = user.get_role()
-                logged = True
                 login(request, user)
                 if role == "STUDENT":
                     return redirect("home")
@@ -133,8 +128,12 @@ def showDetails(request,showing_id):
 def sHome(request):
     try:
         student = Student.objects.filter(user=request.user).get()
-        print(student)
-        return render(request, "app/student/sHome.html", {"student":student})
+        club = student.club
+        bookings = BlockBooking.objects.all().filter(club=club)
+        curbookings = bookings
+        # Get current bookings 
+        # curbookings = bookings.filter(bookings.datetime>=datetime.datetime.now())
+        return render(request, "app/student/sHome.html", {"student":student, "bookings":curbookings})
     except:
         clubs = Club.objects.all()
         return render(request, "app/student/sHome.html", {"clubs":clubs})
@@ -275,6 +274,7 @@ def saveClubBooking(request, pk, q):
             newBlockBooking = BlockBooking.objects.create(
                 quantity = q,
                 club = club, 
+                showing=showing,
                 cost = overallCost,
                 datetime = datetime.datetime.now()
             )

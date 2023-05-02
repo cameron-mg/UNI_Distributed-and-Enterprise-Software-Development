@@ -122,6 +122,7 @@ class BlockBooking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    showing = models.ForeignKey(Showing, on_delete=models.CASCADE)
     cost = models.FloatField()
     datetime = models.DateTimeField()
 

@@ -13,6 +13,26 @@ Student Panel
         <h6>Registered To: {{ student.club.name }}</h6>
         <br>
         <h5 class="border-bottom pb-2 mb-2">Upcoming Bookings</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Showing</th>
+              <th>Ticket Qty.</th>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for b in bookings %}
+              <tr>
+                <td>{{ b.showing.film.title }}</td>
+                <td>{{ b.quantity }}</td>
+                <td>{{ b.showing.date }}</td>
+                <td>{{ b.showing.time }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
         {% else %}
         <h5>Available Clubs</h5>
         <table class="table">

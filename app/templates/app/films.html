@@ -11,6 +11,7 @@ Films page
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-footer">
                         <h5><td> {{ film.title }} </td></h5>
+                        <a href="{% url 'bookingPage' film.pk %}" class="btn btn-primary">Book Now</a>
                     </div>
                 </div>
             </div>

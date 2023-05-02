@@ -1,0 +1,21 @@
+{% extends "app/template.html" %}
+{% block title %}
+Booking page
+{% endblock %}
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="row gy-5">
+        <h1>Booking {{ film.title }}</h1>
+        <p>Please Select A Showing</p>
+        {% if Showings %}
+        <ul>
+            {% for showing in showings %}
+            <li>{{ showing.date }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Unfourtunately There Are No Showings Available For This Film</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

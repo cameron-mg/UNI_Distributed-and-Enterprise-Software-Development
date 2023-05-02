@@ -21,6 +21,13 @@ def films(request):
     film = Film.objects.all()
     return render(request, 'app/films.html', {"films":film})
 
+def bookingPage(request, pk):
+    film = Film.objects.get(pk=pk)
+    showings = Showing.objects.all().filter(film=film)
+    print(film)
+    print(showings)
+    return render(request, 'app/bookingPage.html', {"film": film, "showings": showings})
+
 def aboutUs(request):
     return render(request, 'app/aboutUs.html')
 

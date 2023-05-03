@@ -3,8 +3,47 @@
 Account Manager Home
 {% endblock %}
 {% block sideNav %}
-AM Test Nav
+<a class="nav-link" href="{% url 'amHome' %}">Home</a>
+<a class="nav-link" href="#">Add Account</a>
+<a class="nav-link" href="#">View Statements</a>
+<a class="nav-link" href="#">Pending Requests</a>
 {% endblock %}
 {% block content %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Students</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if students %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Club Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                  <td>{{ student.user.username }}</td>
+                  <td>{{ student.club.name }}</td>
+                  <td>
+                    <a href="{% url 'ViewDetails' student.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Details</a>
+                  </td>
+                  <td>
+                      <form method="POST" action="#">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Student Accounts</p>
+      </p>
+      {% endif %}
+    </div>
+  </div>
 AM Content
 {% endblock %}

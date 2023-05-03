@@ -1,0 +1,14 @@
+{% extends "app/accountmanager/amHome.html" %}
+{% block title %}
+View Details
+{% endblock %}
+{% block content %}
+<h1>View Details</h1>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="col-8">
+        <h2>Account Details</h2>
+        <p>{{students.user.username}}</p>
+    </div>
+</div>
+{% endblock %}

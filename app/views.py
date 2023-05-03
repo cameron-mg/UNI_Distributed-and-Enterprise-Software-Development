@@ -509,4 +509,13 @@ def cmPending(request):
 # Account Manager VIEWS
 @login_required
 def amHome(request):
-    pass
+    students = Student.objects.all()
+    return render(request, "app/accountmanager/amHome.html", {"students" : students})
+
+def ViewDetails(request, pk):
+    students = Student.objects.get(pk=pk)
+    return render(request, "app/accountmanager/amViewDetails.html", {"students" : students})
+
+def UpdateDetails(request):
+    user = User.objects.all()
+    return render(request, "app/accountmanager/amUpdateDetails.html")

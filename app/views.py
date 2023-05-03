@@ -99,8 +99,13 @@ def register_request(request):
             if User.objects.filter(username=form.cleaned_data["username"]).exists():
                 return render(request, "registration/register.html", {"error": "Username already in use!", "form":form})
 
-            User.objects.create_user(username=form.cleaned_data["username"], password=password1, role=User.Role.STUDENT)
-            return redirect("login")
+            newAccount = accountRequest(
+                user = form.cleaned_data["username"],
+                psw = password1
+            )
+            newAccount.save()
+
+            return redirect("home")
         else:
             return render(request, "registration/register.html", {"form":form})
 
@@ -670,7 +675,27 @@ def updateShowing(request, pk):
 @login_required
 @user_passes_test(RoleCheck("CINEMAMAN"))
 def cmPending(request):
-    pass
+    try:
+        requests = accountRequest.objects.all()
+        print(requests)
+        return render(request, "app/cinemamanager/pendingRequests.html", {"userrequests":requests})
+    except:
+        return render(request, "app/cinemamanager/pendingRequests.html")
+
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
+def acceptAccountRequest(request, pk):
+    accreq = accountRequest.objects.all().filter(pk=pk).get()
+    User.objects.create_user(username=accreq.user, password=accreq.psw, role=User.Role.STUDENT)
+    accreq.delete()
+    return redirect("cmPending")
+
+@login_required
+@user_passes_test(RoleCheck("CINEMAMAN"))
+def declineAccountRequest(request, pk):
+    accreq = accountRequest.objects.all().filter(pk=pk).get()
+    accreq.delete()
+    return redirect("cmPending")
 
 
 # Account Manager VIEWS

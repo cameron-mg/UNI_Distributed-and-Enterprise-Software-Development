@@ -55,6 +55,8 @@ urlpatterns = [
     path("cm/deleteShowing/<int:pk>/", views.deleteShowing, name="deleteShowing"),
 
     path("cm/pending/", views.cmPending, name="cmPending"),
+    path("cm/pending/accept/<int:pk>", views.acceptAccountRequest, name="acceptAccountRequest"),
+    path("cm/pending/decline/<int:pk>", views.declineAccountRequest, name="declineAccountRequest"),
 
     # Account Manager URLS
     path("am/", views.amHome, name="amHome")

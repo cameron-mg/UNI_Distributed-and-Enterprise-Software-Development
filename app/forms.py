@@ -129,4 +129,5 @@ class addShowingForm(forms.ModelForm):
         self.fields['film'].label_from_instance = lambda obj: obj.title
         self.fields['screen'].label_from_instance = lambda obj: obj.screenNo
 
-    
+class ClubRequestForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), label="Message") 

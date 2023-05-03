@@ -15,16 +15,10 @@ urlpatterns = [
     path("register/", views.register_request, name="register"),
 
     # Customer URLS
-    path("cHome/", views.cHome, name="cHome"),
-    path("showings/", views.showings, name="showings"),
-
-    path("showDetails/<showing_id>", views.showDetails, name="showDetails"),
+    path("films/bookingPage/<int:pk>/", views.bookingPage, name="bookingPage"),
     path("customerBooking/", views.customerBooking, name="customerBooking"),
     path("customerBooking/customerConfirmation/<int:pk>", views.customerConfirmBooking, name="customerConfirmBooking"),
-    path("customerBooking/customerConfirmation/<int:pk>/<int:q>", views.customerSaveBooking, name="CustomerSaveBooking"),
-
-    path("showDetails/<showing_id>/", views.showDetails, name="showDetails"),
-    path("bookingPage/<int:pk>/", views.bookingPage, name="bookingPage"),
+    path("customerBooking/customerConfirmation/<int:pk>/<int:q>/<int:aq>/<int:cq>/<int:sq>", views.customerSaveBooking, name="customerSaveBooking"),
     
     # Student URLS
     path("s/", views.sHome, name="sHome"),

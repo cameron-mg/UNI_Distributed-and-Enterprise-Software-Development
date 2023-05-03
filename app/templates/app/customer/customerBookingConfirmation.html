@@ -1,4 +1,4 @@
-{% extends "app/customer/cHome.html" %}
+{% extends "app/template.html" %}
 {% block title %}
 Customer Booking Confirmation 
 {% endblock %}
@@ -8,7 +8,7 @@ Customer Booking Confirmation
   <h4 class="border-bottom pb-2 mb-2">Booking</h4>
 {% if processed %}
     <h6>The booking has been confirmed.</h6>
-    <a href="{% url 'cHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Return Home</a>
+    <a href="{% url 'home' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Return Home</a>
 {% else %}
     <p style="color:brown;">{{error}}</p>
     <a href="{% url 'customerBooking' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Select New</a>
@@ -34,8 +34,9 @@ Customer Booking Confirmation
         <h5 class="border-bottom pb-2 mb-2">Tickets</h5>
         {% if qPicked %}
         <p>Quantity confirmed at price of {{ cost }} for {{ q }} tickets.</p>
+        <p>*Student and Child discounts have been applied.</p>
         <a href="{% url 'customerBooking' %}" class="btn btn-danger me-2" role="button" aria-pressed="true">Decline</a>
-        <a href="{% url 'customerSaveBooking' showing.pk q  %}" class="btn btn-success me-2" role="button" aria-pressed="true">Accept</a>
+        <a href="{% url 'customerSaveBooking' showing.pk q aq cq sq  %}" class="btn btn-success me-2" role="button" aria-pressed="true">Accept</a>
         {% else %}
         <div>
           <p style="color:brown;">{{error}}</p>

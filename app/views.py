@@ -115,17 +115,6 @@ def logout_request(request):
 
 
 # Customer VIEWS
-def cHome(request):
-    return render(request, "app/customer/cHome.html")
-
-def showings(request):
-    showings = Showing.objects.all()
-    return render(request, 'app/customer/showings.html', {"showings":showings})
-
-def showDetails(request,showing_id):
-    showings = Showing.objects.get(pk=showing_id)
-    return render(request, 'app/customer/showDetails.html', {"showings":showings})
-
 def customerBooking(request):
     form = CustomerBookingDateForm(request.POST or None)
     dated = False
@@ -153,15 +142,15 @@ def customerConfirmBooking(request, pk):
     if request.method == "POST":
         if form.is_valid():
             qPicked = True
-            q = form.cleaned_data["customerQuantity"]
+            aq = form.cleaned_data["customerQuantity"]
+            cq = form.cleaned_data["customerChildQuantity"]
+            sq = form.cleaned_data["customerStudentQuantity"]
+            q = aq+cq+sq
             if q >= 1:
                 if showing.remainingSeats > q:
                     try:
-                        user = request.user
-                        user = User.objects.filter(user=user).get()
-
-                        overallCost = (showing.price*q)
-                        return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "q":q, "qPicked":qPicked, "cost":overallCost})
+                        overallCost = ((showing.price*aq)+(showing.price*cq/2)+(showing.price*sq*0.9))
+                        return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "q":q, "aq":aq, "cq":cq, "sq":sq, "qPicked":qPicked, "cost":overallCost})
                     except:
                         postConf = True
                         processed = False
@@ -180,17 +169,18 @@ def customerConfirmBooking(request, pk):
         return render(request, "app/customer/customerBookingConfirmation.html", {"showing":showing, "form":form})
 
 
-def customerSaveBooking(request, pk, q):
+def customerSaveBooking(request, pk, q, aq, cq, sq):
     showing = Showing.objects.get(pk=pk)
     postConf = True
     if showing.remainingSeats > q:
         try:
-            user = request.user
-            user = User.objects.filter(user=user).get()
-            overallCost = (showing.price*q)
+            overallCost = ((showing.price*aq)+(showing.price*cq/2)+(showing.price*sq*0.9))
 
             newCustomerBooking = Booking.objects.create(
-                quantity = q,
+                showing=showing,
+                adultQuantity = aq,
+                childQuantity = cq,
+                studentQuantity = sq,
                 cost = overallCost,
                 datetime = datetime.datetime.now()
             )
@@ -199,7 +189,6 @@ def customerSaveBooking(request, pk, q):
 
             newCustomerBooking.save()
             showing.save()
-            user.save()
 
             processed = True
             return render(request, "app/customer/customerBookingConfirmation.html", {"postConf":postConf, "processed":processed})

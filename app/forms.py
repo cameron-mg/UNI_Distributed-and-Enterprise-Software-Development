@@ -133,10 +133,12 @@ class CustomerBookingDateForm(forms.Form):
     customerBookingDate = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), input_formats=['%Y-%m-%d'], label="Booking Date")
 
 class CustomerBookingQuantity(forms.Form):
-    customerQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Quantity")
+    customerQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Adult Quantity")
+    customerChildQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Child Quantity")
+    customerStudentQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Student Quantity")
 
-class CustomerTicketType(forms.Form):
-    tickettype = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=10, label="Ticket Type")
+# class CustomerTicketType(forms.Form):
+#     tickettype = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=10, label="Ticket Type")
 
 class ClubRequestForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), label="Message") 

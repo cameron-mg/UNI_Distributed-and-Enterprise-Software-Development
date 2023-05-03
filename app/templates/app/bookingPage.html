@@ -27,7 +27,7 @@ Customer - Showings
                   <td>£{{ s.price }}</td>
                   <td>{{ s.remainingSeats }}</td>
                   <td>
-                    <a href="#" class="btn btn-primary me-2" role="button" aria-pressed="true">Book Now</a>
+                    <a href="{% url 'customerConfirmBooking' s.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Book Now</a>
                   </td>
                 </tr>
             {% endfor %}

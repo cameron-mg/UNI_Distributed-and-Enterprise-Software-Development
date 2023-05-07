@@ -1,0 +1,101 @@
+{% extends "app/accountmanager/amHome.html" %}
+{% block title %}
+Club Details
+{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center border-bottom">
+    <h1>Club Details</h1>
+</div>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="col-8">
+        {% if club %}
+        <p class="border-bottom">Club Name: {{ club.name }}</p>
+        <!-- View Club Rep -->
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h6 class="border-bottom pb-2 mb-0">Club Representative</h6>
+            <div class="d-flex text-muted pt-3">
+              <p class="pb-3 mb-0 small lh-sm border-bottom">
+                {% if clubReps %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for clubRep in clubReps %}
+                      <tr>
+                          <td>{{ clubRep.user.username }}</td>
+                          <td>
+                            <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                          </td>
+                          <td>
+                              <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </form>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                <p>No Student Accounts</p>
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        <!-- View Club Members Table -->
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h6 class="border-bottom pb-2 mb-0">Club Members</h6>
+            <div class="d-flex text-muted pt-3">
+              <p class="pb-3 mb-0 small lh-sm border-bottom">
+                {% if students %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for student in students %}
+                      {% if student.club == club %}
+                      <tr>
+                          <td>{{ student.user.username }}</td>
+                          <td>
+                            <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                          </td>
+                          <td>
+                              <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </form>
+                          </td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                <p>No Student Accounts</p>
+              </p>
+              {% endif %}
+            </div>
+          </div>
+          <form method="POST" class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+          </form>
+        <div class="d-flex justify-content-center">
+        <a href="{% url 'amHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Back</a>
+        <button type="submit" class="btn btn-success">Update Club</button>
+        </div>
+        {% endif %}
+    </div>
+    <div>
+        
+    </div>
+</div>
+{% endblock %}

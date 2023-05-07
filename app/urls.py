@@ -59,5 +59,6 @@ urlpatterns = [
     # Account Manager URLS
     path("am/", views.amHome, name="amHome"),
     path("am/ViewDetails/<int:pk>", views.ViewDetails, name="ViewDetails"),
-    path("am/UpdateDetails", views.UpdateDetails, name="UpdateDetails")
+    path("am/ClubDetails/<int:pk>", views.ClubDetails, name="ClubDetails"),
+    path("am/deleteAccount/<int:pk>/", views.deleteAccount, name="deleteAccount"),
 ]

@@ -1,0 +1,24 @@
+{% extends "app/accountmanager/amHome.html" %}
+{% block title %}
+View Details
+{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center border-bottom">
+    <h1>View Details</h1>
+</div>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="col-8">
+        {% if clubRep %}
+        <h2>Account Details</h2>
+        <p class="border-bottom">Username: {{ clubRep.user }}</p>
+        <p class="border-bottom">Role: {{ clubRep.user.role }}</p>
+        <p class="border-bottom">Club name: {{ clubRep.club.name }} </p>
+        <a href="{% url 'amHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Back</a>
+        {% endif %}
+    </div>
+    <div>
+        
+    </div>
+</div>
+{% endblock %}

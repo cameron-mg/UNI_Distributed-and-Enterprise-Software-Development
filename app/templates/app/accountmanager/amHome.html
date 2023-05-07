@@ -3,8 +3,164 @@
 Account Manager Home
 {% endblock %}
 {% block sideNav %}
-AM Test Nav
+<a class="nav-link" href="{% url 'amHome' %}">Home</a>
+<a class="nav-link" href="#">Add Account</a>
+<a class="nav-link" href="#">View Statements</a>
+<a class="nav-link" href="#">Pending Requests</a>
 {% endblock %}
 {% block content %}
-AM Content
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Club Representative Accounts</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if clubReps %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Club Name</th>
+              <th>User Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for clubRep in clubReps %}
+              <tr>
+                  <td>{{ clubRep.user.username }}</td>
+                  <td>{{ clubRep.club.name }}</td>
+                  <td>{{ clubRep.user.role }}</td>
+                  <td>
+                    <a href="{% url 'ViewDetails' clubRep.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View / Edit Details</a>
+                  </td>
+                  <td>
+                      <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Student Accounts</p>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Cinema Manager Accounts</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if users %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>User Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            {% if user.role == 'CINEMAMAN' %}
+              <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.role }}</td>
+                  <td>
+                    <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Details</a>
+                  </td>
+                  <td>
+                    <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                  </td>
+                  <td>
+                      <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Student Accounts</p>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Student Accounts</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if users %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>User Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            {% if user.role == 'STUDENT' %}
+              <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.role }}</td>
+                  <td>
+                    <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Details</a>
+                  </td>
+                  <td>
+                    <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                  </td>
+                  <td>
+                      <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Student Accounts</p>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Registered Clubs</h6>
+    <div class="d-flex text-muted pt-3">
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if clubs %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Club Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for club in clubs %}
+              <tr>
+                  <td>{{ club.name }}</td>
+                  <td>
+                    <a href="{% url 'ClubDetails' club.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Members</a>
+                  </td>
+                  <td>
+                      <form method="POST" action="#">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Student Accounts</p>
+      </p>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

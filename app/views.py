@@ -697,9 +697,73 @@ def declineAccountRequest(request, pk):
     accreq.delete()
     return redirect("cmPending")
 
-
 # Account Manager VIEWS
 @login_required
 @user_passes_test(RoleCheck("ACCOUNTMAN"))
 def amHome(request):
-    pass
+    # students = Student.objects.all()
+    users = User.objects.all()
+    clubReps = ClubRep.objects.all()
+    clubs = Club.objects.all()
+    return render(request, "app/accountmanager/amHome.html", {"users" : users, "clubReps" : clubReps, "clubs" : clubs})
+
+
+def ViewDetails(request, pk):
+    clubRep = ClubRep.objects.get(pk=pk)
+    user = User.objects.get(pk=pk)
+    
+    return render(request, 'app/accountmanager/amViewDetails.html', { "clubRep" : clubRep, "user" : user})
+
+def ClubDetails(request, pk):
+    club = Club.objects.get(pk=pk)
+    students = Student.objects.all()
+    clubReps = ClubRep.objects.all()
+    if request.method == "POST":
+        form = RegisterClubForm(request.POST)
+        if form.is_valid():
+            club.name = form.cleaned_data['clubname']
+            club.discount = form.cleaned_data['discount']
+            club.address.street = form.cleaned_data['aStreet']
+            club.address.city = form.cleaned_data['aCity']
+            club.address.postCode = form.cleaned_data['aPostCode']
+            club.contact.landline = form.cleaned_data['cLandline']
+            club.contact.mobile = form.cleaned_data['cMobile']
+            club.contact.email = form.cleaned_data['cEmail']
+            club.contact.firstName = form.cleaned_data['cFirstName']
+            club.contact.surName = form.cleaned_data['cSurName']
+            club.payment.cardNumber = form.cleaned_data['pCardNumber']
+            club.payment.expiryDate = form.cleaned_data['pExpiryDate']
+            club.save()
+            club.contact.save()
+            club.address.save()
+            club.payment.save()
+            return redirect("cmHome")
+    else:
+        dataPopulation = {
+            'clubid' : club.clubid,
+            'clubname' : club.name,
+            'discount' : club.discount,
+            'aNumber' : club.address.number,
+            'aStreet' : club.address.street,
+            'aCity' : club.address.city,
+            'aPostCode' : club.address.postCode,
+            'cLandline' : club.contact.landline,
+            'cMobile' : club.contact.mobile,
+            'cEmail' : club.contact.email,
+            'cFirstName' : club.contact.firstName,
+            'cSurName' : club.contact.surName,
+            'pCardNumber' : club.payment.cardNumber,
+            'pExpiryDate' : club.payment.expiryDate
+        }
+        form = RegisterClubForm(initial=dataPopulation)
+    return render(request, 'app/accountmanager/amClubDetails.html', { "club" : club, "students" : students, "clubReps" : clubReps, "form" : form})
+
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def deleteAccount(request, pk):
+    users = User.objects.get(pk=pk)
+    if request.method == "POST":
+        users.delete()
+        return redirect('cmHome')
+    else:
+        return redirect('cmHome')

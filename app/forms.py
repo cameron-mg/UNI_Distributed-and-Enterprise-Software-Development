@@ -5,6 +5,8 @@ from django.utils.html import format_html
 
 class UserRegistrationForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Confirm Password")
 

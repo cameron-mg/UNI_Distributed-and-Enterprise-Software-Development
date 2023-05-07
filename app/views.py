@@ -37,6 +37,8 @@ def aboutUs(request):
 def contactUs(request):
     return render(request, 'app/contactUs.html')
 
+@login_required
+@user_passes_test(RoleCheck("STUDENT", "CLUBREP", "CINEMAMAN", "ACCOUNTMAN"))
 def roleHomeLink(request):
     role = request.user.role
     if role == "CLUBREP":
@@ -101,6 +103,8 @@ def register_request(request):
 
             newAccount = accountRequest(
                 user = form.cleaned_data["username"],
+                first_name = form.cleaned_data["first_name"],
+                last_name = form.cleaned_data["last_name"],
                 psw = password1
             )
             newAccount.save()
@@ -686,7 +690,11 @@ def cmPending(request):
 @user_passes_test(RoleCheck("CINEMAMAN"))
 def acceptAccountRequest(request, pk):
     accreq = accountRequest.objects.all().filter(pk=pk).get()
-    User.objects.create_user(username=accreq.user, password=accreq.psw, role=User.Role.STUDENT)
+    User.objects.create_user(username=accreq.user, 
+                             password=accreq.psw, 
+                             first_name = accreq.first_name, 
+                             last_name = accreq.last_name, 
+                             role=User.Role.STUDENT)
     accreq.delete()
     return redirect("cmPending")
 
@@ -707,13 +715,16 @@ def amHome(request):
     clubs = Club.objects.all()
     return render(request, "app/accountmanager/amHome.html", {"users" : users, "clubReps" : clubReps, "clubs" : clubs})
 
-
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
 def ViewDetails(request, pk):
     clubRep = ClubRep.objects.get(pk=pk)
     user = User.objects.get(pk=pk)
     
     return render(request, 'app/accountmanager/amViewDetails.html', { "clubRep" : clubRep, "user" : user})
 
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
 def ClubDetails(request, pk):
     club = Club.objects.get(pk=pk)
     students = Student.objects.all()

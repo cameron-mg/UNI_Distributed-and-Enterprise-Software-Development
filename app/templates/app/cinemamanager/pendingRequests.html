@@ -12,12 +12,16 @@ Pending Requests
           <thead>
             <tr>
               <th>User</th>
+              <th>First Name</th>
+              <th>Surname</th>
             </tr>
           </thead>
           <tbody>
           {% for ur in userrequests %}
               <tr>
                   <td>{{ ur.user }}</td>
+                  <td>{{ ur.first_name }}</td>
+                  <td>{{ ur.last_name }}</td>
                   <td>
                     <a href="{% url 'acceptAccountRequest' ur.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Accept</a>
                   </td>

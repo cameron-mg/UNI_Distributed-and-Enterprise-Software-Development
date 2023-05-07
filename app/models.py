@@ -79,6 +79,8 @@ class accountRequest(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     user = models.CharField(max_length=100)
     psw = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
 
 
 # Account Manager

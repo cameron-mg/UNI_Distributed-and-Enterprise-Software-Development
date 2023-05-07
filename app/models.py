@@ -127,6 +127,12 @@ class Transaction(models.Model):
     cost = models.FloatField()
     datetime = models.DateTimeField()
 
+class MonthlyStatement(models.Model):
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    month = models.DateField()
+    transactions = models.ManyToManyField(Transaction, related_name="monthly_statement")
+    totalcost = models.FloatField()
+
 class BlockBooking(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     quantity = models.IntegerField()

@@ -787,4 +787,4 @@ def deleteAccount(request, pk):
 @login_required
 @user_passes_test(RoleCheck("ACCOUNTMAN"))
 def generate_ms(request):
-    pass
+    return redirect('home')

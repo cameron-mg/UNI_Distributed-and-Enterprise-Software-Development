@@ -4,9 +4,9 @@ Account Manager Home
 {% endblock %}
 {% block sideNav %}
 <a class="nav-link" href="{% url 'amHome' %}">Home</a>
-<a class="nav-link" href="#">Add Account</a>
+<a class="nav-link" href="{% url 'AddClubAccount' %}">Add Account</a>
 <a class="nav-link" href="#">View Statements</a>
-<a class="nav-link" href="#">Pending Requests</a>
+
 {% endblock %}
 {% block content %}
   <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -18,6 +18,8 @@ Account Manager Home
           <thead>
             <tr>
               <th>Username</th>
+              <th>First Name</th>
+              <th>Surname</th>
               <th>Club Name</th>
               <th>User Role</th>
             </tr>
@@ -26,13 +28,18 @@ Account Manager Home
             {% for clubRep in clubReps %}
               <tr>
                   <td>{{ clubRep.user.username }}</td>
+                  <td>{{ clubRep.user.first_name.0 }}</td>
+                  <td>{{ clubRep.user.last_name }}</td>
                   <td>{{ clubRep.club.name }}</td>
                   <td>{{ clubRep.user.role }}</td>
                   <td>
-                    <a href="{% url 'ViewDetails' clubRep.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View / Edit Details</a>
+                    <a href="{% url 'ClubrepDetails' clubRep.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Details</a>
                   </td>
                   <td>
-                      <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                    <a href="{% url 'ClubrepUpdateDetails' clubRep.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                  </td>
+                  <td>
+                      <form method="POST" action="{% url 'DeleteClubrepAccount' clubRep.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                       </form>
@@ -56,6 +63,8 @@ Account Manager Home
           <thead>
             <tr>
               <th>Username</th>
+              <th>First Name</th>
+              <th>Surname</th>
               <th>User Role</th>
             </tr>
           </thead>
@@ -64,12 +73,14 @@ Account Manager Home
             {% if user.role == 'CINEMAMAN' %}
               <tr>
                   <td>{{ user.username }}</td>
+                  <td>{{ user.first_name.0 }}</td>
+                  <td>{{ user.last_name }}</td>
                   <td>{{ user.role }}</td>
                   <td>
                     <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Details</a>
                   </td>
                   <td>
-                    <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                    <a href="{% url 'UpdateDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
                   </td>
                   <td>
                       <form method="POST" action="{% url 'deleteAccount' user.pk %}">
@@ -97,6 +108,8 @@ Account Manager Home
           <thead>
             <tr>
               <th>Username</th>
+              <th>First Name</th>
+              <th>Surname</th>
               <th>User Role</th>
             </tr>
           </thead>
@@ -105,12 +118,14 @@ Account Manager Home
             {% if user.role == 'STUDENT' %}
               <tr>
                   <td>{{ user.username }}</td>
+                  <td>{{ user.first_name.0 }}</td>
+                  <td>{{ user.last_name }}</td>
                   <td>{{ user.role }}</td>
                   <td>
                     <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Details</a>
                   </td>
                   <td>
-                    <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                    <a href="{% url 'UpdateDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
                   </td>
                   <td>
                       <form method="POST" action="{% url 'deleteAccount' user.pk %}">
@@ -148,7 +163,7 @@ Account Manager Home
                     <a href="{% url 'ClubDetails' club.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Members</a>
                   </td>
                   <td>
-                      <form method="POST" action="#">
+                      <form method="POST" action="{% url 'DeleteClub' club.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                       </form>

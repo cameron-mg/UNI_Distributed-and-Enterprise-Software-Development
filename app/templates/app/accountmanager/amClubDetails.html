@@ -21,17 +21,21 @@ Club Details
                   <thead>
                     <tr>
                       <th>Username</th>
+                      <th>Surname</th>
+                      <th>Firstname</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for clubRep in clubReps %}
                       <tr>
                           <td>{{ clubRep.user.username }}</td>
+                          <td>{{ clubRep.user.last_name }}</td>
+                          <td>{{ clubRep.user.first_name.0 }}</td>
                           <td>
-                            <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                            <a href="{% url 'ClubrepUpdateDetails' clubRep.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
                           </td>
                           <td>
-                              <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                              <form method="POST" action="{% url 'DeleteClubrepAccount' clubRep.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Delete</button>
                               </form>
@@ -56,6 +60,8 @@ Club Details
                   <thead>
                     <tr>
                       <th>Username</th>
+                      <th>Surname</th>
+                      <th>Firstname</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -63,8 +69,10 @@ Club Details
                       {% if student.club == club %}
                       <tr>
                           <td>{{ student.user.username }}</td>
+                          <td>{{ student.user.last_name }}</td>
+                          <td>{{ student.user.first_name.0 }}</td>
                           <td>
-                            <a href="{% url 'ViewDetails' user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
+                            <a href="{% url 'UpdateDetails' student.user.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
                           </td>
                           <td>
                               <form method="POST" action="{% url 'deleteAccount' user.pk %}">

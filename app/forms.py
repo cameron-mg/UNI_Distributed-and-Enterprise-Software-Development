@@ -119,6 +119,7 @@ class addShowingForm(forms.ModelForm):
     screen = forms.ModelChoiceField(queryset=Screen.objects.all(), widget=forms.Select(attrs={'class' : 'form-control'}))
     date = forms.DateField(widget=forms.DateInput(attrs={'class' : 'form-control', 'type' : 'date'}), input_formats=['%Y-%m-%d'])
     time = forms.TimeField(widget=forms.TimeInput(attrs={'class' : 'form-control', 'type' : 'time'}), input_formats=['%H:%M'])
+    price = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Price Without Discount")
 
     class Meta:
         model = Showing

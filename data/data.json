@@ -128,7 +128,7 @@
     "fields": {
       "film": 1,
       "screen": 1,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "18:00:00",
       "remainingSeats": "120",
       "price": "8"
@@ -140,7 +140,7 @@
     "fields": {
       "film": 1,
       "screen": 1,
-      "date": "2023-04-25",
+      "date": "2023-05-25",
       "time": "19:00:00",
       "remainingSeats": "120",
       "price": "8"
@@ -152,7 +152,7 @@
     "fields": {
       "film": 1,
       "screen": 1,
-      "date": "2023-04-26",
+      "date": "2023-05-26",
       "time": "20:00:00",
       "remainingSeats": "120",
       "price": "8"
@@ -164,7 +164,7 @@
     "fields": {
       "film": 2,
       "screen": 1,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "14:00:00",
       "remainingSeats": "120",
       "price": "6.5"
@@ -176,7 +176,7 @@
     "fields": {
       "film": 2,
       "screen": 1,
-      "date": "2023-04-25",
+      "date": "2023-05-25",
       "time": "16:00:00",
       "remainingSeats": "120",
       "price": "6.5"
@@ -188,7 +188,7 @@
     "fields": {
       "film": 3,
       "screen": 3,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "14:00:00",
       "remainingSeats": "80",
       "price": "5"
@@ -200,7 +200,7 @@
     "fields": {
       "film": 3,
       "screen": 2,
-      "date": "2023-04-25",
+      "date": "2023-05-25",
       "time": "14:00:00",
       "remainingSeats": "80",
       "price": "5"
@@ -212,7 +212,7 @@
     "fields": {
       "film": 3,
       "screen": 2,
-      "date": "2023-04-26",
+      "date": "2023-05-26",
       "time": "14:00:00",
       "remainingSeats": "80",
       "price": "5"
@@ -224,7 +224,7 @@
     "fields": {
       "film": 3,
       "screen": 2,
-      "date": "2023-04-26",
+      "date": "2023-05-26",
       "time": "21:00:00",
       "remainingSeats": "80",
       "price": "5"
@@ -236,7 +236,7 @@
     "fields": {
       "film": 3,
       "screen": 2,
-      "date": "2023-04-27",
+      "date": "2023-05-27",
       "time": "14:00:00",
       "remainingSeats": "80",
       "price": "5"
@@ -248,7 +248,7 @@
     "fields": {
       "film": 4,
       "screen": 2,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "18:00:00",
       "remainingSeats": "80",
       "price": "7"
@@ -260,7 +260,7 @@
     "fields": {
       "film": 4,
       "screen": 2,
-      "date": "2023-04-25",
+      "date": "2023-05-25",
       "time": "18:00:00",
       "remainingSeats": "80",
       "price": "7"
@@ -272,7 +272,7 @@
     "fields": {
       "film": 4,
       "screen": 2,
-      "date": "2023-04-26",
+      "date": "2023-05-26",
       "time": "18:00:00",
       "remainingSeats": "80",
       "price": "7"
@@ -284,7 +284,7 @@
     "fields": {
       "film": 4,
       "screen": 2,
-      "date": "2023-04-27",
+      "date": "2023-05-27",
       "time": "18:00:00",
       "remainingSeats": "80",
       "price": "7"
@@ -296,7 +296,7 @@
     "fields": {
       "film": 5,
       "screen": 3,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "20:00:00",
       "remainingSeats": "45",
       "price": "10"
@@ -308,7 +308,7 @@
     "fields": {
       "film": 5,
       "screen": 3,
-      "date": "2023-04-25",
+      "date": "2023-05-25",
       "time": "20:00:00",
       "remainingSeats": "45",
       "price": "10"
@@ -320,7 +320,7 @@
     "fields": {
       "film": 5,
       "screen": 3,
-      "date": "2023-04-26",
+      "date": "2023-05-26",
       "time": "20:00:00",
       "remainingSeats": "45",
       "price": "10"
@@ -332,7 +332,7 @@
     "fields": {
       "film": 6,
       "screen": 2,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "14:00:00",
       "remainingSeats": "45",
       "price": "11"
@@ -344,7 +344,7 @@
     "fields": {
       "film": 7,
       "screen": 3,
-      "date": "2023-04-24",
+      "date": "2023-05-24",
       "time": "22:30:00",
       "remainingSeats": "45",
       "price": "12"
@@ -356,7 +356,7 @@
     "fields": {
       "film": 8,
       "screen": 3,
-      "date": "2023-04-25",
+      "date": "2023-05-25",
       "time": "22:30:00",
       "remainingSeats": "45",
       "price": "13"
@@ -368,7 +368,7 @@
     "fields": {
       "film": 9,
       "screen": 3,
-      "date": "2023-04-26",
+      "date": "2023-05-26",
       "time": "22:30:00",
       "remainingSeats": "45",
       "price": "14"

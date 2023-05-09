@@ -807,13 +807,14 @@ def clubRepDetails(request, pk):
 @user_passes_test(RoleCheck("ACCOUNTMAN"))
 def updateCubrepDetails(request, pk):
     clubRep = ClubRep.objects.get(pk=pk)
+    user = clubRep.user
     if request.method == "POST":
         form = UserDetailsForm(request.POST)
         if form.is_valid():
-            clubRep.user.username = form.cleaned_data['username']
-            clubRep.user.first_name = form.cleaned_data['first_name']
-            clubRep.user.last_name = form.cleaned_data['last_name']
-            clubRep.save()
+            user.username = form.cleaned_data['username']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
             return redirect('amHome')
     else:
         dataPopulation = {

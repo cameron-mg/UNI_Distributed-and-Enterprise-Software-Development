@@ -11,6 +11,16 @@ services:
     - "8000:8000"
     depends_on:
     - db
+  auth:
+    build: .
+    container_name: uweflix_auth
+    command: python manage.py runserver 0.0.0.0:6000
+    volumes:
+     - .:/daesd_group
+    ports:
+    - "6000:6000"
+    depends_on:
+    - db
   db:
     image: postgres
     container_name: uweflix_postgres

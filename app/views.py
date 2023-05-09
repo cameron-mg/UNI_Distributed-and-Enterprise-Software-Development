@@ -77,11 +77,13 @@ def login_request(request):
                     error = "Error no role allocated!"
                     return render(request, "app/login.html", context={"form":form, "error":error})
             else:
-                return render(request=request, template_name="registration/login.html", context={"form":form})
+                error = "Invalid login credentials!"
+                return render(request=request, template_name="registration/login.html", context={"form":form, "error":error})
 
         else:
+            error = "Please enter a username and password!"
             form = AuthenticationForm()
-            return render(request=request, template_name="registration/login.html", context={"form":form})
+            return render(request=request, template_name="registration/login.html", context={"form":form, "error":error})
 
     form = AuthenticationForm()
     return render(request=request, template_name="registration/login.html", context={"form":form})
@@ -472,7 +474,7 @@ def deleteFilm(request, pk):
     if request.method == "POST":
         film = Film.objects.get(pk=pk)
         try:
-            showing = Showing.objects.filter(film=film).get()
+            showing = Showing.objects.all().filter(film=film)
             return redirect('cmHome')
         except:
             film.delete()
@@ -612,7 +614,7 @@ def deleteScreen(request, pk):
     if request.method == "POST":
         screen = Screen.objects.get(pk=pk)
         try:
-            showing = Showing.objects.filter(screen=screen).get()
+            showing = Showing.objects.all().filter(screen=screen)
             return redirect('cmHome')
         except:
             screen.delete()
@@ -645,6 +647,7 @@ def addShowing(request):
                 screen=form.cleaned_data['screen'],
                 date=form.cleaned_data['date'],
                 time=form.cleaned_data['time'],
+                price = form.cleaned_data["price"],
                 remainingSeats=form.cleaned_data['screen'].capacity
             )
             
@@ -815,6 +818,7 @@ def DeleteClubrepAccount(request, pk):
         clubReps.delete()
         return redirect('amHome')
     else:
+<<<<<<< app/views.py
         return redirect('amHome')
     
 @login_required
@@ -865,3 +869,8 @@ def updateUserDetails(request, pk):
         }
         form = UserDetailsForm(initial=dataPopulation)
     return render(request, 'app/accountmanager/amUpdateDetails.html', {"user" : user, "form" : form})
+
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def generate_ms(request):
+    return redirect('home')

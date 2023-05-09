@@ -35,7 +35,7 @@ Club Details
                             <a href="{% url 'ClubrepUpdateDetails' clubRep.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
                           </td>
                           <td>
-                              <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                              <form method="POST" action="{% url 'DeleteClubrepAccount' clubRep.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Delete</button>
                               </form>

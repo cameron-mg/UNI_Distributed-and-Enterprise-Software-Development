@@ -6,6 +6,7 @@ Account Manager Home
 <a class="nav-link" href="{% url 'amHome' %}">Home</a>
 <a class="nav-link" href="{% url 'AddClubAccount' %}">Add Account</a>
 <a class="nav-link" href="#">View Statements</a>
+
 {% endblock %}
 {% block content %}
   <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -38,7 +39,7 @@ Account Manager Home
                     <a href="{% url 'ClubrepUpdateDetails' clubRep.pk %}" class="btn btn-success me-2" role="button" aria-pressed="true">Edit Details</a>
                   </td>
                   <td>
-                      <form method="POST" action="{% url 'deleteAccount' user.pk %}">
+                      <form method="POST" action="{% url 'DeleteClubrepAccount' clubRep.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                       </form>
@@ -162,7 +163,7 @@ Account Manager Home
                     <a href="{% url 'ClubDetails' club.pk %}" class="btn btn-primary me-2" role="button" aria-pressed="true">View Members</a>
                   </td>
                   <td>
-                      <form method="POST" action="#">
+                      <form method="POST" action="{% url 'DeleteClub' club.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                       </form>

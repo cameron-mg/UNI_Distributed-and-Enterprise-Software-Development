@@ -766,7 +766,7 @@ def ClubDetails(request, pk):
             club.contact.save()
             club.address.save()
             club.payment.save()
-            return redirect("cmHome")
+            return redirect("amHome")
     else:
         dataPopulation = {
             'clubid' : club.clubid,
@@ -790,12 +790,32 @@ def ClubDetails(request, pk):
 @login_required
 @user_passes_test(RoleCheck("ACCOUNTMAN"))
 def deleteAccount(request, pk):
-    users = User.objects.get(pk=pk)
     if request.method == "POST":
+        users = User.objects.get(pk=pk)
         users.delete()
-        return redirect('cmHome')
+        return redirect('amHome')
     else:
-        return redirect('cmHome')
+        return redirect('amHome')
+    
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def DeleteClub(request, pk):
+    if request.method == "POST":
+        clubs = Club.objects.get(pk=pk)
+        clubs.delete()
+        return redirect('amHome')
+    else:
+        return redirect('amHome')
+    
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def DeleteClubrepAccount(request, pk):
+    if request.method == "POST":
+        clubReps = ClubRep.objects.get(pk=pk)
+        clubReps.delete()
+        return redirect('amHome')
+    else:
+        return redirect('amHome')
     
 @login_required
 @user_passes_test(RoleCheck("ACCOUNTMAN"))

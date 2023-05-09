@@ -63,4 +63,8 @@ urlpatterns = [
     path("am/ViewDetails/<int:pk>", views.ViewDetails, name="ViewDetails"),
     path("am/ClubDetails/<int:pk>", views.ClubDetails, name="ClubDetails"),
     path("am/deleteAccount/<int:pk>/", views.deleteAccount, name="deleteAccount"),
+    path("am/UpdateDetails/<int:pk>", views.updateUserDetails, name="UpdateDetails"),
+    path("am/ClubrepDetails/<int:pk>", views.clubRepDetails, name="ClubrepDetails"),
+    path("am/ClubrepUpdateDetails/<int:pk>", views.updateCubrepDetails, name="ClubrepUpdateDetails"),
+    path("am/AddClubAccount.html", views.addClubAccount, name="AddClubAccount"),
 ]

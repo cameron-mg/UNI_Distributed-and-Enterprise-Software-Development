@@ -720,17 +720,33 @@ def amHome(request):
 @login_required
 @user_passes_test(RoleCheck("ACCOUNTMAN"))
 def ViewDetails(request, pk):
-    clubRep = ClubRep.objects.get(pk=pk)
     user = User.objects.get(pk=pk)
-    
-    return render(request, 'app/accountmanager/amViewDetails.html', { "clubRep" : clubRep, "user" : user})
+    return render(request, 'app/accountmanager/amViewDetails.html', {"user" : user})
+
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def addClubAccount(request):
+    form = AddClubAccountForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            address = Address.objects.create(number=form.cleaned_data["aNumber"], street=form.cleaned_data["aStreet"], city=form.cleaned_data["aCity"], postCode=form.cleaned_data["aPostCode"])
+            contact = Contact.objects.create(landline=form.cleaned_data["cLandline"], mobile=form.cleaned_data["cMobile"], email=form.cleaned_data["cEmail"], firstName=form.cleaned_data["cFirstName"], surName=form.cleaned_data["cSurName"])
+            payment = Payment.objects.create(cardNumber=form.cleaned_data["pCardNumber"], expiryDate=form.cleaned_data["pExpiryDate"])
+            Club.objects.create(clubid=form.cleaned_data["clubid"], name=form.cleaned_data["clubname"], address=address, contact=contact, payment=payment, discount=form.cleaned_data["discount"], balance=0)
+
+            return redirect("amHome")
+        else:
+            return render(request, "app/accountmanager/amAddClubAccount.html", {"form": form})
+    else:
+        return render(request, "app/accountmanager/amAddClubAccount.html", {"form": form})
+
 
 @login_required
 @user_passes_test(RoleCheck("ACCOUNTMAN"))
 def ClubDetails(request, pk):
     club = Club.objects.get(pk=pk)
-    students = Student.objects.all()
-    clubReps = ClubRep.objects.all()
+    students = Student.objects.filter(club=club)
+    clubReps = ClubRep.objects.filter(club=club)
     if request.method == "POST":
         form = RegisterClubForm(request.POST)
         if form.is_valid():
@@ -780,3 +796,51 @@ def deleteAccount(request, pk):
         return redirect('cmHome')
     else:
         return redirect('cmHome')
+    
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def clubRepDetails(request, pk):
+    clubRep = ClubRep.objects.get(pk=pk)
+    return render(request, 'app/accountmanager/amClubrepDetails.html', {"clubRep" : clubRep} )
+
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def updateCubrepDetails(request, pk):
+    clubRep = ClubRep.objects.get(pk=pk)
+    if request.method == "POST":
+        form = UserDetailsForm(request.POST)
+        if form.is_valid():
+            clubRep.user.username = form.cleaned_data['username']
+            clubRep.user.first_name = form.cleaned_data['first_name']
+            clubRep.user.last_name = form.cleaned_data['last_name']
+            clubRep.save()
+            return redirect('amHome')
+    else:
+        dataPopulation = {
+            'username' : clubRep.user.username,
+            'first_name' : clubRep.user.first_name,
+            'last_name' : clubRep.user.last_name
+        }
+        form = UserDetailsForm(initial=dataPopulation)
+    return render(request, 'app/accountmanager/amClubrepUpdateDetails.html', {"clubRep" : clubRep, "form" : form})
+
+@login_required
+@user_passes_test(RoleCheck("ACCOUNTMAN"))
+def updateUserDetails(request, pk):
+    user = User.objects.get(pk=pk)
+    if request.method == "POST":
+        form = UserDetailsForm(request.POST)
+        if form.is_valid():
+            user.username = form.cleaned_data['username']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
+            return redirect('amHome')
+    else:
+        dataPopulation = {
+            'username' : user.username,
+            'first_name' : user.first_name,
+            'last_name' : user.last_name
+        }
+        form = UserDetailsForm(initial=dataPopulation)
+    return render(request, 'app/accountmanager/amUpdateDetails.html', {"user" : user, "form" : form})

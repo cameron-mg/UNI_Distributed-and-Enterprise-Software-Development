@@ -9,12 +9,12 @@ View Details
 <br>
 <div class="d-flex justify-content-center">
     <div class="col-8">
-        {% if user %}
+        {% if clubRep %}
         <h2>Account Details</h2>
-        <p class="border-bottom">Username: {{ user.username }}</p>
-        <p class="border-bottom">First Name: {{ user.first_name }}</p>
-        <p class="border-bottom">Last Name: {{ user.last_name }}</p>
-        <p class="border-bottom">Role: {{ user.role }}</p>
+        <p class="border-bottom">Username: {{ clubRep.user.username }}</p>
+        <p class="border-bottom">First Name: {{ clubRep.user.first_name }}</p>
+        <p class="border-bottom">Last Name: {{ clubRep.user.last_name }}</p>
+        <p class="border-bottom">Role: {{ clubRep.user.role }}</p>
 
         <a href="{% url 'amHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Back</a>
         {% endif %}

@@ -144,3 +144,28 @@ class CustomerBookingQuantity(forms.Form):
 
 class ClubRequestForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), label="Message") 
+
+
+class UserDetailsForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=100)
+
+class AddClubAccountForm(forms.Form):
+    clubid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=8, label="Club ID")
+    clubname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=30, label="Club Name")
+    discount = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label="Discount")
+
+    aNumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=4, label="Address Number")
+    aStreet = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="Street")
+    aCity = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="City")
+    aPostCode = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=8, label="Postcode")
+
+    cLandline = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=12, label="Landline")
+    cMobile = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=12, label="Mobile")
+    cEmail = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="Email")
+    cFirstName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=20, label="First Name")
+    cSurName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50, label="Surname")
+
+    pCardNumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=19, label="Card Number")
+    pExpiryDate = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Expiry Date (MM/YY)")

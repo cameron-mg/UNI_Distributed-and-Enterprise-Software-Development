@@ -1,19 +1,16 @@
 {% extends "app/accountmanager/amHome.html" %}
 {% block title %}
-Update Details
+Register Club
 {% endblock %}
 {% block content %}
-<h1>Update Details</h1>
+<h1>Create A Club Account</h1>
 <br>
 <div class="d-flex justify-content-center">
     <div class="col-8">
         <form method="POST" class="form-group">
             {% csrf_token %}
             {{ form.as_p }}
-            <div>
-                <a href="{% url 'amHome' %}" class="btn btn-primary me-2" role="button" aria-pressed="true">Back</a>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>  
+            <button type="submit" class="btn btn-primary">Create Club</button>
         </form>
     </div>
 </div>

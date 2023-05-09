@@ -818,7 +818,6 @@ def DeleteClubrepAccount(request, pk):
         clubReps.delete()
         return redirect('amHome')
     else:
-<<<<<<< app/views.py
         return redirect('amHome')
     
 @login_required

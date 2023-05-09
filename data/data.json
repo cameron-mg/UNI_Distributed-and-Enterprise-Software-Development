@@ -6,7 +6,8 @@
       "title": "Black Adam",
       "ageRatings": "PG",      
       "duration": "135",
-      "desc": "Action Fantasy Science Fiction"
+      "desc": "Action Fantasy Science Fiction",
+      "filmImage" : "../static/app/filmImages/Black_Adam_Poster.jpg"
     }
   },
   {
@@ -16,7 +17,8 @@
       "title": "The Scorpion King",
       "ageRatings": "12A",
       "duration": "130",
-      "desc": "Action Drama History"
+      "desc": "Action Drama History",
+      "filmImage" : "../static/app/filmImages/ScorpionKing.jpg"
     }
   },
   {
@@ -26,7 +28,8 @@
       "title": "Shazam",
       "ageRatings": "PG",
       "duration": "120",
-      "desc": "Action Superhero DC"
+      "desc": "Action Superhero DC",
+      "filmImage" : "../static/app/filmImages/shazamPoster.jpg"
     }
   },
   {
@@ -36,7 +39,8 @@
       "title": "The Pope's Exorcist",
       "ageRatings": "18",
       "duration": "133",
-      "desc": "Horror Thriller"
+      "desc": "Horror Thriller",
+      "filmImage" : "../static/app/filmImages/PopesExocist_poster.jpg"
     }
   },
   {
@@ -46,7 +50,8 @@
       "title": "Dungeons and Dragons",
       "ageRatings": "12A",
       "duration": "111",
-      "desc": "Action Fantasy"
+      "desc": "Action Fantasy",
+      "filmImage" : "../static/app/filmImages/DDPoster.jpg"
     }
   },
   {
@@ -56,7 +61,8 @@
       "title": "Avatar",
       "ageRatings": "12A",
       "duration": "132",
-      "desc": "Action Adventure Fantasy Science Fiction"
+      "desc": "Action Adventure Fantasy Science Fiction",
+      "filmImage" : "../static/app/filmImages/AvatarPoster.jpg"
     }
   },
   {
@@ -66,7 +72,8 @@
       "title": "The Super Mario Bros. Movie",
       "ageRatings": "PG",
       "duration": "98",
-      "desc": "Action Animated"
+      "desc": "Action Animated",
+      "filmImage" : "../static/app/filmImages/marioPoster.jpg"
     }
   },
   {
@@ -76,7 +83,8 @@
       "title": "Fall",
       "ageRatings": "15",
       "duration": "154",
-      "desc": "Thriller"
+      "desc": "Thriller",
+      "filmImage" : "../static/app/filmImages/fallPoster.jpg"
     }
   },
   {
@@ -86,7 +94,8 @@
       "title": "Guardians of the Galaxy Vol.3",
       "ageRatings": "12",
       "duration": "130",
-      "desc": "Marvel Action Sci-Fi"
+      "desc": "Marvel Action Sci-Fi",
+      "filmImage" : "../static/app/filmImages/GOTGPoster.jpg"
     }
   },
   {

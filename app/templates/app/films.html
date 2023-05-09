@@ -8,7 +8,7 @@ Films page
         {% for film in films %}
             <div class="col">
                 <div class="card img-fluid" style="width: 250px;">
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="{{ film.filmImage.url }}" class="img-responsive" alt="FilmImage" style="width: 100%; float: left; margin-right: 10px;">
                     <div class="card-footer">
                         <h5><td> {{ film.title }} </td></h5>
                         <a href="{% url 'bookingPage' film.pk %}" class="btn btn-primary">Book Now</a>

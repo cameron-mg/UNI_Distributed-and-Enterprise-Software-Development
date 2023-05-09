@@ -446,8 +446,8 @@ def cmHome(request):
 @login_required
 @user_passes_test(RoleCheck("CINEMAMAN"))
 def addFilm(request):
-    form = addFilmForm(request.POST, request.FILES or None)
     if request.method == "POST":
+        form = addFilmForm(request.POST, request.FILES or None) 
         if form.is_valid():
             filmTitle = form.cleaned_data["title"]
             filmRating = form.cleaned_data["ageRatings"]
@@ -459,9 +459,11 @@ def addFilm(request):
             print(Film)
             return redirect("cmHome")
         else:
+            form = addFilmForm()
             print(form.errors)
             return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
     else:
+        form = addFilmForm()
         return render(request, "app/cinemamanager/cmAddFilm.html", {"form": form})
 
 @login_required
